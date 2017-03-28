@@ -1,0 +1,26 @@
+\BOOKMARK [1][]{section.1}{Acknowledgment}{}
+\BOOKMARK [1][]{section.2}{Introduction}{}
+\BOOKMARK [2][]{subsection.2.1}{Motivation}{section.2}
+\BOOKMARK [2][]{subsection.2.2}{Objective}{section.2}
+\BOOKMARK [2][]{subsection.2.3}{Structure}{section.2}
+\BOOKMARK [1][]{section.3}{Literature Review and State of the Art Analysis}{}
+\BOOKMARK [2][]{subsection.3.1}{Motion Planning for Industrial Manipulators}{section.3}
+\BOOKMARK [3][]{subsubsection.3.1.1}{Motion Planning for multi-DoF manipulators}{subsection.3.1}
+\BOOKMARK [3][]{subsubsection.3.1.2}{Motion Planning for manipulator and rotary table systems}{subsection.3.1}
+\BOOKMARK [2][]{subsection.3.2}{Robotic Welding Processes}{section.3}
+\BOOKMARK [3][]{subsubsection.3.2.1}{Analysis of existing methods of Robtic Welding}{subsection.3.2}
+\BOOKMARK [2][]{subsection.3.3}{Multi Robot Approaches for Welding}{section.3}
+\BOOKMARK [3][]{subsubsection.3.3.1}{Centralized and De-centralized planning}{subsection.3.3}
+\BOOKMARK [3][]{subsubsection.3.3.2}{Master Slave Configuration}{subsection.3.3}
+\BOOKMARK [2][]{subsection.3.4}{Welding as an Optimization Problem}{section.3}
+\BOOKMARK [3][]{subsubsection.3.4.1}{Welding Process Parameters Optimization}{subsection.3.4}
+\BOOKMARK [3][]{subsubsection.3.4.2}{Parameter Optimization of Motion Planning Algorithms}{subsection.3.4}
+\BOOKMARK [2][]{subsection.3.5}{Robotic Welding Architecture and Planning in Abstract Space}{section.3}
+\BOOKMARK [3][]{subsubsection.3.5.1}{Product, Process and Resource Model}{subsection.3.5}
+\BOOKMARK [3][]{subsubsection.3.5.2}{Implementation Platform Architecture}{subsection.3.5}
+\BOOKMARK [1][]{section.4}{Problem formulation and Task description}{}
+\BOOKMARK [2][]{subsection.4.1}{Problem formulation}{section.4}
+\BOOKMARK [2][]{subsection.4.2}{Task Description}{section.4}
+\BOOKMARK [1][]{section.5}{Conclusion}{}
+\BOOKMARK [2][]{subsection.5.1}{Contributions}{section.5}
+\BOOKMARK [2][]{subsection.5.2}{Possible Improvements and Future Directions}{section.5}

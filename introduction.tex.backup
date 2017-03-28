@@ -1,0 +1,67 @@
+\section{Introduction}
+\subsection{Motivation}
+For a long time metric and topological representation of environments have been used successfully for navigation(path planning).
+However, robots were used either in laboratories or factories where the environment was customized for the robots and was more or less static. 
+Robots are now gradually moving  to human made house and office environments \cite{2, 22}.
+These robots, termed as \textit{service robots} are aimed at assisting humans (Domestic assistants or elderly care robots \cite{7}).
+They will no longer be operated by trained personal but instead by people having little or no formal training in robotics \cite{7}.
+Also, these robots will have to navigate around autonomously in human-made environments which are dynamic and cluttered and not customized 
+according to the robots.\\
+In such situations, the service robots would be expected to have the following capabilities:
+ \begin{itemize}[noitemsep,nolistsep]
+   \item Communication and interaction between robots and humans \cite{1, 4, 7}.
+   \item Perform more intelligently with respect to the following aspects :
+   \begin{itemize}
+     \item Autonomy: Performing tasks with no human intervention \cite{2}.
+     \item Robustness: Dealing with unexpected situations which are not accounted for during the design \cite{2}.
+     \item Efficiency: Planning tasks in large and dynamic environments \cite{2}.\\
+   \end{itemize}  
+ \end{itemize}
+
+In order to communicate and interact with humans, a robot will have to understand the environment in the same way like a human does \cite{1, 4, 7}.
+This could be done by sharing common concepts like \textit{kitchen}, \textit{living room} or \textit{corridor} \cite{1, 4, 7}.
+This will help the robot to understand commands like ``go to kitchen" given by the people whom the robot has to assist. 
+To perform intelligently, a robot would need additional information which describes other aspects of the environment.
+This information would help the robot to reason about the functionalities and characteristics of objects and regions in the 
+environment \cite{3,4}.\\
+
+However, the metric and topological mapping approaches are very limited in terms of describing the environment since they consider only the spatial properties of the environment, like the occupancy of the space or its connectivity \cite{2, 11}.
+They neglect a considerable amount of additional information available which could describe other aspects of the environment and help the robot to act intelligently and interact with humans.
+For instance, to do a task of ``fetching a milk box", the robot needs to know that milk is usually found in fridge which is placed in a room called kitchen 
+with some structure including objects like fridge, oven, dishwasher, etc. 
+%Metric maps can represent structure of the room but not whether the room is a kitchen.
+This additional information is referred to as semantics in robotics community and the maps storing such information are called semantic maps, which integrate semantic information into traditional robot maps \cite{2}.
+
+\subsection{Objective}
+The aim of this work is to exploit the use of semantic information for motion planning of service robots. 
+As a first step towards this goal we begin with a focus on path planning for navigation.
+We propose an architecture which consists of an environment model representing metric, topological and semantic features of the environment. %uses a combined mapping approach to represent metric, topological and semantic features of the environment.
+This model of the environment will be used by a semantic navigation planning unit of the architecture which would generate an abstract path plan at a semantic level first and 
+then reform this plan into more specific plan at geometric level.\\
+
+In our environment model the regions (rooms, corridors,etc.) are represented by navigation points, also called \textit{semantic positions} \cite{1}.
+Using these semantic positions makes path planning more flexible and robust in several ways, the 
+details of which are given in the report.
+
+\iffalse
+In this work, we focus on exploiting benefits of using semantic information for improving navigation.
+We propose a combined mapping approach to represent metric, topological and semantic features of the environment.
+This map will serve as an information source for a navigation planning system.
+In traditional navigation system the input is a geometric goal, however in our navigation planning system the goal is a symbolic data, for instance, ``go to kitchen"  and the navigation planner generates a 
+(semantic)navigation plan based on this input and robot's present semantic location.
+The regions in the environment are represented by navigation points, also called as semantic positions. 
+The regions in the environment (rooms, corridors,etc.) are represented by navigation points, also called as semantic positions \cite{1}. Using these semantic positions would make the navigation system flexible and robust in several ways the 
+details of which are mentioned in the report.
+We believe these semantic positions would help the robot improving its navigation system.
+The map also stores other semantic information about the environment which would be helpful for task planning and navigation planning.
+By using the semantic information the traditional navigation system is converted to navigation planning system.
+In traditional navigation system the input is a geometric goal which is fed to a motion planner along with the metric map of the environment.
+while in out semantic navigation planning system, the input is a symbolic goal which is converted to geometric sub-goals by the planner.
+\fi
+\subsection{Structure}
+
+
+
+
+
+

@@ -1,0 +1,258 @@
+\subsection{Environment model}
+
+This section elaborates our combined map which represents spatial and semantic knowledge of the environment.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=15cm]{images/semanticMap1.pdf} 
+   \caption{Block diagram of our \textit{Environment model}}
+   \label{Figure: Block diagram of our Environment model}
+\end{figure}
+
+Our model represents metric, topological and semantic features of the environment in two separate parts \cite{2}:  S-Box (spatial box) and T-Box (terminological box).
+This representation methodology is adopted from the approaches \cite{2, 3, 4, 5, 6} which are mentioned in detail in section~\ref{sec:semantics} .\\
+
+The S-Box represents spatial and symbolic information. 
+Spatial information of the entities(\textit{regions} and \textit{objects}) in the environment is stored at the lower level. 
+These entities are assigned symbols(labels) which form the top level of S-Box. 
+T-Box stores the meaning(semantics) of these entities in the form of concepts and their relations.
+In this work, we consider two concepts to represent the environment information: \textit{Regions} and \textit{Objects}.
+Symbols in S-Box are instances of these concepts in T-Box.
+For instance, considering the home environment setup, the lower level of S-Box may store the metric(occupancy grid) map of a kitchen. This map is assigned a symbol, say, \textit{kitchen-1} and stored at the symbolic (top) level of S-Box.
+T-Box would then store the semantic information that kitchen is a type of \textit{Region} and implies a space with some properties and contains objects like fridge, oven, stove etc.
+
+\subsubsection{S-Box}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=14cm]{images/sboxexample.pdf} 
+   \caption[S-Box of our \textit{Environment Model}]
+   {S-Box of our \textit{Environment Model}. Here only connections for room1 and object1 with other levels are shown. 
+   Same connections exist for all rooms and objects.
+   Bold line indicates separation between two levels of information. Dotted line indicates the layers are at the same level}
+   \label{fig:Our Semantic map}
+\end{figure}
+
+Information in S-Box is stored in two levels: Spatial level and Symbolic level.\\
+This forms a spatio-symbolic hierarchy \cite{3} since the symbolic level is formed over the spatial level.\\\\
+Spatial level represents spatial information in four different layers\cite{2, 7}:
+\begin{itemize}
+ \item \textit{Appearance layer}
+ \item \textit{Occupancy layer}
+ \item \textit{Navigation layer}
+ \item \textit{Topological layer}
+\end{itemize}
+However, these layers do not form a hierarchical representation. In fact, they are arranged in series 
+forming a flat representation. This representation is adopted in order to keep the layers (of spatial level) independent 
+of each other, so that if a domain does not require any of these layers, it could be omitted easily without affecting the system. \\
+
+At the symbolic level, instances (symbols) of entities are maintained in one single layer. We term this layer as \textit{Symbolic layer}.  
+The \textit{Appearance, Metric, Navigation} and \textit{Topological} layers of the spatial level are each individually linked to the \textit{Symbolic layer} as shown in Figure~\ref{fig:Our Semantic map}. 
+For instance, in the figure, the local grid map-1 of the doorway is connected to its instance \textit{doorway-1} at the symbolic level. 
+Similarly, the semantic position of this doorway at the navigation level and its node(region-1) at the topological level are connected to its instance \textit{doorway-1}.
+Also, as indicated in the figure by dotted bi-directional arrows, this linking provides inferencing in both the directions \footnote[4]{Inferencing in both directions: If our model is queried for instances of kitchen, it will give \textit{kitchen-1} as the answer. 
+Also, if the model is queried to which class the symbol \textit{kitchen-1} belongs to, it will give the answer as kitchen}.
+
+\paragraph{Appearance layer}
+The \textit{Appearance layer} stores information about the objects in the environment.
+It could be object images or pound cloud data obtained from sensors.
+However, the focus of this work is on representing information about spatial entities and using the same for navigation.
+Hence, we do not go into the details of representing objects in the environment. 
+The layer could be considered to be non-existing for this work and could be substituted by any appropriate representation, 
+depending on the domain requirement.
+
+\paragraph{{Metric layer}}
+The \textit{Metric layer} stores spatial information in the form of local grid-maps with respect to local coordinate system.
+These local grid-maps are a representation of the regions existing in the environment.
+Longer sides of the regions face towards north in their local coordinate system \cite{1} as shown in the Figure~\ref{fig:cs} below:\\ 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/metriclayer.pdf}
+   \caption{Definition of local coordinate system for regions based on \cite{1}} 
+   \label{fig:cs}
+\end{figure}\\
+This layer also maintains the shape of the regions representing the geometric area covered by the regions with respect to a global coordinate frame.
+The shape of the regions is represented using the method used in \cite{1} where a center rectangle is used along with two connected sub-rectangles as shown in Figure~\ref{fig:geo} below. 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/geometry.png}
+   \caption[Region geometry represented by triple \cite{8}]
+   {Region geometry represented in \cite{8} by triple \textit{(x, y, w, h, $\theta$, $w_{l}$, $h_{l}$, $y_{l}$, $w_{r}$, $h_{r}$, $y_{r}$)}} 
+   \label{fig:geo}
+\end{figure}
+
+\paragraph{{Navigation layer}}
+This layer basically maintains navigable points of a region.
+Each region has a navigation point which we call as \textit{semantic position} associated with it \cite{8}.
+Regions can have multiple semantic positions as well. 
+Even stationary objects like fridge or doors can have \textit{semantic positions}. Robots usually have to manipulate objects like doors,
+or they need to go close to 
+objects like table for grasping objects like coffee cups kept on the table . 
+Semantic positions associated with such objects(doors, tables) would help to serve the purpose of manipulating and/or grasping better.
+Even movable objects(like cups) can have semantic positions which would help in grasp planning as mentioned in \cite{18}. 
+Our work considers only semantic positions associated with regions.\\
+
+As shown in the Figure~\ref{fig:Our Semantic map} , the semantic positions are encircled indicating their belonging to a particular region. For instance, for \textit{livingroom-1} two semantic positions are encircled: one for the room itself to help the robot to navigate to the living room 
+and one for \textit{table-1} to help the robot to grasp some other object placed on the table. The details of semantic positions is elaborated in section ~\ref{sec:semanticposition} .
+
+\paragraph{{Topological layer}}
+The \textit{Topological layer} represents topological connectivity between \textit{Regions}.
+\textit{Regions} are represented by nodes, like in Figure~\ref{fig:Our Semantic map} , doorway-1 is represented by node \textit{region1}. 
+Edges connecting the nodes represent the relation \textbf{neighbourOf} which indicates that \textit{Regions} are topologically connected to their neighbors \cite{1}.
+Also, the relative orientation of neighbouring regions is represented in the layer using the concepts: \textbf{northOf, eastOf, southOf} and \textbf{westOf} \cite{1}. The relationships are shown in Figure~\ref{fig:r}.  
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=8cm]{images/topologicallayer.pdf}
+   \caption[Topological relations between regions based on \cite{1}]
+   {Topological relations based on \cite{1}: C represents \textit{Region} concepts and R their relations}.
+   %\textit{Note: Italic text indicates concepts and bold text indicates their relations}} 
+   \label{fig:r}
+\end{figure}
+Maintaining such relationships makes human-robot communication more effective by helping humans in assigning tasks to robot or retrieving information about the robot status in large environments \cite{8}.
+For instance, robots could be given a task \textit{``Bring `x' book from the room which is to the north of room `y' "}.
+Or the robot can inform the operator \textit{``I am stuck in the corridor which is to the east of room `z' "}.\\
+
+The topological layer  could be viewed as a layer dividing the semantic positions in the navigation layer into regions,
+for instance, in the Figure~\ref{fig:Our Semantic map} , region2 represents a region consisting of two semantic positions.
+For navigation planning, the topological connectivity between regions helps the planner to generate a symbolic plan which consists of regions the robot
+has to navigate through to reach the goal. Based on this symbolic plan, the semantic navigation planner further queries the environment model for the corresponding semantic positions
+For instance, if the robot is in the \textit{livingroom-1} and has go to \textit{kitchen-1}, the planner first queries the topological layer about the connectivity between these two regions ({\textit{livingroom-1 $\longleftrightarrow$ doorway-2 $\longleftrightarrow$ kitchen-1}})
+and then based on this information, the planner queries the navigation layer for semantic positions of these regions.
+
+\paragraph{{Symbolic layer}}
+At this layer, entities in the environment are represented in the form of symbols(labels).
+These symbols are instances of concepts(\textit{Region} and \textit{Object}) in T-Box.
+%Maintains environment information in the form of instances of entities (\textit{Region} and \textit{Object}).
+%An instance of a new entity is created by asserting a unique symbol(label) to it and linking this symbol to the corresponding concept (in T-box).
+Whenever an instance of a new entity is created it is linked to its corresponding concept in T-box by assigning a unique symbol to it and asserting this symbol to the corresponding concept in T-box.
+%Lower layers basically maintain metric, topological and semantic properties of these instances.
+For instance, suppose a new local grid map of a region, say, living room is created. This map is be asserted a symbol \textit{livingroom-1} and
+is linked to the concept \textit{Region} (or \textit{LivingRoom} to be precise, which is a sub-category of \textit{Region}) in the T-Box. 
+Similarly, the semantic positions and topological relations are asserted to the symbol of the new entity created. 
+This process of assertion and linking could be done by hand(by a human operator) while creating the environment representation using some knowledge representation language \footnote[5]{In \cite{2} LOOM knowledge representation system\cite{24} is used to create the concepts and relations of the T-Box.
+In \cite{3, 4} NeoClassic system\cite{25} is used to create concepts and the linking between the sensor data(grid map) and symbols is done using a process called Anchoring \cite{23}. \cite{22, 17} uses Web Ontology Language(OWL)\cite{26} while \cite{1} uses ObjectLogic\cite{27}}.
+It could also be taken care of by an on-line SLAM algorithm, like the one proposed in \cite{8} which is capable of creating an environment representation with semantic, metric and topological features.\\
+
+Although the focus of this work is not on representing object entities, for now,we group symbols of objects based on their geometric positions and 
+use human-like environment distribution(that is, objects \textit{are located} in rooms)\cite{3}.
+For instance, in Figure~\ref{fig:Our Semantic map} , objects(\textit{tvset-1, plant-1} etc) belonging to the living room are grouped together and linked to \textit{livingroom-1} symbol via \textbf{at} relation.
+However, different criteria could be used depending on the application. For instance, objects could be grouped based on their mobility \cite{21, 22}.\\
+\textit{Example:} Structural objects(walls,floors) could be grouped together, while furniture objects
+(table, chair etc) will form another group.
+
+
+\subsubsection{T-Box}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=10cm]{images/tbox3.pdf}
+   \caption{\textit{Region} and \textit{Object} concept and their relation}
+   \label{fig:T-Box}
+\end{figure}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=15cm]{images/tbox1.pdf}
+   \caption{Extension of \textit{Region} concept}
+   \label{fig:TBox2}
+\end{figure}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=12cm]{images/tbox2.pdf}
+   \caption{Extension of \textit{Object} concept}
+   \label{fig:TBox1}
+\end{figure}
+The T-Box stores semantic knowledge about the robot environment. 
+We refer to this knowledge as semantic because it assigns meaning to the information represented in the S-Box.
+The knowledge includes the types of entities(regions and objects) found in the environment along with their relationships.
+It is represented in the form of concepts and relations which are structured in hierarchical form called ontology \cite{2}.
+Our ontology consists of two concepts: \textit{Region} and \textit{Object} which are related by \textbf{located-at} relation 
+as shown in Figure~\ref{fig:T-Box} .
+Further sub categorization of \textit{Region} and \textit{Object} concepts is done until reaching most specific categories like 
+\textit{kitchen, living room, office room} etc.
+%For this work the focus is on representing spatial properties of regions in the environment to help plan navigation. So the \textit{Object} concept is not elaborated in detail in the ontology. 
+% (But the representation will be flexible to incorporate as many Object categories and properties  as required by the application domain) 
+Since the focus of this work is on navigation we consider detailed categorization of \textit{Region} which is shown in Figure~\ref{fig:TBox2} ,
+considering two different environment setups (Home and University) mentioned in section~\ref{sec:har}.
+Also, general categorization of \textit{Object} concept is shown in Figure~\ref{fig:TBox1} .\\
+
+Along with representing the entities and their relations in hierarchical form(ontology), the T-Box also stores general knowledge about them by
+assigning meaning to concepts(entities) in the ontology.
+For instance, the T-Box stores the information that \textit{Kitchen} is a \textit{Room} containing a \textit{Fridge} and \textit{Stove}. 
+This is depicted in the Figure~\ref{fig:SM} :
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=4cm]{images/tbox4.pdf}
+   \caption{Definition of \textit{Kitchen} concept in T-Box}
+   \label{fig:SM}
+\end{figure}
+
+\paragraph{Our T-Box ontology}
+As mentioned above, the focus is on the concept \textit{Region}.
+The \textit{Region} concept is categorized into: \textit{Room, Passage, Corridor} and \textit{Junction}.
+\begin{itemize}
+ \item \textit{Room:} This concept is further sub-categorized into concepts like \textit{Kitchen}, \textit{Living room}, \textit{Office room} and other types 
+ of rooms found in human environment.
+ \item \textit{Passage:} This concept represents regions which help the robot to transit from one region to other. The concept \textit{Passage} is further categorized into:
+ \begin{itemize}
+  \item \textit{Horizontal Passage} which includes \textit{Doorway} (and \textit{Window}).
+  \item \textit{Vertical Passage} is further categorized as \textit{Elevator}.
+ \end{itemize}
+The reason for treating \textit{Doorway}, \textit{Elevator} different from \textit{Room} is to help navigation planner adopt different strategies (if required) 
+while navigating through narrow doorways, elevators. 
+This also helps in reasoning and recovering in case of failure while navigating through the doorways, elevators . 
+ \item \textit{Corridor:} This concept represents long regions connecting different rooms.
+ \item \textit{Junction:} In this work we introduce a new concept called \textit{Junction} to deal with situations, where two or more corridors intersect. 
+Such a region is called a \textit{Junction} in our approach.
+Figure~\ref{fig:jn} shows an example:
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=6cm]{images/tbox5.pdf}
+   \caption{\textit{Junction} concept example}
+   \label{fig:jn}
+\end{figure}
+\end{itemize}
+
+
+\iffalse 
+\subsubsection{ Semantic SLAM:}
+\begin{itemize}
+ \item This work will make use of SLAM approach similar to the one developed in \cite{8}.
+ \item The approach uses FastSLAM 2.0 capturing region features with semantic, topological as well as metric properties.
+ \item It assigns semantic meaning to the regions (e. g., rooms, offices,hallways, doors, desks, cupboards, etc.), and also assign topological relation between these regions as well as maintain 
+ geometric layout of each region.
+ \item \textit{Semantic description:} Includes the type of the sub-category of the region class to which the region under consideration belongs to. To deal with uncertainity, a confidence value is assigned.
+ \item In this work, we include additional information at the semantic level. This includes adding semantic positions to each instance of region class. Figure 6 depicts the semantic description part of the data structure with addition of semantic position. 
+ \item \textit{Topological description:} Connectivity to the neighboring regions and also hierarchical links to sub-regions. The connectivity is associated with a confidence value to deal with uncertainity.
+ \item \textit{Geometric description:} Regions' geometric is modeled by three rectangles along horizontal axis. The entire shape could be rotated arbitrarily. Shown in figure 7.
+
+ \item Figure below shows the representation used in \cite{8} to store the region features.
+  \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+    \centering
+    %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+    \includegraphics[width=10cm]{images/SLAM.png}
+    \caption{Storing semantic, topological and metric features \cite{8}}
+    \label{Fig:} 
+  \end{figure} 
+  \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+    \centering
+    %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+    \includegraphics[width=10cm]{images/semanticposition.png}
+      \caption{Semantic description part after addition of semantic position details}
+    \label{Fig: Semantic description part after addition of semantic position details}
+  \end{figure} 
+\end{itemize}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=10cm]{images/geometry.png}
+   \caption{}
+   \label{Fig: Method of storing geometric shape of the room}
+\end{figure}
+\fi

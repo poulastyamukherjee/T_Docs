@@ -1,0 +1,46 @@
+\section{Future work}
+One of the immediate furue works would be Implementation and evaluation of the proposed architecture on a real robot.
+This work is based on assumtions that some functionalities/components are existing and working on the robot platform. 
+For instance, we assume that a functioning SLAM algorithm similar to \cite{8} is providing
+robot's semantic, topological and metric position to our \textit{Navigation Planner}. 
+One the possible directions of future work could be implemention and/or integration of such a component.\\
+This architecture considers failure diagnosis for navigation at a very naive level. A thorough
+research needs to be done on this aspect.\\
+
+The architecture could be extented with respect to the following aspects:
+\begin{itemize}
+\item \textbf{Extending the architecture for manipulation planning:} In future, we will extend the architecture for using semantic information for manipulation planning 
+as well along with navigation.
+\item \textbf{Incorporating constrains from the high level task planner:} 
+In the proposed architecture the tolerance limits for the semantic positions are kept fixed once assigned. However, in future this constraint could be set by 
+the high level task planner depending on the next action the robot has to perform.   
+\item \textbf{Incorporating the Object concept into the ontology:} In this work we considered only Region concept and propose semantic positions for the same. In future we will extent the T-Box ontology with detailed Object
+ concept ontology and having having semantic positions which would help in manipulation as well as navigation planning.\\\\ 
+\end{itemize}
+
+
+\iffalse
+In this work we have focussed on using semantic information along with metric and topological feature for path planning aspect of navigation. We have proposed a conceptual
+architecture to realise the same. This work makes some assumptions, for instance, a working SLAM component. However, there are various aspects which need further reseach.  
+\begin{itemize}
+ \item \textbf{Implementation and evaluation on real robot platform:} One of the fore most future work is to implement the architecture on the real robot.
+ \item \textbf{Extending the architecture for manipulation:} We have considered semantic information for path planning aspect of navigation in this work. In future, we willl extent the architecture for using semantic information for manupulation planning as well along with navigation.
+ 
+ \item\textbf{ Realizing/Integrating Semantic SLAM:} For this work we have assumed that a functioning SLAM algorithm similar to \cite{8} is providing
+ robots' semantic, topological and metric position to our semantic navigation planner.e. However, we will integrate such algorithm (or implement if its is not existing) with our architecture.
+ 
+ \item \textbf{Incorporating Failure Diagnosis for navigation:} This architecture considers failure diagnosis at a very naive level. Future work in this direction would include a thorough
+ research on failure for navigation and integrating the same into our architecture.
+ 
+ \item \textbf{Incorporating semantics for automatic/semi-automatic doors:} In work we considered only automatic doors and assigned only one semantic position for dorways. 
+ In future, we will consider manual and semi-automatic doors and have at least two semantic positions for doorways having such doors. This semantic positions would help the robot to manipulate such doors in order to navigate throught the doorways.
+ \item \textbf{Incorporating constrains from the high level(Task) planner:} One of the possibilities for tolerance values of semantic positions
+ is to get the form the high level task planner instead of having them fixed for a semantic position for a region. The task planner will consider the next action to be performed and according assign the 
+ value for tolerance limit. For instance, for executing the action ``go to kitchen", the task planner will check what next action the robot has to perform. If the robot has to manipulate soem on=bjects after reaching the kitchen, it can assign medium or hard tolerance value or else if the next action demands the
+ robot to dock some object after reaching the kitchen it can have soft tolerance value for kitchen. 
+ \item \textbf{Incorporating the Object concept into the ontology:} In this work we considered only Region concept and propose semantic position for the same. In future we will extent the T-Box ontology with detailed Object
+ concept ontology and having having semantic positions for the same.
+ \item \textbf{Realizing ``The Library Assistant Robot":} As mentioned earlier this work is a stepping stone towards the goal of having an architecture to use semantic information for motion planning of a service robot like the ``\textit{Library Assistant Robot}". 
+ We will extend the architecture for using semantic information for manipulation along with navigation and once this is realized we would integrate the complete architecture into the Library Assistant system.
+ \end{itemize}
+\fi

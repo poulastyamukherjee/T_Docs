@@ -1,0 +1,20 @@
+\section{Use Cases}
+\label{sec:scenario}
+This section gives a description about a scenario in Gazebo simulation environment which is tasked to be covered using two UAVs. The shape of the area to be covered is assumed to be square.\\
+
+\subsection{Scenario:Gazebo Rolling Landscape}
+The Gazebo rolling landscape simulates a world with elevations and plane ground. The two UAVs start on a plane ground. The image of the scenario is given below.
+%include image
+\subsubsection{Task Description}
+The task of this scenario is to use both the UAVs to cover the entire area using their laser scanners. The UAV also must avoid any obstacles it might encounter in the course of its flight including the other UAV. Besides area coverage the other goal is to do it in as shortest time as possible. 
+\subsubsection{Task Analysis}
+The action- covering the rolling landscape scenario would require the system to have following capabilities:
+\begin{itemize}
+ \item \textbf{Reducing the search space}\\ 
+ Generating geometry based trajectory plans without using area decomposition algorithm would reduce the computation cost. 
+ \item \textbf{Adopting different strategies}\\
+ The trajectory generation algorithm needs to have different geometrical strategies and should know when which strategy has to be adopted. For example depending on the area to be covered, spiral trajectories may work best while in some other case Lissajous curves based trajectories might be a better suit.
+  \item \textbf{Dealing with obstacles and other UAVs}\\
+ Since this work is ultimately aimed to be implemented in real system which will function in real world, having an obstacle avoidance system is extremely crucial. Moreover the system being implemented here is based upon multiple UAVs, thus each UAV must know the position of other UAVs during flight and maintain a safe distance from them. This can be achieved using GPS and uploading the UAVs knowledge base in real time. One other advantage of using multiple UAVs is that each UAV can also act as a beacon for localization and thus give better results in situations where the GPS module may malfunction \cite{3,8,18}  .\\
+\end{itemize}
+

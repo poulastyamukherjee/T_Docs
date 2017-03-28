@@ -1,0 +1,106 @@
+\section{Problem formulation and Task description}
+\subsection{Problem formulation}
+
+Most of the layered map representation approaches as mentioned in previous subsection ~\ref{sec:semantics} rely on spatial representations 
+like metric and topological for the task of navigation or path planning.
+Semantic information mostly includes assigning labels to places and objects to help human-robot communication.
+Nevertheless, path planning is performed at a purely geometric level. 
+Although the approach proposed in subsection ~\ref{sec:snp} introduces the concept of semantic positions and does navigation planning at a semantic level,
+the plan execution is again done at a geometric level.
+However, there are some situations where navigation plan generation and execution at a semantic level can prove to be more effective for robot navigation. 
+For instance, while performing the task of ``fetching a milk box", the robot has to go first to the kitchen and then go to the fridge. 
+Here, the location at which the robot concludes that the goal of going in the kitchen is achieved need not be any specific geometric location but in fact could be any location
+in the kitchen.
+%Here, the need not go to any specific geometric position in the kitchen and in fact can be anywhere in the kitchen.
+There are also situations where navigation fails because of presence of a dynamic obstacle at the given goal (geometric) location.
+In addition, the navigation system may need to satisfy different constraints for different situations, meaning that the robot might need to adopt a different
+navigation strategy for doorways and/or elevators than that for rooms and/or corridors.\\
+
+In this work, we propose an architecture which utilizes semantic information along with metric and topological information for navigation (path) planning.
+Using semantics would add robustness and flexibility in the generation and execution of the navigation path planning.
+\iffalse
+Although metric representation is necessary for local navigation(obstacle avoidance) performing path plannning
+only at a geometic level poses problems in the following situations:
+\begin{itemize}
+ \item Given a goal, the navigation(path planning) system attempts to go exactly to that geometric position before concluding that goal is achieved. At times it might be necessary to be at this location exactly but there are situations where this is not required. 
+  for instance, for the task of fetching a milk box, the robot first has to go to the kitchen and then go to the fridge. In this scenario it not not necessary for the robot to be exactly at the center of the kitchen, but instead it can be anywhere in the kitchen.
+  However, while going to the fridge, the robot has to localize its base exactly or close to the mentioned position since form this position it has to manipulate and grasp objects in the fridge.
+  
+  \item Also, there are situations when navigation fails because there is a  dynamic obstacle exactly at the loction of the geometric goal. The navigation system tries to avoid such obstacle and continue making a plan to reach to this location.  
+ \item Robots in human environemnts would aslo need to navigate through doorways and elevators.
+\end{itemize}
+
+Robots need to have a sophisticated architecture for planning and a plan based control in order to have robust and flexible execution of the task.
+
+Most of the present navigation systems for mobile robots rely on spatial representations like metric and topological.
+along with naive semantic knowledge which includes assigning labels to places and objects for human-robot communication.
+However, these navigation systems where implemented on robots which where under research in laboratories or were navigating in factories.
+In bothe the situations the environments where modified according to the robot and where operated by skilled persons.
+This situation is now changing, and robotics community is now more interested in building robots which can navigate around in human made environments 
+like homes, offices and universities.
+Thes environments would be large, dynamic and cluttered.
+Also these robots will have to interact with people having no professional training or knowledge in operating robots.
+Hence, these robots would need high degree of intelligence and autonomy. For this they should have deeper knowledge about these environments and they cannot rely only on metric and/or topological and/or symbolic(labels) knowledge.
+
+Several work has been done in this direction and approaches have been proposed which include more qualitative knowledge about th environment along with metric and topological.
+However, the focus is more on the task planning aspect and navigation is performed on geometric level.Planning navigation at a geometric level poses various issuses. Robustness and flexibility are the open issues encountered in present navigation systems.\\
+
+In this work we propose an environment model consisting of metric, topological and semantic information. This model will be used by a Semantic Navigation planner which as the name suggest would perofrm navigation planning at a symbolic level.
+We use the concept of semantic positions here which we belive would add flexibility and robustness in navigation in complex and large environments.\\
+
+
+This project work is an attempt towards the goal of building a semantically enriched
+map which could be helpful for motion planning of a service robot,
+along with task planning in large and dynamic environments. But since this is out
+of scope of one R and D project, we start with a focus on path planning aspect. In this
+work, will explore and evaluate semantic information available in the environment
+which could help a path planner to execute its plans. 
+
+
+
+Service robots which are expected to assist humans in large and dynamic human made environments have to understand the environment in a more detailed manner.
+%For this having only metric or topological representations is not sufficient. Robots need semantic information 
+
+
+%We propose a system similar to those described in section for exploiting semantic information along with metric and topological for navigation
+%robot in large and dynamic environments. Thi 
+%We believe this will make navigation planning more flexible and its execution more robust. It will also help in human-robot interaction.
+
+
+\begin{itemize}
+ \item For many years metric and topological map representations have been successfully used for robot navigation.
+ \item One of major reasons for this is that till now autonomous mobile robot platforms have been navigation in factories and laboratories.
+ \item In factories the environment is usually static(more or less) and is adapted for robots according to requirements.
+ \item And in laboratories robots are handeled by persons skilled enough to operate the robots.
+ \item But now mobile robots are expected to be assisting people in human made environments which will be large and dynamic.
+ \item For this they have to understand the environment in a ways like a human does.
+\end{itemize}
+
+\begin{itemize}
+ \item What we observe is that the present classical navigation system(local and global path planners) although works very well fails in the above mentioned situations in the following ways:
+ \begin{itemize}
+  \item Ususally a motion planner of the classical navigation system gets its goal which is in geometrical form either through a GUI (RVIZ for example) or through tele-operation from a skilled person through a PC.
+  But assistant robot would get their goals from an unskilled person. This goal will not be a geometric goal but a symbolic one, for instance, go to kitchen and not move to (x,y, theta).
+  \item Secondly, given a goal, the navigation system attempts to go exactly to that geometric position before concluding that goal is achieved. At times it might be necessary to be at this location exactly but there are situations where this is not required. 
+  for instance, for the task of fetching a milk box, the robot first has to go to the kitchen and then go to the fridge. In this scenario it not not necessary for the robot to be exactly at the center of the kitchen, but instead it can be anywhere in the kitchen.
+  However, while going to the fridge, the robot has to localize its base exactly or close to the mentioned position since form this position it has to manipulate and grasp objects in the fridge.
+  
+  \item Also, there are situations when navigation fails because there is a dynamic obstacle exactly at the loction of the geometric goal. The navigation system tries to avoid such obstacle and continue making a plan to reach to this location.  
+ \item Robots in human environemnts would aslo need to navigate through doorways and elevators.
+ \end{itemize}
+
+ To deal will the above mentioned situations which could occur in huamn made environments robots should have semantic information along with metric an topologial one.
+ This would help the robot to reason about its actions and plan its actions accordingly. It would also enable a robot to reason about failures and also recover from them.
+ 
+\end{itemize}
+
+\fi
+\subsection{Task Description}
+This work puts forward a conceptual architecture similar to the one mentioned in section ~\ref{sec:snp}. 
+It consists of two parts: \textit{Semantic Navigation Planner} and \textit{Environment Model}.
+Our \textit{Environment model} is similar to the layered representations mentioned in subsection ~\ref{sec:semantics} and represents metric, topological and semantic features.
+This is used by the \textit{Semantic Navigation Planner} to generate an abstract navigation (path) plan at a semantic level to achieve the given goal.
+This abstract plan is then exploited to create a more detailed geometric plan.
+In our architecture, plan execution along with plan generation is done at a semantic and geometric level
+We adopt the concept of semantic positions \cite{1} with an additional feature called \textit{tolerance limit.} for these semantic positions.
+These semantic positions would add flexibility along with robustness in navigation (path) plan generation and execution. 

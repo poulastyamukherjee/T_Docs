@@ -1,0 +1,274 @@
+\section{Related work}
+Robot mapping has been an active area of research in robotics in last two decades \cite{13}. Work has been done with a focus on building, representing and maintaining maps \cite{2}.
+This sections describes about some of the existing representation approaches storing semantic, topological and metric informations for the task planning and navigation systems of a service robot.\\
+
+\subsection{Two paradigms: Metric and Topological representations}
+For a long time, mapping has focused on representing the spatial properties of the environment considering the task of robot navigation \cite{2, 13}. 
+The field was traditionally divided into two categories \cite{2, 13}: Metric and Topological.  Metric maps are concerned with the geometric properties of the environment.
+Topological maps represent the relations and connectivity between places in the environment. One of the early implementation of the metric mapping approach is mentioned in \cite{12} which uses occupancy grid mapping algorithm.
+Here, basically the region map is sectioned into fine-grained grids that represent the occupied and free space of the environment.
+Each grid is assigned a confidence value that indicates the presence or absence of an obstacle at that grid. 
+\cite {34,35} approaches have represented the environment in a topological manner. They generate a graph based representation where nodes are the regions in the environment and edges indicate the connectivity between regions. 
+
+Purely metric maps, can produce accurate and detailed representations necessary for local navigation(obstacle avoidance) \cite{28, 29, 8}. 
+However, planners using metric maps require large amount of computational time and resources when the environment becomes large \cite{28}.
+which can affect planning efficiency \cite{13, 14}. Topological maps can be efficiently used to represent large-scale environments but they lack detailed information \cite{13, 14}.
+Since both these representations have some benefits and limitations, a new approach was proposed which combines both the paradigms \cite{2, 13, 14, 28, 29}.
+For instance, in  \cite{14} topological map is created on top of the grid-based map, by partitioning it into coherent regions. The resulting representation 
+provides the benefits of both: accuracy/consistency and efficiency. \\
+\iffalse
+Purely metric maps, however, require large amount of computational time and resources when the environment becomes large \cite{28}. Although, topological representation is a solution in such solutions, metric maps are still necessary for local navigation(obstacle avoidance) \cite{28, 29, 30}.  
+Since both these representations have some benefits and limitations, a new approach was proposed which combines both the paradigms \cite{2, 13, 14, 29, 30}.
+Grid maps can produce accurate and detailed metric representations. They could be very well used for low level control like local planning(obstacle avoidance) and for global path planning(that is developing a path from 
+one point to another). But their high computational cost in large-scale indoor environments can affect high level planning(task planning) efficiency \cite{13, 14}. Topological maps can be efficiently used to represent large-scale 
+environments but they lack detailed information \cite{13, 14}. As a result they could be more efficiently used by task planners, but they lack detailing necessary for motion planners.
+In \cite{}, approaches have been proposed that integrates both : grid-based and topological maps. In \cite{} topological map is created on top of 
+the grid-based map, by partitioning it into coherent regions. The resulting representation provides the benefits of both: accuracy/consistency and efficiency. 
+presented here gains the best of both worlds: accuracy/consistency and efficiency.
+\fi
+%These maps have been used for a long time to help robots perform navigation. However, they have been performing navigation at a geometric level, meaning that going from one position (x,y,theta) to another (x,y,theta))
+
+Robots are now moving from factories and laboratories into human environments where they will have to communicate and assist humans.
+For this they will need additional information about the environment along with its metric and topological properties. This information should help the robot to understand the 
+environment like a human does \cite{2}. This additional information is referred to as semantic information and has given rise to a new mapping paradigm called semantic maps. 
+
+
+
+\subsection{Integrating semantic information in maps}
+\label{sec:semantics}
+Semantic information is usually combined with metric and topological information for which 
+several approaches like \cite{1,2,3,4,7,5,10,16,21} have been proposed. Some of the approaches relevant to our work are discussed below.
+
+\iffalse \cite{} uses object based semantic map representation of the environment.
+Semantics is base on objects meaning that any entity in the environment belongs to any of the following object category:
+Structural Objects, Furniture Objects and Regional objects.
+Structural objects represent the structural entities in the environment like wall, floor, ceiling.
+Regional Objects include areas or places, like kitchen, corridor, office room.
+Furniture objects like desk, table are contained in the regional objects.
+Along with classifying entities into any one of the above mentioned category additional semantic information is aslo used.
+This includes properties of objects and their relationships.
+properties used to describe objects in this approach are: class, length, width,height, orientation
+Relations are define by instances and relative positions amongst objects.\\
+\fi 
+\subsubsection{Multi-layered representation}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/paper1.pdf}
+   \caption[Multi-layered representation \cite{7}]
+   {A multi-layered representation proposed by \textit{Oscar Mart\'{i}nez Mozos} and \textit{Patric Jensfelt} in\cite{7}}
+   %\footnotesize \textit{Image Source:Oscar Mart\'{i}nez Mozos and Patric Jensfelt.From Labels to Semantics:An Integrated System for Conceptual Spatial 
+  % Representations of Indoor Environments for Mobile Robots.ICRA. April-2007.}\par}
+\label{fig:ml}
+\end{figure}
+
+In \cite {7} an approach is proposed to create and represent the spatial environment information in a layered architecture as shown in the Figure~\ref{fig:ml} .
+The model consists of layers, each representing a different type of information. 
+The first layer stores metric representation which is created by using SLAM techniques.
+The geometric primitives\footnote[2]{\textbf{Geometric primitive:} Geometric objects that the system can handle (draw, store). [Online]. Accessed: Oct. 27, 2013. \url{http://en.wikipedia.org/wiki/Geometric_primitive}} here include lines which correspond to walls or other horizontal structures in the environment.
+The second layer consist of navigation map.
+It basically stores a graphical model of free space and its connectivity.
+The graph is created in the following way:
+The robot navigates through the environment and a marker (navigation node) is created. A marker is created when the robot travels a predefined distance from the previous marker.
+In this work two kind of free spaces(navigation nodes) are considered: places and doors.
+Over this layer a Topological map is created by dividing the set of nodes at navigation level into areas.
+The highest level of the hierarchy consist of a Conceptual map which stores places and objects found in the environment in the form of concepts(categories and instances) representing spatial and functional properties.
+For instance, the concept living room indicates a place which has a particular structure (structural property) and consists of objects like couch or TV set (functional property).
+Each element at the topological map is an instance of a concept and is connected to the corresponding concept in the conceptual map.
+The concepts in the conceptual map are spatial entities with their spatial and functional properties.
+
+\subsubsection{Multi-Hierarchical Representations}
+\paragraph{Spatial and Semantic Hierarchies}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=11cm]{images/paper2.png}
+   \caption[The spatilal and semantic hierarchies\cite{4}]
+   {The spatial and semantic hierarchies proposed by \textit{Galindo, C. and Saffiotti} in \cite{4}}
+   %\footnotesize \textit{Image Source:Galindo, C. and Saffiotti.Multi-hierarchical semantic maps for mobile robotics.IROS-2005.}\par}
+   \label{fig:Multi-hierarchical representation architecture1}
+\end{figure}
+Authors of \cite{4} also propose a multi-layered architectural approach for navigation depicted in the Figure~\ref{fig:Multi-hierarchical representation architecture1}.
+This approach separates the semantic knowledge from  spatial one by maintaining two multi-layered hierarchies.
+This multi-hierarchical representation is adopted from AI and knowledge representation fields.
+The two hierarchies maintained are termed: Spatial and conceptual hierarchy.
+Spatial hierarchy contains metric information in the form of gridmaps at the lowest level. This level also stores images of objects found in the environment.
+Over this gridmaps a topological layer is build which represents entities(places, gridmaps, images) belonging to same region in the form of a node.
+A layer above this topological one consists of an abstract node as shown in the figure. This node represents the complete working environment of the robot.
+The conceptual hierarchy is similar to the conceptual map of \cite{7} approach discussed above.
+All the concepts of the conceptual hierarchy are derived from a common concept \textit{Thing}.
+Here the top level of this hierarchy contains a concept call \textit{Thing}. All other concepts at lower level are derived from this concept.
+The \textit{Thing} concept is categorized into:\textit{Rooms} and\textit{Objects} concepts which are further sub-categorized into \textit{kitchen, living room, fridge, couch}  etc.
+At the last level of the hierarchy, instances(symbols) of these concepts are stored, for instance, \textit{room-B} which is an instance of concept \textit{Rooms} or \textit{bed-1} which is an instance of concept \textit{objects}.
+
+\paragraph{Spatio-Symbolic and Semantic Hierarchies}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=16cm]{images/paper3.png}
+   \caption[Spatio-Symbolic and Semantic hierarchies\cite{3}]
+   {Spatio-Symbolic and Semantic Hierarchies proposed by \textit{C. Galindo, J.A. Fernandez-Madrigal and J. Gonzalez, A. Saffiotti} in \cite{3}}
+   %\footnotesize \textit{Image Source:Galindo, C. and Saffiotti.Multi-hierarchical semantic maps for mobile robotics.IROS-2005.}\par}
+   \label{fig:ss}
+\end{figure}
+In \cite{3} the authors have extended the same multi-hierarchical approach of \cite{4} mentioned above but with a focus on task planning as shown in Figure~\ref{fig:ss}.
+They use semantic information to improve task planner's efficiency in large and complex scenarios. 
+This is done by decreasing the computational cost of the planner by reducing the search space.
+Search space is reduced by discarding information irrelevant for that particular task.
+This is explained in the paper through an example where the robot is expected to ``bring a fork".  If the robot knows that forks are usually kept in  drawers, 
+other instances of objects like fridge could be ignored. Also, objects other than forks to be found in the drawers could also be ignored sine they are also irreverent for the task
+of ``bring a fork".
+
+\paragraph{S-Box and T-Box}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=15cm]{images/paper4.png}
+   \caption[S-Box and T-Box\cite{2}]
+   {S-Box and T-Box: Semantic Map proposed by \textit{C. Galindo,J.A. Fernandez-Madrigal,J. Gonzalez and A. Saffiotti} in \cite{2}}.
+   %\footnotesize \textit{Image Source:C. Galindo,J.A. Fernandez-Madrigal,J. Gonzalez and A. Saffiotti.Robot Task Planning Using Semantic Maps.Robotics and Autonomous Systems.2008.}\par}
+   \label{fig:Multi-hierarchical representation: S-Box and T-Box}
+\end{figure}
+
+The approaches mentioned above exploit semantic information for human-robot interaction by sharing same concepts, finding probable location of objects, helping in robot localization depending on the objects perceived in a room, reducing computation time of planners. 
+However, they miss exploiting other valuable capabilities semantic information could provide to make robots more autonomous.
+In \cite{2} a comprehensive study of semantic maps for task planning is done with case studies, and more capabilities which semantic information
+could provide to endow robots with more autonomy are identified. These capabilities, along with the ones used by other approaches discussed above include: 
+Explicitating implicit knowledge, inferring the existence of instances, dealing with partial observability, inferring new goals.
+An interesting example mentioned in \cite{2} to explain the inferring new goals capability is that, a towel is defined as a household which should have a unique location,that is, bathroom. With is information if the robot
+observes an instance of towel concept at a location other than bathroom, it can generate a goal of delivering it back in the bathroom.\\
+
+
+Their semantic map as shown in Figure~\ref{fig:Multi-hierarchical representation: S-Box and T-Box} comprises two separate tightly interconnected parts called Spatial Box (S-Box) and Terminological box (T-Box).
+The S-box contains information in a hierarchical form about the actual state of the environment and objects inside it which is represented in the 
+form of symbols.  
+The T-Box contains general knowledge about the environment in the form of concepts and relations. 
+At the lowest level, called the appearance level, sensor data along with the robot location from where the data is gathered is stored.
+Sensor data used in the work consists of object images.
+The next level, called occupancy level, stores grid maps of places which are obtained from laser scans.
+The top level called Symbolic level consists of nodes forming a topological representation. These nodes are assigned a symbolic name (like area-1, obj-2) and are 
+linked to corresponding entities at occupancy and appearance levels. Edges with label ``connected" are used to represent connected nodes(Symbols) of places. 
+The nodes(Symbols) are linked to the corresponding category in the T-Box.
+
+ %\item \textbf{Integrating spatial an semantic knowlege}
+% \item \textbf{Use of the semantic map to improve task planning:}
+ 
+ %\item The paper also explains the applications of semantic maps which include explicitating implicit knowledge, inferring existance of instances, dealing with partial observability, interring new goals. 
+\subsubsection{KNOWROB Framework}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=17cm]{images/paper5.png}
+   \caption[KNOWROB Architecture\cite{15}]
+   {KNOWROB architecture proposed by \textit{Moritz Tenorth} in \cite{15}}
+   %\footnotesize \textit{Image Source:Moritz Tenorth.Knowledge Processing for Autonomous Robots.PhD Thesis.Technical University of Munchen.2011}\par}
+   \label{fig:kn}
+\end{figure}
+
+One of the recent work for acquiring, representing and using semantic knowledge is the knowledge processing system called KNOWROB \cite{15} as shown in Figure~\ref{fig:kn}.
+%The system integrates encyclopedic knowledge, an environmental model, action-based reasoning and human observations, and has
+%the ability to access all this information in a uniform, symbolic ways
+%The system builds environment models by integrating spatial information about the objects with encyclopedic knowledge which includes types and properties of objects.
+%It also adds common-sense knowledge about the objects which describe their utility.
+%It also stores articulation models which help to manipulate objects, like doors and drawers.
+The system builds environment model by integrating following types of information:
+ \begin{itemize}
+  \item Spatial information about the objects in the environment
+  \item Encyclopedic knowledge which includes types and properties of objects
+  \item Common-sense knowledge about the objects which describe their utility.
+  \item Articulation models of objects which help would help to manipulate those objects, like doors and drawers.
+  \item Knowledge derived by observing activities.\\
+  %\item The author in [10] reported a new knowledge processing system called KNOWROB, designed for making personal robots more autonomous in their work. He described the necessary control routines and sequence of actions that automatically execute the particular requested task. The knowledge processing system integrates encyclopaedic knowledge, an environmental model, action-based reasoning and human observations, and has the ability to access all this information in a uniform, symbolic way. The map that is used as a source of information to the KNOWROB knowledge processing system is described in [11]. This map combines spatial knowledge about objects in the environment and their relationships, and then provides a robot with information about these objects.
+ \end{itemize} 
+ The system architectural is shown in the Figure~\ref{fig:kn} and consists of five functional modules, namely:
+ \begin{itemize}
+  \item  Knowledge representation: Stores different types of information of the system which could be retrieved as required. It stores this knowledge in the form of
+  ontology which is build upon the OWL system, and uses SWI-Prolog for inferencing this knowledge.
+  \item Reasoning component: Consists of reasoning methods which help the robot to infer new information form the existing one.
+  \item Integration: This component provides interface to other components/functionalities of the robot. 
+  \item Interaction with humans: Provides tools for visualization of the environment information and for communication with humans.
+ \end{itemize}
+
+\paragraph{Semantic Object Map}
+ \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=11cm]{images/paper6.png}
+   \caption[Semantic Object Map\cite{16}]
+   {Semantic Object Map proposed in \cite{16}}
+   \label{fig:}
+\end{figure}
+\cite{16} provides details about the representation and acquisition of the Semantic object map which is used by 
+KNOWROB knowledge processing system mentioned above.
+It is an extension of the first generation of SOM presented in \cite{17}.
+It consists of a knowledge base which is formed by a triple (T, A, S)
+T is the terminological knowledge which indicates the category of object.
+It stores encyclopedic knowledge in the form of definitions of categories of objects and their properties.
+Different categories are arranged in a hierarchical structure called as ontology. 
+A denotes assertional knowledge which includes object properties like its category, dimensions and so on.
+It also stores information about object composition from parts, for instance, a refrigerator consists of a box shaped frame door, hinge and the door is rotationally hinged to the frame
+Objects found in environment are stored in A as instances of categories in T.
+These instances are generate by the perception system of the robot.
+The last term of the triple S is the spatial knowledge storing the pose of the object.
+The spatial knowledge S consists of metric and qualitative spatial information regarding object pose.
+However, this qualitative knowledge is not directly stored in the knowledge base but generated upon query.
+The article also mentions about the acquisition process of this semantic maps.
+However, the focus of the work is on representing semantic information about objects in the environment to help the task planning aspect. 
+
+\subsubsection{Semantic Navigation Planning}
+\label{sec:snp}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=18cm,height=10cm]{images/paper7.png}
+   \caption[The Semantic Navigation Planning System \cite{1}]
+   {The Semantic Navigation Planning System: Overall architecture proposed in \cite{1}}
+   \label{fig:snps}
+\end{figure}
+All the above mentioned approaches although are developed to enhance navigation by exploiting semantic information, support navigation path planning
+at geometric level. One of the recent work which exploits semantic information for navigation is presented in \cite{1} where the navigation is planned at a semantic level. The overall system architecture is shown in Figure~\ref{fig:snps}.
+The system maintains a semantic region map which is used by a semantic navigation planner. 
+The map uses metric, topological and semantic features to model the environment.
+This is similar to other approaches but for topological level additional information is added along with connectivity between regions.
+A \textbf{neighbourOf} relation is assigned to topologically connected regions.
+Also the relative orientation of neighboring regions is indicated.
+The approach also introduces the concept of \textit{semantic positions} which are abstract navigation points.
+These semantic positions form nodes of a reachability graph.
+Edges of this graph are labeled with actions (behaviors) the robot is expected to perform to move from one position to another.
+Semantic positions are defined by semantic relations with the regions in their surrounding  or in which they are contained, for instance, \textbf{eastOf, containedIn}, etc relations.
+Distance and orientation of these semantic positions are defined by discrete relations, for instance, \textbf{atStartOf, atCenterOf} etc (for distance) and \textit{east, west} etc (for orientation).  
+Usually every region will have at least one semantic position.
+The task of planning a navigation path from one geometric goal to other is thus reduced to finding robot's current and goal semantic position and then finding the shortest path between them by querying 
+the reachability graph.
+Goals consist of a set of relationship of the target semantic position with the regions in its surroundings.
+To find the current position of the robot, the map is queried for set of relations the robot had detected to regions currently.
+Experiments are performed to validate the approach in a simple and then a complex office environment.
+
+\subsection{Semantic SLAM}
+%Although as mentioned above, the focus of this work is on representing semantic(along with metric and topological) information, one of the recent methods relevant for this works for building such a map is elaborated below. We assume this(or similar) map building algorithm is existing on the system.\\
+  \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+    \centering
+    %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+    \includegraphics[width=12cm]{images/SLAM.png}
+    \caption[The data structure representing a region feature \cite{8}]
+    {The data structure representing \textit{region} feature as proposed in \cite{8}}
+    \label{fig:regions} 
+  \end{figure} 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=12cm]{images/geometry.png}
+   \caption[Geometric shape of a region \cite{8}]
+   {Geometric shape of a region proposed in \cite{8}}
+   \label{Fig:g}
+\end{figure}
+\cite{8} proposes a SLAM algorithm based on FastSLAM 2.0 that captures semantic, topological and approximate geometric feature of environment.
+The approach is focused on building maps for regions of the environment. It introduces a feature, called, \textit{regions} for representing the environment information as shown in Figure~\ref{fig:regions}.
+The metric information consists of geometric shapes along with occupancy grid maps. 
+Region's geometric is modeled by three rectangles along horizontal axis. The entire shape could be rotated arbitrarily as shown in Figure~\ref{Fig:g}.
+Topological information includes connectivity of the region to its neighboring regions and also hierarchical links to sub-regions. The connectivity is associated with a confidence value to deal with uncertainty.
+Semantic description includes the type the region, for instance, rooms, offices, hallways et  To deal with uncertainties, a confidence value is assigned to the semantic description.
+
+
+
+
+

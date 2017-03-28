@@ -1,0 +1,97 @@
+\begin{thebibliography}{10}
+
+\bibitem{1}
+Howie Choset.
+\newblock {Coverage For Robotics - A Survey Of Recent Results}.
+\newblock {\em Annals of Mathematics and Artificial Intelligence}, 31:113 --
+  126, 2001.
+
+\bibitem{10}
+Wei-Long Yang, Luo Lei, and Jing-Sheng Deng.
+\newblock {Optimization and Improvement for Multi-UAV Cooperative
+  Reconnaissance Mission Planning Problem}.
+\newblock In {\em International Computer Conference on Wavelet Active Media
+  Technology and Information Processing (ICCWAMTIP), 2014 11th}, pages 10--15,
+  Chengdu, China, 2014. IEEE.
+
+\bibitem{19}
+Morgan Quigley, Ken Conley, Brian Gerkey, Josh Faust, Tully Foote, Jeremy
+  Leibs, Rob Wheeler, and Andrew~Y Ng.
+\newblock {ROS: an open-source Robot Operating System}.
+\newblock In {\em ICRA workshop on open source software}, volume~3, page~5,
+  Kobe, Japan, 2009.
+
+\bibitem{20}
+Nathan Koenig and Andrew Howard.
+\newblock {Design and Use Paradigms for Gazebo, an Open-Source Multi-robot
+  Simulator}.
+\newblock In {\em International Conference on Intelligent Robots and Systems,
+  2004.(IROS 2004). Proceedings. 2004 IEEE/RSJ}, volume~3, pages 2149--2154,
+  Sendai, Japan, 2004. IEEE.
+
+\bibitem{2}
+JF~Araujo, PB~Sujit, and JB~Sousa.
+\newblock {Multiple UAV Area Decomposition and Coverage}.
+\newblock In {\em 2013 IEEE Symposium on Computational Intelligence for
+  Security and Defense Applications (CISDA)}, pages 30--37, Singapore, 2013.
+  IEEE.
+
+\bibitem{3}
+Jie Chen, Wenzhong Zha, Zhihong Peng, and Jian Zhang.
+\newblock {Cooperative Area Reconnaissance for Multi-UAV in Dynamic
+  Environment}.
+\newblock In {\em Control Conference (ASCC), 2013 9th Asian}, pages 1--6,
+  Istanbul, 2013. IEEE.
+
+\bibitem{4}
+Alessio Del~Bue, M~Tamassia, F~Signorini, Vittorio Murino, and A~Farinelli.
+\newblock {Visual Coverage Using Autonomous Mobile Robots for Search and Rescue
+  Applications}.
+\newblock In {\em 2013 IEEE International Symposium on Safety, Security, and
+  Rescue Robotics (SSRR)}, pages 1--8, Linköping, Sweden, 2013. IEEE.
+
+\bibitem{5}
+Yi~Guo and Mohanakrishnan Balakrishnan.
+\newblock {Complete Coverage Control for Nonholonomic Mobile Robots in Dynamic
+  Environments}.
+\newblock In {\em Proceedings 2006 IEEE International Conference on Robotics
+  and Automation, 2006. ICRA 2006.}, pages 1704--1709, Orlando, USA, 2006.
+  IEEE.
+
+\bibitem{6}
+Peng Cheng, James Keller, and Vijay Kumar.
+\newblock {Time-optimal UAV Trajectory Planning for 3D Urban Structure
+  Coverage}.
+\newblock In {\em IEEE/RSJ International Conference on Intelligent Robots and
+  Systems, 2008. IROS 2008.}, pages 2750--2757, Nice, France, 2008. IEEE.
+
+\bibitem{8}
+Hyo-Sang Shin, C{\'e}dric Leboucher, and Antonios Tsourdos.
+\newblock {Resource Allocation with Cooperative Path Planning for Multiple
+  UAVs}.
+\newblock In {\em UKACC International Conference on Control (CONTROL), 2012},
+  pages 298--303, Coventry University,UK, 2012. IEEE.
+
+\bibitem{7}
+Yong Bao, Xiaowei Fu, and Xiaoguang Gao.
+\newblock {Path Planning for Reconnaissance UAV Based on Particle Swarm
+  Optimization}.
+\newblock In {\em Second International Conference on Computational Intelligence
+  and Natural Computing Proceedings (CINC), 2010}, volume~2, pages 28--32,
+  Wuhan, China, 2010. IEEE.
+
+\bibitem{9}
+Wu~Xinggang, Guo Cong, and Li~Yibo.
+\newblock {Variable Probability Based Bidirectional RRT algorithm for UAV Path
+  Planning}.
+\newblock In {\em Control and Decision Conference (2014 CCDC), The 26th
+  Chinese}, pages 2217--2222, China, 2014. IEEE.
+
+\bibitem{11}
+Johannes Meyer, Alexander Sendobry, Stefan Kohlbrecher, Uwe Klingauf, and Oskar
+  von Stryk.
+\newblock {Comprehensive Simulation of Quadrotor UAVs Using ROS and Gazebo}.
+\newblock In {\em Simulation, Modeling, and Programming for Autonomous Robots},
+  pages 400--411. Springer, Dramstadt, 2012.
+
+\end{thebibliography}

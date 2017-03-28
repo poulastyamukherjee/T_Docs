@@ -1,0 +1,21 @@
+\section{Problem formulation and Task description}
+\subsection{Problem formulation}
+
+Recent works in the field of area coverage using UAVs, is focused on two key aspects for improving area coverage algorithms
+\begin{itemize}
+\item efficient methods of area decomposition \cite{2,4,6}
+\item application of existing search based algorithms to generate coverage paths \cite{7,8,9,10}
+\end{itemize}
+
+A key aspect missing from the above mentioned works is that these works do not focus on the actual motion path followed by the UAVs, which in most cases is simple back and forth motion or a lawnmower type approach, as proposed in \cite{1}. Though the proposed methods in \cite{2,4,6,7,8,9,10} ensure complete coverage, they do not specify any means to reduce the time of coverage. Reducing the time of area coverage is extremely important, to ensure the UAV is able to complete the area coverage task within the time constraints imposed by its limited power supply. Another problem in lawnmower approach is that, during the course of the motion a UAV has to accelerate and decelerate multiple times ~\ref{fig:lmc} which increases the time of coverage and also leads to higher power consumption. \\
+
+\subsection{Task Description}
+In order to compare 
+Like any standard scientific work, we will carry out a state of the art evaluation of area coverage, focusing on area coverage using UAVs in section: ~\ref{sec:sta}. Apart from area coverage using UAVs, we will also focus on multi UAV cooperative systems and deployed libraries and existing platforms. \\
+We will then describe our approach in section: ~\ref{sec:app} where we will focus on formulating mathematical models for proposed algorithms. The following methods are proposed
+\begin{itemize}
+\item Spiral method
+\item Lissajous Curves based method
+\item Hybrid approach
+\end{itemize}
+For our implementation we will write a ROS package in C++ language which will contain implementation of the proposed algorithms along with some other key functionality for incorporating multi-agent behavior among the two UAVs. We will also implement the lawnmower approach and Rapidly Exploring Random Tree(RRT) approach. In the experiment section we will run each of these algorithms while varying various parameters like size and shape of the area to be covered, number of commanded waypoints. We will then formulate a cost function to determine which method performs the best. 

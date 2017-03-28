@@ -1,0 +1,46 @@
+\subsection{Case Study:}
+\subsubsection{Home environment for personal assistant robot}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=12cm]{images/example.pdf}
+   \caption{Home environment setup}
+   \label{Test environment map}
+\end{figure}
+In this section with the help of an example we explain the working of our proposed system.
+Considering the home environment setup mentioned in section(0) the robot is given the goal of ``go to kitchen".
+The current semantic location of the robot is taken to be \textit{livingroom-1}.
+Thus the robot has to start from \textit{livingroom-1} and go to \textit{kitchen-1}\footnote[6]{×}.\\
+
+Our proposed \textit{Navigation Planner System} works as elaborated below:\\ 
+First, the \textit{Semantic Navigation Planner} unit receives the goal ``go to \textit{kitchen-1}" from the high level (task/symbolic) planner.
+Then it queries the \textit{Environment Model} for about the topological connectivity between the two \textit{Region} instances.
+In this example the two regions are connected as follows:\\
+\textit{livingroom-1} $\longleftrightarrow$ \textit{doorway-2} $\longleftrightarrow$ \textit{kitchen-1}\\
+The \textit{Semantic Navigation Planner} unit then queries the Environment Model for corresponding semantic positions for each of the above region instances.
+Thus, the symbolic goal of \textit{go to the kitchen} is converted to geometric sub-goals: \textit{go to SP2}, \textit{go to SP3}, where SP2 represents semantic position for Doorway-2 and SP3 for Kitchen-1.
+These sub-goals along with associated constraints are stored in the \textit{Scheduler} component of the \textit{Semantic Navigation Planner} unit .
+It is assumed that \textit{SP2} has a medium tolerance and \textit{SP3} has a soft tolerance and the other semantic properties and constraints are neglected.
+Each of these sub goals is then fed to the \textit{Monitoring} component which further passes it to the motion planner.
+Once the sub goal \textit{SP3} is achieved, the motion planner triggers an event, notifying the completion of the sub goal to the \textit{Monitoring} component.
+After receiving this notification the \textit{Monitoring} component feeds the next sub goal and this continues till the last sub goal is achieved.\\
+
+\textbf{Dealing with unexpected situations:}\\
+\textit{Situation 1:}\\
+Suppose the robot is not able to reach \textit{SP2}.
+The motion(path) planner notifies the \textit{Monitoring} component about this failure by triggering a failure event.
+The \textit{Monitoring} component then notifies the \textit{Navigation Failure Analyzer} about this goal/sub goal failure.
+To identify the cause of failure the \textit{Navigation Failure Analyzer} queries the \textit{Environment Model} for current environment and robot's state.
+We assume \textit{doorway-2} has a automatic \textit{door-2} since in this work we consider doorways with only automatic doors.
+Based on current state of the environment which is available to the \textit{Failure Analyzer} from our \textit{Environment Model}, it concludes that the possible cause of 
+failure is malfunctioning of this door-2 at doorway-2. Since in such a situation it is not possible to navigate through \textit{doorway-2}, the Failure Analyzer
+will notify the high level planner about the goal failure.\\
+
+\textit{Situation 2:}\\
+To demonstrate the flexibility provided by the tolerance limit we consider the situation where the goal \textit{SP2} is achieved and the robot is now approach \textit{SP3}.
+Since \textit{SP3} has soft tolerance limit, the planner can conclude sub goal to be achieved as soon as the robot is in the vicinity of kitchen.
+This will prove to be helpful in situations where there is a dynamic obstacle on or in the close vicinity of the semantic position, along with reduction
+in plan completion time.
+
+
+%\subsubsection{Case 2: University environment for library assistant robot}

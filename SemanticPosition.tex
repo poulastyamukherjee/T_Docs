@@ -1,0 +1,51 @@
+\subsection{Semantic positions}
+\label{sec:semanticposition}
+\subsubsection{Representing Semantic positions}
+This work represents semantic positions associated with regions by three properties namely:
+  \begin{itemize}
+    \item \textit{Location}
+    \item \textit{Orientation} 
+    \item \textit{Tolerance} 
+  \end{itemize}
+\textit{Location} and \textit{Orientation} concepts are adopted from the approach in \cite{1}, while the \textit{Tolerance} concept is the contribution of this work.
+The \textit{Location} and \textit{Orientation} properties are concerned with the x-y co-ordinate of the robot and its rotation angle with respect to local reference frame of that region.
+The \textit{Tolerance} property determines how close the robot is expected to go to the semantic position.\\
+
+These properties are represented by symbols and not by numerical values \cite{1}.
+The instances of symbols for \textit{Location, Orientation} and \textit{Tolerance} properties used in this work are mentioned below:
+\begin{itemize}
+  \item \textit{Location} of SP: center/east/west/north/south/north-east/north-west/south-east/south-west
+  \item \textit{Orientation} of SP: east/west/north/south
+  \item \textit{Tolerance} for SP: soft/medium/hard
+\end{itemize}
+An example of a semantic position for \textit{kitchen-1} instance of our home environment setup is shown below:
+\begin{itemize}
+  \item \textit{Location}: center
+  \item \textit{Orientation}: north
+  \item \textit{Tolerance}: soft/medium/hard
+\end{itemize}
+The definitions/equations of these symbols are stored in the \textit{Navigation Equations component} of the architecture elaborated in section~\ref{sec:ne} .
+However, depending on the application domain, the symbols could be added/removed/modified along with their definitions in the \textit{Navigation Equations component}.\\
+
+Usually rooms and other categories of \textit{Region} concept will have soft or medium tolerance.
+\textit{Objects} will mostly have hard tolerance.
+These assumptions may change depending on the application domain.
+
+\subsubsection{Advantage of \textit{Tolerance} limit} 
+\textit{Tolerance} limit for a semantic position makes navigation flexible in the following way:
+Usually a robot goes to a room and then proceeds towards some object.
+For instance, in our home environment setup, suppose the robot is given the task of ``bringing a milk bottle". The robot needs to go to the
+kitchen and dock a fridge to pick-up the milk bottle. In such scenarios, the robot does not need to reach the exact semantic position of the kitchen.
+%it is acceptable if the robot does not exactly reach the kitchen's semantic 
+%position since there its is not expected to manipulate any object. Instead it has to approach the fridge after entering the kitchen. 
+Assigning soft tolerance to the semantic position of the kitchen enables the robot to conclude the accomplishment
+of the goal of ``going to kitchen"  as soon as it is in the kitchen.\\
+
+For the same task, after reaching the kitchen the robot has to dock the fridge to grasp a milk bottle. Hence, fridge could have medium tolerance limit indicating
+that robot has go near to the fridge. This nearness depends on the workspace of the robot platform. A hard tolerance limit indicates that the robot has to be at the exact position.
+Assigning a hard or soft tolerance limit to the semantic position of an object depends on the workspace of the robot. Robots with limited workspace need to
+have hard tolerance to grasp objects. However, regions can always have a soft tolerance limit, irrespective of the platform workspace,
+unless robots are not grasping any objects at those positions.\\
+
+The tolerance limit helps to deal with situations in which dynamic obstacles in the vicinity or on the semantic positions. 
+It also improves the path planning efficiency by reducing the goal completion time.

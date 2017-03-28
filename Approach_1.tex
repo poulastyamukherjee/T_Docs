@@ -1,0 +1,395 @@
+\section{Experimentation and Results} 
+%\input{overview}
+%\input{EnvironmentModel}
+%\input{SemanticPosition}
+%\input{SemanticNavigation}
+%\input{TestCases}
+In the previous section we described some methods based on the method suggested by \cite{6} which can be used instead of the normally used back and forth motion as used by \cite{2,3,4,10}. However merely implementing an algorithm doesn't validate whether it is better than existing algorithms. A proper evaluation of any algorithm requires certain metrics against which its performance can be measured. In this section we formulate certain criteria for evaluating the proposed algorithms and further present results of carried out experiments. In the last sub section we will evaluate the results of the experiments against the determined criteria to determine which algorithm is better.
+
+\subsection{Formulating Criteria for Evaluation of Algorithms}
+\label{sec:adadadada}
+In \cite{1}, the author defines three criteria for evaluating a coverage algorithm,
+\begin{itemize}
+\item percentage of area covered
+\item time taken by the UAVs to finish coverage of a given area
+\item computational and time complexity of the algorithm.
+\end{itemize}
+Along with these we add three more criteria:
+\begin{itemize}
+\item energy cost during its motion - which depends on the rate of change of velocity
+\item percentage of area overlapped by sensor's footprint.
+\item percentage of area exceeded from the commanded area
+\end{itemize}
+\subsubsection{Percentage of Area covered}
+In \cite{1,6} percentage of area covered is defined as the actual area covered by the footprint of the robot's sensor to the total goal area that was to be covered. For calculating this, we record the pose of the UAV during its run. Next we get the value of field of view of the robot's sensor from the code. The field of view radius is calculated using the height of the robot and the aperture angle of the sensor's field of view. In the figure:~\ref{fig:dualimg7676} we illustrate an example of a robot's traced path and the corresponding trace path plus field of view radius for the UAV. 
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth]{images/exp_10.png}
+  \caption{Two UAVs doing coverage of an area of 140x140 $m^{2}$ using lawnmower approach}\label{fig:dualimg7676} 
+
+\end{figure}
+
+
+%insert image here and change image in approach
+\subsubsection{Time taken by the UAVs to complete coverage of a given area}
+We see that using either traditional search algorithms like A* \cite{9} and randomized approach like 
+RRT algorithm \cite{16},time complexity of the algorithms are low. However these do not take into consideration the physical constraints of an UAV. For example lets take the case of RRT algorithm, since the approach is based on random generation of points, two consecutive points may be farther from each other while the point after that may be near the initial point. This will cause the UAV to move randomly and will end up having a high execution time.
+%insert image here and change image in approach
+\subsubsection{Computational and time complexity of the algorithm}
+From the equations of splines, Lissajous curves, hybrid curves, described in the approach section we see that these methods can be implemented using a simple for loop which has a time complexity of $O(n)$ \cite{17}, where $n$ is the maximum number of points to be generated.
+
+\subsubsection{Energy costs of UAV's motion}
+\label{subsubsec:ec2233}
+Since we are doing 2D coverage, the energy cost of the UAV flying from ground to the required height is same for all the methods mentioned above thus for calculating the energy costs we will be considering only Kinetic Energy. \\
+From Newton's 2nd law of motion we know that \\
+\begin{equation}
+\label{eq:en1}
+\vec{F}=m.\vec{a}
+\end{equation}
+\begin{equation}
+\label{eq:en2}
+\vec{F}=m.\frac{\mathrm{d}\vec{v} }{\mathrm{d} t}
+\end{equation}
+We also know that work done $W$ is given by \\
+\begin{equation}
+\label{eq:en3}
+W = \Delta KE....eq(7)
+\end{equation}
+where KE is Kinetic Energy. Therefore to minimize the change in Kinetic Energy it is sufficient to show that the work done is minimum. Now,\\
+\begin{equation}
+\label{en:eq4}
+W = \vec{F}.\vec{x}
+\end{equation}
+replacing from earlier equation of force\\
+\begin{equation}
+\label{en:eq5}
+W = m.\frac{\mathrm{d}\vec{v} }{\mathrm{d} t}.\vec{x}
+\end{equation}
+considering $m$ (mass) and $\vec{x}$ to be constant for a UAV and for a fixed area covered, the only variable that can affect work done is the $\frac{\mathrm{d}\vec{v} }{\mathrm{d} t}$ factor. 
+
+\subsubsection{Percentage of area overlap by sensor's footprint}
+A certain percentage of area overlap might be a desired criteria in order to verify data gathered by the UAV's sensor, however unless it is specifically requested by the user, it is undesirable as it causes a repetition of data by making an UAV fly over the same region already covered by another UAV. Thus this causes an increase in total energy cost.
+
+\subsubsection{Percentage of area exceeded as regards to the commanded area}
+During the course of its flight, if an UAV goes out of the commanded area then it is considered as a negative trait. Though if the area exceeded is small, its effect on the total energy cost wouldn't be significant, however if the exceeded area is large then it can seriously increase the energy cost.
+
+\subsection{Formulating the Performance Metric Function}
+Based on the parameters established in ~\ref{sec:adadadada}, we will define the performance metric function.
+
+\subsubsection{Assigning weights to the parameters}
+\label{subsubsec:jjjjhhh1}
+Based on the importance of each parameter we assign the following weights:
+\begin{itemize}
+\item Percentage of area coverage ($w1$) - This is a very important criteria for measuring performance of an area coverage problem, hence we assign it a value of $w1$ = 2
+\item Time taken by the UAV to complete coverage of a given area ($w2$) - This is also a very important criteria for measuring performance of an area coverage problem. We assign it a value of $w2$ = 2 as it is desired to have low time of completion.
+\item Energy cost of UAV during coverage ($w3$) - Considering the fact that UAVs have limited battery supply, keeping this parameter low is of utmost importance, hence we also assign it a value of $w3$ = 2.
+\item Percentage of area overlap ($w4$) - In some cases overlap might be a desired criteria while in some cases not. Since this criteria does not play a big role in affecting area coverage we assign it a value of $w4$ = 0.1 considering the case we want to keep it as low as possible.
+\item Percentage of area exceeding commanded area of coverage ($w5$) - Exceeding area of coverage is an undesirable factor and we want to keep it low. However considering the overall performance, this factor is not as important as either of percentage of area coverage, time to completion or energy cost, hence we assign a value of $w5$ = 0.5
+\end{itemize}
+\subsubsection{Formulating the final performance metric function}
+\label{subsubsec:hadadada22}
+We have seen in that for the lawnmower approach the percentage of area coverage is 100\%, percentage of area overlap is 0\% and percentage of area exceeded is also 0\%, so we take the values of the lawnmower approach as the standard for evaluating the other approaches.
+\begin{itemize}
+\item For percentage of area coverage (denoted by $P$), 100\% coverage is assigned a value of 1. 90\% coverage is assigned a value of 0.9 and likewise.
+\item We normalize time taken (denoted by $t$) to complete coverage for all approaches using the time for lawnmower approach. 
+\item Similarly we normalize the energy cost (denoted by $EC$) of completing coverage for all approaches using the energy cost for lawnmower approach. 
+\item For percentage overlap (denoted by $O$) we consider no overlap to have a value of 0 and 100\% overlap to have a value of 1.
+\item Similarly for percentage of area exceeded (denoted by $E$) we consider no area exceeded to have a value of 0 and 100\% exceeded area to have a value of 1
+\end{itemize}
+
+The final function is defined as\\
+\begin{equation}
+\label{eq:pmf}
+f_{p}(method) = w1*(P_{method}) + w2*(1-\frac{t_{method}}{t_{lawnmower}}) + w3*(1-\frac{EC_{method}}{EC_{lawnmower}}) + w4*(1-O_{method}) + w5*(1-E_{method})
+\end{equation}
+
+
+In equation~\ref{eq:pmf}, the variable $P_{method}$ is the percentage of area covered for a particular method. The variable $t_lawnmower$ is the time taken by the lawnmower approach to complete coverage, $t_method$ is the time for taken by the method (lawnmower, spiral, Lissajous Curves, hybrid approach, RRT approach) for which we are calculating the performance metric. $EC_lawnmower$ is the energy cost taken by the lawnmower approach to complete coverage, $EC_method$ is the energy cost for taken by the method for which we are calculating the performance metric. $O_{method}$ is the percentage of area overlap for a particular method and $E_{method}$ is percentage of area exceeded while doing coverage for a particular method. \\
+The value of the performance metric function is directly related to the performance of method, hence a larger the value better is the performance of the method. Since time, energy cost, percentage of overlap and percentage of excess affect the performance of a method negatively, we subtract the normalized value from 1 and then add it.
+
+\subsection{Conducting Experiments}
+\label{subsec:exp2211}
+We will conduct our experiments in a simulated environment. The simulation platform is Gazebo while the code is written using Robot Operating System(ROS) and C++. Using the ROS package Hector Quadrotor we spawn two UAVs inside the rolling landscape world of Gazebo. Then we run our coverage quadrotor nodes (one node for each UAV) and record run time, poses, velocity information from the ground state topic. For each algorithm - Lawnmower, Spiral, Lissajous curves, Hybrid approach, RRT - we vary the the area to be covered. The results from the experiments are displayed in ~\ref{subsubsec:patola122} Description for each graph and what they represent are mentioned in the corresponding graphs. We present the result of coverage done by the UAV using the following method
+\begin{itemize}
+\item Lawnmower Method
+\item Spiral Method
+\item Lissajous Curves Method
+\item Hybrid Approach Method
+\item RRT Approach
+\end{itemize}
+
+\subsubsection{Image of the Simulation Environment and UAVs}
+In this section we present recorded images of the experiment. The Gazebo environment displayed is the rolling landscape scenario. 
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth]{images/gaz_2.png}
+  \caption{Two UAVs doing coverage of an area of 80x80 $m^{2}$ in Gazebo rolling landscape scenario}\label{fig:esgil} 
+
+\end{figure}
+
+\subsubsection{Images of UAVs' trace and sensor footprint with varying size of target area}
+\label{subsubsec:patola122}
+In this section we present images of the UAVs' trace and their respective sensor footprint. The area to be covered is a 80x80 $m^{2}$ square shaped area. We vary the number of waypoints while keeping the area fixed. For the following results, the number of waypoints are 300. The green box represents the area to be covered. The red line represents each UAV's trace and the yellow region represents the area covered by the UAV's sensor's footprint. 
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_1.png}
+  \caption{UAV traces and sensor footprint - Lawnmower Method}\label{fig:sfl111} 
+
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_2.png}
+  \caption{UAV traces and sensor footprint - Spiral Method}\label{fig:sfs1231}
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_3.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - Lissajous Curves Method}\label{fig:sflc1212} 
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_4.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - Hybrid Approach Method}\label{fig:sfsl2112} \end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_5.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - RRT Method}\label{fig:sfrrt167}
+\end{figure}
+
+From the above figures we can see that lawnmower (see figure:~\ref{fig:sfl111}) and Lissajous curve  (see figure:~\ref{fig:sflc1212}) methods ensure almost hundred percent coverage. For the spiral (see figure:~\ref{fig:sfs1231})  and the hybrid methods (see figure:~\ref{fig:sfsl2112}) the coverage is also more then ninety-five percent, while the coverage for the randomized approach (see figure: ~\ref{fig:sfrrt167}) is quite poor and does not even cover fifty percent of the target area. Details about percentage of area coverage for each method is analyzed in the subsequent section. 
+
+%\pagebreak
+\newpage
+
+For the following images, the area is a square bounded region if 140x140 $m^{2}$.
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth,height=12cm]{images/sar_2.png}
+  \caption{UAV traces and sensor footprint - Lawnmower Method}\label{fig:sfl1099}
+
+\end{figure}
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth,height=12cm]{images/sar_3.png}
+  \caption{UAV traces and sensor footprint - Spiral Method}\label{fig:sfs989} 
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sar_4.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - Lissajous Curves Method}\label{fig:sflc188} 
+\end{figure}
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth,height=12cm]{images/sar_1.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - Hybrid Approach Method}\label{fig:sfsl77} 
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth,height=12cm]{images/sns_12.png}
+  \caption{Two UAVs doing coverage of an area in Gazebo - RRT Method}\label{fig:sfrrt56}
+\end{figure}
+
+
+%\pagebreak
+%\newpage
+%For the following images, the area is a square bounded region if 100x100 $m^{2}$.
+
+%\begin{figure}[htbp]
+
+%  \includegraphics[width=\linewidth,height=12cm]{images/sar_10.png}
+%  \caption{UAV traces and sensor footprint - Lawnmower Method}\label{fig:sfl433} 
+%\end{figure}
+
+%\begin{figure}[htbp]
+
+%  \includegraphics[width=\linewidth,height=12cm]{images/sar_7.png}
+%  \caption{UAV traces and sensor footprint - Spiral Method}\label{fig:sfs665} 
+%\end{figure}
+
+%\begin{figure}[htbp]
+%  \includegraphics[width=\linewidth,height=12cm]{images/sar_6.png}
+%  \caption{Two UAVs doing coverage of an area in Gazebo - Lissajous Curves Method}\label{fig:sflc765} 
+%\end{figure}
+
+%\begin{figure}[htbp]
+
+%  \includegraphics[width=\linewidth,height=12cm]{images/sar_8.png}
+%  \caption{Two UAVs doing coverage of an area in Gazebo - Hybrid Approach Method}\label{fig:sfsl37} 
+%\end{figure}
+
+%\begin{figure}[htbp]
+
+%  \includegraphics[width=\linewidth,height=12cm]{images/sns_13.png}
+%  \caption{Two UAVs doing coverage of an area in Gazebo - RRT Method}\label{fig:sfrrt993}
+
+%\end{figure}
+
+\newpage
+\subsection{Results of the Experiments}
+\label{subsec:hujani}
+In this section we will analyze the results of the experiment which were presented in the previous section.
+
+\subsubsection{Percentage of area coverage and parameters which affect it}
+
+From the images presented in section:~\ref{subsubsec:patola122} , we saw that there is a relationship between the commanded area to be covered and the percentage of area actually covered by the UAV's sensor. We present a table which lists percentage of area coverage to the size of the total area to be covered.
+\begin{table}[htbp]
+\centering
+\caption{Area vs Percentage Area Coverage}
+\label{tab2swer}
+\begin{tabular}{|l|l|l|l|l|l|}
+																	\\ \hline
+Method           & 80x80    & 100x100    & 160x120  & 140x140  & 140x340  \\ \hline
+Lawnmower        & 100\% & 100\% & 100\% & 100\% & 100\% \\ \hline
+Spiral           & 93\%  & 96\%  & 97\%  & 98\%  & 99\%  \\ \hline
+Lissajous Curves & 100\% & 99\%  & 96\%  & 94\%  & 92\%  \\ \hline
+Hybrid           & 99\%  & 99\%  & 99\%  & 99\%  & 99\%  \\ \hline
+RRT              & 40\%  & 37\%  & 31\%  & 28\%  & 25\%  \\ \hline
+\end{tabular}
+\end{table}
+
+From the results in table:~\ref{tab2swer} we see that the proposed algorithms - Spiral, Hybrid achieves almost complete coverage and their performance remains mostly unchanged with the size of the area to be covered, while the performance of Lissajous curves method degrades with larger areas. The main reason for the degradation of the performance of the Lissajous curves method is due to the non-uniform gap between the generated paths (see figure:~\ref{fig:lci1234}).
+
+\begin{figure}[htbp]
+
+  \includegraphics[width=\linewidth]{images/sar_4_1.png}
+  \caption{Incomplete coverage of the Lissajous curves method due to non-uniform gap between generated paths for area of 140x140 $m^{2}$ }\label{fig:lci1234} 
+\end{figure}
+
+Another conclusion that can be drawn from the above data is that,the performance of the spiral method improves as the size of the area to be covered increases, even though the improvement is quite nominal. 
+
+\pagebreak
+\subsubsection{Completion time of the proposed methods}
+In this section we will analyze the time performance of the algorithms compared to the size of the area to be covered.
+
+\begin{table}[htbp]
+\centering
+\caption{Table of Area of coverage in $m^{2}$ to Time taken in $seconds$ for all methods}
+\label{tab:tabtim3232}
+\begin{tabular}{|l|l|l|l|l|l|}
+														\\ \hline
+Method           & 80x80 $m^{2}$ & 100x100 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$ & 140x340 $m^{2}$ \\ \hline
+Lawnmower        & 437 secs                  & 440 secs                    & 864 secs                    & 918 secs                    & 1703 secs                   \\ \hline
+Spiral           & 420 secs                  & 428 secs                    & 674 secs                    & 706 secs                    & 1043 secs                   \\ \hline
+Lissajous Curves & 420 secs                  & 426 secs                    & 672 secs                    & 705 secs                    & 1042 secs                   \\ \hline
+Hybrid           & 421 secs                  & 427 secs                    & 675 secs                    & 706 secs                    & 1041 secs                   \\ \hline
+RRT              & 372 secs                  & 368 secs                    & 568 secs                    & 602 secs                    & 997 secs                   
+\end{tabular}
+\end{table}
+
+From the data in table ~\ref{tab:tabtim3232} it is quite evident that as the size of the area to be covered increases, the time to required to cover it using either of Spiral, Lissajous curves, or Hybrid method is significantly lower than that of Lawnmower method. Even though the proposed method may cover slightly lesser area compared to the lawnmower method, the significant reduction in time makes these methods more efficient compared to the Lawnmower approach.
+
+\subsubsection{Comment on the smoothness of the generated trajectories}
+\label{subsubsec:smoothy3}
+In this section we will compare the rate of change of velocities (acceleration/deceleration) of the proposed methods to lawnmower method. During the course of motion of any UAV too much changes in acceleration or deceleration gives rise to jerk, which can make the UAV unstable. Hence it is always desired to have a smoother trajectory. From the following data we will try to analyze which method among Lawnmower, Spiral, Lissajous Curves, Hybrid, RRT produces the least changes in its rate of change in velocity and hence generate a smooth trajectory with less jerk.
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth]{images/exp_18.png}
+  \caption{Rate of change of velocity vs time for an area of 80x80 $m^{2}$ }\label{fig:expacc3}
+\end{figure}
+
+\begin{figure}[htbp]
+  \includegraphics[width=\linewidth]{images/exp_16.png}
+  \caption{Box Plot representing velocity vs time for an area of 80x80 $m^{2}$ }\label{fig:expacc4}
+\end{figure}
+
+\pagebreak
+From the figure:~\ref{fig:expacc3} we can see that the lowest changes in rate of change of velocity can be observed in the spiral approach while the lawnmower and the hybrid approach shows quite large number of spikes and uneven changes. It is also to be noted that the range of values for these two methods are also higher compared to the Spiral method. It is also quite obvious that the randomized approach produces the most uneven changes and highest range of values.
+
+The figure:~\ref{fig:expacc4} displays that for the spiral method not only does most of its value lie near the median, its overall range of values is also lower than the other method and it has the least number of outliers, only 2. The range of values for the lawnmower approach is also quite low compared to Lissajous Curves method and Hybrid approach.
+\newpage
+\subsubsection{Energy Consumed calculation for each method}
+In this section we will calculate the energy consumed for areas of \textbf{(i)}80x80 $m^{2}$ , \textbf{(iii)} 160x120 $m^{2}$ and \textbf{(iii)} 140x140 $m^{2}$
+We assume the weight of an UAV to be $m$ = 10 kg.\\
+%The distances traveled for each method were calculated from the data and the results are presented %in table ~\ref{tab:harikiri}
+
+%\begin{table}[]
+%\centering
+%\caption{Table for path length for each method.}
+%\label{tab:harikiri}
+%\begin{tabular}{|l|l|l|l|}
+%																		\\ \hline
+%Method           & 80x80 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$		 \\ \hline
+%Lawnmower        & 841.33 m         & 1930.38 m         & 2007.41 m         \\ \hline
+%Spiral           & 967.91 m         & 1525.98 m         & 1692.88 m          \\ \hline
+%Lissajous Curves & 1960.38 m        & 3498.24 m        & 3638.00 m            \\ \hline
+%Hybrid           & 1357.77 m        & 2521.18 m         & 2360.58 m            \\ \hline
+%RRT              & 555.77 m         & 911.24 m         & 1103.02 m             \\ \hline
+%\end{tabular}
+%\end{table}
+Using the formula in section:~\ref{subsubsec:ec2233}, we calculate the energy costs. The results are presented in table~\ref{tab:ytyy33}
+
+\begin{table}[htbp]
+\centering
+\caption{Table for energy cost for each method.}
+\label{tab:ytyy33}
+\begin{tabular}{|l|l|l|l|}
+																	   \\ \hline
+Method           & 80x80 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$	    \\ \hline
+Lawnmower        & 291.01 kJ     & 1155.71 kJ             & 1280.52 kJ    \\ \hline
+Spiral           & 227.65 kJ     & 577.12 kJ              & 639.91 kJ      \\ \hline
+Lissajous Curves & 917.65 kJ     & 1464.11 kJ             & 1869.93 kJ      \\ \hline
+Hybrid           & 603.93 kJ     & 951.43 kJ              & 1122.45 kJ       \\ \hline
+RRT              & 158.11 kJ     & 363.55 kJ              & 423.55 kJ         \\ \hline
+\end{tabular}
+\end{table}
+
+From the data in table~\ref{tab:ytyy33} we see that Spiral method has the least energy cost and as the size of the area to be covered increases, its energy consumption compared to other methods become even lower. Though the least energy consumption is by the RRT method, it does not do coverage of the area completely and thus we are not considering it for our final evaluation.
+
+\subsubsection{Percentage of area overlap and percentage of area coverage exceeded}
+
+In this section we will present two tables detailing the percentage of area coverage and the percentage of area exceeded. 
+
+\begin{table}[htbp]
+\centering
+\caption{Percentage of area overlap}
+\label{tab:ovr5656}
+\begin{tabular}{|l|l|l|l|}
+																		\\ \hline
+Method           & 80x80 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$		 \\ \hline
+Lawnmower        & 0 \%             & 0 \%         & 0 \%                   \\ \hline
+Spiral           & 24 \%            & 20 \%         & 19 \%                  \\ \hline
+Lissajous Curves & 31 \%            & 32\%         & 34\%                     \\ \hline
+Hybrid           & 25 \%            & 25 \%         & 25 \%                    \\ \hline
+RRT              & 44 \%            & 43 \%         & 42 \%                     \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Percentage of area exceeded}
+\label{tab:exc56256}
+\begin{tabular}{|l|l|l|l|}
+																		\\ \hline
+Method           & 80x80 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$		 \\ \hline
+Lawnmower        & 0 \%             & 0 \%         & 0 \%                   \\ \hline
+Spiral           & 9 \%             & 8 \%        & 8 \%                     \\ \hline
+Lissajous Curves & 21 \%            & 22\%         & 24\%                     \\ \hline
+Hybrid           & 5 \%             & 6 \%        & 6 \%                       \\ \hline
+RRT              & 0 \%             & 0 \%        & 0 \%                        \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Calculating the Performance Metric}
+In section:~\ref{subsec:hujani} the results of all the parameters were presented. Now using those parameters we will calculate the values of the performance metric function for each method for (i)80x80 $m^{2}$,(ii)160x120 $m^{2}$  and (iii) 140x140 $m^{2}$. \\
+\begin{table}[htbp]
+\centering
+\caption{Performance Metric of methods based on area}
+\label{tab:exc5qw6256}
+\begin{tabular}{|l|l|l|l|}
+																		\\ \hline
+Method           & 80x80 $m^{2}$ & 160x120 $m^{2}$ & 140x140 $m^{2}$		 \\ \hline
+Lawnmower        & 2.6             & 2.6         & 2.6                       \\ \hline
+Spiral           & 2.9             & 3.94        & 3.98                       \\ \hline
+Lissajous Curves & 0.26            & 2.24         & 1.83                        \\ \hline
+Hybrid           & 0.45             & 3.23        & 3.32                       \\ \hline
+RRT              & 0.01             & 0.78        & 1.45                      \\ \hline
+\end{tabular}
+\end{table}
+
+From table~\ref{tab:exc5qw6256}, it is quite evident that the spiral method performs best compared to all other methods and its performance increases as the size of the area to be covered increases. The next best method is the hybrid method, whose value also increases as the size of the area to be covered increases, but it is also to be noted that for smaller areas, its performance is very poor.
+The RRT method fails to cover area completely, hence its performance is worst compared to all other methods. 

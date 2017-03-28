@@ -1,0 +1,81 @@
+\section{Scenarios/use cases}
+\label{sec:scenario}
+This section gives a description about two ``fetch and delivery" scenarios(tasks) in different environment setups.
+We identify some of the situations where navigation system faces problems. We use them as a reference to build a system which can handle such situations.\\
+
+\subsection{Scenario 1: Library Assistant robot}
+The library assistant robot is a robot which will fetch a book from the library as requested by the user and hands it over to the user.
+The user can be in any part of the university building.
+In this work, we would be considering an environment map of HBRS University Building at Sankt-Augustin campus.\\
+\subsubsection{Task Description}
+The task of fetching a book from a library involves task planning for dividing the task into sub-tasks, path planning to navigate from anywhere in the
+university to the library, manipulator path planning to deal with lifts, doors and many other objects and also grasping for fetching books from the shelfs,
+opening doors and so on. Hence, this use case would help evaluate usefulness of semantic information with respect to all the aspects mentioned above for
+the task of fetching a book. 
+However, in this work we focus on the navigation aspect for fetching a book from library.
+The robot could be assumed to be in any part of the building. It will get the task description, that is ``bring a book x". The task planner will generate a sequence 
+of actions to get this task done successfully using our semantically enriched map. Two of these actions which a navigation system would have to execute include 
+``go to the library", ``dock the shelf" (to grasp the book). We consider these actions to identify challenges a navigation system would have deal with.
+\subsubsection{Task Analysis}
+The first action ``go to the library" in an environment which is as large as a university building would require the system to have following capabilities:
+\begin{itemize}
+ \item \textbf{Reducing the search space}\\ 
+ Generating navigation plans at geometric level using occupancy grid maps would be computationally costly for such large environments.
+ To deal with this, the navigation system should discard that information(grid map of the region) which is not relevant for the task.
+ which are not 
+ \item \textbf{Adopting different strategies}\\
+ The navigation system might need to have different strategies and should know when which one has to be adopted.
+ This is due to the fact that such environment consists of a variety of completely different region entities. For instance, navigating in rooms could
+ be different than in corridors since rooms here usually consist of more static and less dynamic obstacles while corridors are filled with dynamic obstacles but during some time slot of the day (during working hours). 
+ During non-working hours they are usually empty. Also, navigating through elevators is different than that through rooms. This difference arise due to the fact that in elevators the robot might have very less workspace 
+ since elevators are small in size compared to rooms and also are cluttered with humans.  
+ \item \textbf{Dealing with doorways with different types of doors}\\
+ Also, in large environments robot has to navigate through doorways having different types of doors(automatic, semi-automatic, manual). So
+ a robot might also have to manipulate the doors while navigating through the doorways. For this it should know where it has to navigate in the doorway to manipulate the door. For this work, however, we consider only automatic doors
+ and a situation where is door might not be functioning. In such a situation the navigation system should be capable to reason about the failure (which is malfunctioning of the door).
+\end{itemize}
+
+The second navigation task of ``dock the shelf" would impose following challenge:
+\begin{itemize}
+ \item \textbf{Appropriate pose for grasping}\\
+ To grasp a book form shelf, the robot should be able to navigate close enough to the shelf to grasp the book. 
+ For this it has to know the appropriate pose from where grasping could be feasible.
+\end{itemize}
+
+
+\subsection{Scenario 2: Home Assistant robot}
+\label{sec:har}
+A home assistant robot is a service robot intended to assist help humans in their every day tasks like for example:
+ \begin{itemize}[noitemsep,nolistsep]
+   \item Bringing a cup of coffee from kitchen
+   \item Baking a pan cake
+   \item Cleaning up the dinner table 
+   \item Helping elderly persons to navigate around and so on.
+ \end{itemize} 
+\subsubsection{Task Description}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=12cm]{images/example.pdf}
+   \caption{Home environment setup}
+   \label{Test environment map}
+\end{figure}
+The figure above shows the environment setup for this scenario. 
+The scenario considered here is inspired from the Robocup@Home contest \cite{35} scenarios like, for instance, ``cocktail party" challenge where a robot gets an order from people sitting in the living room and go to the kitchen to get the 
+items ordered and return back to the living room.
+However, we consider a similar task of ``bringing a milk bottle". This scenario also involves all the aspects (like task planning, navigation, etc.) mentioned in the previous scenario. Here again the task planner would generate 
+action sequence out of which we consider those which a navigation system has to perform.  
+
+
+\subsubsection{Task Analysis}
+We consider ``go to kitchen" and ``dock the fridge" actions to be executed.
+Along with the challenges mentioned for the previous scenario, the following challenges would be imposed by this scenario:
+\begin{itemize}
+ \item \textbf{Flexibility in achieving the goal}\\
+ For the task of ``go to kitchen", the robot need not go to any specific geometric position since usually after navigating the kitchen, robot has to approach the fridge. This could be done
+ as soon as the robot enters the kitchen, instead of going to a position first and then start navigating towards fridge. 
+ \item \textbf{Dealing with unexpected situations}\\
+ The behavior mentioned in the previous bullet would also help to deal with situations where there are some obstacles close to or on the geometric position which the 
+ robot is trying to approach while executing the task of ``go to kitchen".
+\end{itemize}
+

@@ -1,0 +1,130 @@
+\section{State of the Art}
+\label{sec:sta}
+Conventional start-goal and map based path planning algorithms do not address problems such as exploration, reconnaissance, \cite{1}. This type of problems require the agent (in our case an UAV) to cover all points in the search space. The problem of coverage has received lot of attention lately due to development of advanced UAVs and increase in their applicability in search and rescue, surveillance etc. \cite{2,3,4,6,8}. We will look into some existing work in the field of area coverage using UAV. We will also look into path planning of multiple UAVs and finally coverage planning using multiple UAVs. In the last section we discuss an existing platform for simulating UAVs and existing ROS libraries which have been used in this work to implement area coverage algorithms.
+% 1 is howie choset 2 is pb sujit - multiple area decomposition 3 is cooperative area recon
+\subsection{Area Coverage using UAVs}
+According to author in \cite{1} coverage path planning is defined as a type of algorithm which emphasizes space swept by a robot's sensor. Coverage is useful for certain tasks like floor cleaning, lawn mowing, harvesting, painting etc which are not addressed by conventional start stop algorithms. \\
+A key consideration of area coverage according to the author in \cite{1} is, the choice between complete coverage with higher computational and sensory power requirement or more randomized approach which ensures better cost per quality coverage. Another issue pointed out by the paper is lowering time to completion while ensuring complete coverage. A couple of approaches stated by the paper for reducing time to completion are, using multiple robots instead of a single robot and reducing the number of turns executed by the robot during its movement. Some possible approaches for solving area coverage,are presented in \cite{1}, they are classified according to categories, namely \textbf{(i)} Heuristic and Randomized \textbf{(ii)} Approximate and Exact Cellular Decomposition \textbf{(iii)} Multi-Robot Coverage. \\
+Among the heuristic approaches discussed in \cite{1}, one approach employs building simple behaviors in the robots. A hierarchical architecture constructed from these simple behaviors result in complex behaviors like exploration. The author also mentions some heuristics for better coverage performance in \cite{1} . In one approach as mentioned in \cite{1} the UAVs are programmed to be repelled from other robots, which ensure the robots are spread over a large area and cover the area uniformly. In this method the paths are not planned and the robots move in random directions until they encounter target or goal positions. The main disadvantage of randomized approach as stated by \cite{1} is that it does not guarantee complete coverage, however few advantages of this approach are non-requirement of costly localization sensors, low  computational costs, thus bringing the overall cost down. \\
+According to \cite{1} in approximate cell decomposition the coverage space is divided into small grids whose size in approximately similar to the footprint of the UAV sensor. There might be some overlap between a pair of cells. A cell is considered to be covered when the robot visits that cell or grid. In case of exact cellular decomposition, the divided cells do not intersect with each other. The method used to cover the area inside each cell is simple back and forth motion as illustrated by figure ~\ref{fig:lmc}
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_9.png}
+   \caption[Area coverage inside each grid cell using simple back and forth or lawnmower \cite{1}]
+   {Area coverage inside each grid cell using simple back and forth or lawnmower technique proposed as in \cite{1}.}   
+\label{fig:lmc}
+\end{figure}
+
+
+In multi-robot decentralized approach\cite{1} the agents share a memory. The movement of the agents are guided by an adjacency graph. A critical requirement of this approach is that the generated graph should always remain connected in order for the agents to move from one state to another. 
+Two more approaches presented by the author in \cite{1}- Mark and Coverage(MAC) and Probabilistic Coverage(PC) - are two contradictory methods, the former being deterministic and the latter being random- for addressing multi-robot coverage problem. MAC's time complexity was proven to be $O(A/a)$ where $A$ is the total area and $a$ is the step size of the robot's movement. The time complexity for PC was calculated to be $O(n \rho log n)$. A drawback of MAC approach is that it is prone to sensor noise and disturbances, while PC does not guarantee complete coverage. As a way to compensate for the drawbacks of these two methods the author suggests a hybrid approach in \cite{1},   combining these two approaches with a balance between performance and tolerance for mission of continuous covering. \\
+
+The authors in \cite{4} proposes a visual coverage method using a camera and a laser scanner. They posits a two step approach to this problem. The first half deals with a visual coverage descriptor. Visual coverage detector measures coverage of each voxel of 3D map. This map is then fed to 3D reconstruction algorithm. The measure of coverage is the amount of ray penetration in a voxel volume towards the 3D point inside the camera field of view. However the part of this work we will focus on is the coverage approach proposed by the authors. The authors create an utility function that takes into account the amount of visual information the robot's camera takes in for a particular position and orientation. The points in which the camera captures maximum visual features are selected as the next waypoints for the robot to move to. However complexity of a 3D environments makes it impossible to compute closed form solution as it will increase computational cost significantly. Hence the computation is restricted to a square local grid or n voxels per side around the current robot position. A cost function then sums the distance traveled by the UAV. A utility function is then used to maximize the visual representation and minimizes the cost function. The visual representation function is weighted, which signifies the preference of gaining new information over minimizing cost. 
+
+In \cite{5} a neural network based approach for area coverage is provided which also includes collision avoidance with both stationary and moving objects. Initially a bounded region is filled with disks whose radius is same as the field of view radius of the sensors(LIDAR or camera) as illustrated in figure ~\ref{fig:dcdcd}. Then the objective of the coverage algorithm is to ensure the robot travels to each of these disks thus ensuring complete coverage. The authors generate a dynamic landscape on which the neural network can propagate in such a way that the obstacles repel the robot while the unexplored areas attract it. The robot path is generated from the activity of the neural network and previous locations of the robot. After the coverage paths are generated the authors move on to generate smooth trajectories which ensures a smoother control.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=7cm]{images/coverage_3.png}
+   \caption[Disk shaped Area decomposition and complete area coverage  \cite{5}]
+   {Disk shaped Area decomposition and complete area coverage proposed in \cite{5}.}
+   \label{fig:dcdcd}
+\end{figure}
+
+\pagebreak
+
+\subsection{Multi UAV Cooperative System}
+\subsubsection{Planning}
+ In this section we will look into some work related to both path and trajectory planning of multi-UAV systems. 
+
+In \cite{6}, the authors propose a coverage method in which either a hemisphere or cylinder is constructed around the object to be covered. The UAV then follows this trajectory with its sensor - either a laser scanner or a camera pointing towards the center of the hemisphere or the cylinder. This approach is useful for generalizing coverage of objects. In case of the hemispherical trajectory - see figure ~\ref{fig:hchc} - the radius is made as large as possible while in the case of cylindrical trajectory - see figure ~\ref{fig:cchc} - the radius is the shortest distance from the center without touching the object. 
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=7cm]{images/coverage_4.png}
+   \caption[Hemispherical trajectory based coverage method \cite{6}]
+   {Hemispherical trajectory based coverage method as proposed in \cite{6}.}
+   \label{fig:hchc}
+\end{figure}
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=7cm]{images/coverage_5.png}
+   \caption[Cylindrical trajectory based coverage method \cite{6}]
+   {Cylindrical trajectory based coverage method as proposed in \cite{6}.}
+   \label{fig:cchc}
+\end{figure}
+
+In \cite{7} and \cite{8}, the authors propose algorithms for area coverage using UAVs which are based on Particle Swarm Optimization. The authors in \cite{7} aims to minimize the distance traveled by the UAVs for doing coverage of an area. The PSO algorithm optimizes both distance traveled by each particle and sum of distances traveled by all particles. In this case the authors only consider the sum of distances traveled by all particles and tries to minimize it. One drawback of this method is the amount of time taken to compute a solution is quite high, thus it may not be suitable for situations that require fast response times.
+A geometric approach based path planning algorithm for multiple UAVs with optimal resource allocation has been proposed in \cite{8} . The authors posits that though Dubin's path ( "In geometry, the term Dubins path typically refers to the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path" - \cite{21}) is a well known planner for finding shortest path and being a composite curve of both lines and circles, easy to produce, it lacks a smooth curvature. This lack of smooth curvature results in variation in the acceleration rate of the UAV and thus makes its maneuver difficult. The authors thus come up with a smoother curve based on Pythagorean Hodographs technique. A common trend is visible in the discussed papers, i.e. need for the UAV's trajectory to have a smooth curvature in order to reduce abrupt accelerations or deceleration and to have a better control on the UAV's behavior. The second half of \cite{8} deals with resource allocation for multiple UAVs. The authors combine Discrete Particle Swarm Optimization technique with Evolutionary Game Theory as a solution to the resource allocation problem. The discrete particle swarm optimization technique maximizes the exploration and global efficiency of the algorithm to find a solution, while the function of the evolutionary game theory algorithm is to ensure a faster convergence to solution.
+
+A large section of research on coverage also deals with randomized approaches. In \cite{9} the authors propose a randomized approach to multi UAV path planning based on the well known RRT (Rapidly-exploring random tree) algorithm. The authors state that due to incapability of the traditional RRT-connect - see figure ~\ref{fig:vvrc} - algorithm to be applied to the problem of the UAV path planning, a variable probability based bidirectional RRT (VPB-RRT) - see figure ~\ref{fig:vvvrrc} - algorithm is proposed. The authors point out that in RRT algorithm a low coverage occurs when the path of the expanding tree from the start node encounters obstacles. On the contrary a large coverage may not necessarily mean that the coverage algorithm will reach completion. In the proposed variable probability based bidirectional RRT algorithm, the authors take into account the areas which have not been covered by the tree and increase the probability of generating random nodes in that area. Again if the coverage is high, the authors vary the probability function to generate more nodes around the goal node to ensure convergence. A key consideration that the authors mention while generating nodes is that the previous and the follow up nodes satisfy a maneuverable trajectory for the UAVs. 
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=7cm]{images/coverage_7.png}
+   \caption[Performance of RRT algorithm with an obstacle in coverage space \cite{9}]
+   {Performance of RRT-connect algorithm with an obstacle in coverage space as proposed in \cite{9}}
+   \label{fig:vvrc}
+\end{figure}
+ 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=7cm]{images/coverage_6.png}
+   \caption[Performance of VPB-RRT algorithm with an obstacle in coverage space \cite{9}]
+   {Performance of VPB-RRT algorithm with an obstacle in coverage space \cite{9}}
+   \label{fig:vvvrrc}
+\end{figure}
+ 
+\pagebreak
+ 
+\subsubsection{Coverage}
+In the previous sections we have looked into state of the art research in the fields of area coverage and multi-UAV planning. In this section we will delve on the work done in the field of area coverage using multiple UAVs. More precisely this section will focus on the various optimization which have been proposed by researchers to reduce the three critical considerations - as proposed in \cite{1} - of any coverage problem namely (i) Percentage of Area actually covered by the UAV's sensor's field of detection (ii) Time required by the UAV to finish coverage of an area (iii) Computational cost of coverage algorithms. With more technological innovations in the field of computing, the third criteria may lose its relevance, however for this work we consider it an important metric for evaluating performance of a coverage algorithm.
+
+The authors in \cite{10} treats the problem of multiple UAV cooperative reconnaissance as a task allocation and resource scheduling problem. A key point to be noted in this paper is that it takes into consideration various constraints and performance planning target. Constraint include number of surveillance targets, reconnaissance time and performance requirements of the UAVs. The paper then goes on to propose a mathematical model which takes into consideration all these criteria. The mathematical model does two things - (i) Calculates the minimum number of UAVs required to cover the area (ii) Formulate constraints of this model. After generating solutions the authors use genetic algorithm to find out an optimal solution. 
+
+In \cite{2} the authors consider a scenario of area coverage for a non-convex region. For addressing this problem the authors approach a two step approach - (i) Division of the area into smaller sub areas, this approach ensures that no two robot share the same space and thus does not need special obstacle avoidance capabilities. (ii) Straight lines lanes with lesser number of turns are designed 
+to minimize acceleration and deceleration of the UAVs. The division of the area is done along the longest diagonal of the polygon. A technique called area sweeping is used as illustrated in figure ~\ref{fig:cvvvvvvv}.
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_1.png}
+   \caption[Area decomposition using sweeping technique \cite{2}]
+   {Area decomposition using sweeping technique proposed in \cite{2}. Here the optimal sweep direction is perpendicular to the dotted line.}
+   
+\label{fig:cvvvvvvv}
+\end{figure}
+
+In \cite{3} the authors propose a model based approach for cooperative area reconnaissance using multiple UAVs. The authors use the Model Predictive Control (MPC) technique to for online computation of paths, however determining the optimal path is not possible using this method. The authors propose their own modification of the Particle Swarm Optimization (PSO) algorithm, Simulated Annealing Particle Swarm Optimization (SAPSO). The three key advantages of SAPSO as stated by the authors are simplicity, fast convergence and fewer parameters requiring adjustment. Another key feature proposed by this paper is a simple collision avoidance method. When an UAV encounters an obstacle it adjusts it height to avoid it. The advantage of this method is that it reduces computation complexity while being highly efficient. 
+
+%\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+% \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+%   \includegraphics[width=9cm]{images/coverage_2.png}
+%   \caption[Area decomposition using sweeping technique \cite{3}]
+%   {Control Structure of CAR using for multiple UAVs proposed in\cite{3}}
+   
+%\label{fig:mpc}
+%\end{figure}
+
+Using this algorithm 90 percent coverage was achieved and the computation time of the algorithm was found to be 1.3892 sec only.\\
+
+\pagebreak
+\subsection{Deployed Libraries and Existing Platforms}
+
+In this section we will discuss about some existing UAV simulation platforms and libraries using which we can implement coverage algorithms and study their performance.
+
+As stated by\cite{11}, UAVs are being used for a multitude of functions both in research and real-world applications. However due to an UAV's complex control mechanism, a small error in an algorithm can cause the UAV to crash. Therefore it is imperative, a simulation environment, which not only models the UAV's dynamics but also models various sensors like SONAR, laser scanner, camera is required. Before \cite{11}, there has been few simulation environments for UAVs, however they were deficit in realistic flight dynamics and sensor models. Hector Quadrotor package was created to address this specific deficit. It is deployed as a standard ROS package and can be used like any other ROS packages. It includes its own Gazebo environments. There is only one way to command the UAVs i.e. by giving it velocity commands, however with a little change in package parameters it is also possible to give position commands. Flight dynamics were created using Matlab. Inertial Measurement Unit(IMU), Ultrasonic Sensor, GPS are among the various sensors that are included in the package. The control part of the package was created using the OROCOS \cite{23} tool chain. 
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_10.png}
+   \caption[Hector Quadrotor package for simulation of UAVs in Gazebo \cite{11}]
+   {Hector Quadrotor package for simulation of UAVs in Gazebo as  proposed in\cite{11}}
+   
+\label{fig:hq}
+\end{figure}
+

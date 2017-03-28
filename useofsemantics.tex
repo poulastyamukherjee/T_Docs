@@ -1,0 +1,69 @@
+\section{Semantics in robotics:}
+\begin{itemize}[noitemsep,nolistsep]
+ \item The generalised dictionery meaning of the word semantics is the \textit{``study or science of meaning}" [].
+ \item For example, in \textit{linguistics} it means the study or science of meaning in language, that is, the meaning of a word, 
+ phrase, sentence, or text [].
+ \item The word semantics has a wide meaning in terms of robotics domain, and people have used different kind of semantic information 
+ for different purposes.
+ \item However, in this work we focus on adding semantic information in maps which could help a robot with its planning(task and navigation) aspect. 
+\end{itemize}
+
+
+\subsection{Semantic informtaion in maps:}
+Several definitions of semantic mapping exist in the literature. A few of them are listed below:\\\\
+\textbf{Definitions:}
+\begin{itemize}[noitemsep,nolistsep]
+ \item \textit{``The process of semantic mapping consists of using robots to create maps that represent not only metric occupancy but also other properties of the environment"} \cite{11}.
+ \item \textit{``Using semantic information in robot build maps is a method of facilitating the understanding of the data used to represent the environment, and simplifying the sharing 
+ of environmental information by robots, people and other machines"} \cite{11}.
+ \item \textit{``A semantic map for a mobile robot is a map that contains, in addition to spatial information about the environment,
+assignments of mapped features to entities of known classes.Further knowledge about these entities, independent of the
+map contents, is available for reasoning in some knowledge base with an associated reasoning engine"} \cite{5}\\\\
+\end{itemize}
+
+In general, it could be stated as, with respect to robot mapping, semantics is adding meaning to the data.
+This data is used to represent the environment and gathered by the sensory system of the robot.
+Meaning is assigned to the data such that the robot understands the environment like a human does.
+For example, a laser scanner would create a metric (occupancy grid) map of a room. One of the semantic information that could be added to this data
+would be assigning a lable to it say for instance kitchen.\\
+
+However, it could be argued that based on the definition of semantic information that even metric an topological maps store some form of semantic information.
+Metric maps represent occupancy of space which is nothing but assisning meaning to the the sensor data.
+The meaning here is whether the space is occupied or empty.
+Similarly topological maps indicate connectivity between spaces whcih could be treated as semantic information.
+But we are interested in more qualitative information that would help the robot to be more autonomous.
+Hence, in this work we refer to semantics as an information which is more than occupancy of space and its connectivity and assume the same exists in robot mapping community.
+
+ \subsection{Examples of semantic information in maps:}
+  \begin{itemize}
+  \item Some of the examples of semantic information in maps which could help a task planner or the navigation system of a robot are mentioned below: 
+    \begin{itemize}
+      \item Assigning labels as mentioned above to places in the environment. For example, kitchen.
+      \item Assigning semantic expressions to these places that can relate them to complex objects they contain or to some situations \cite{7} . 
+      For example, a kitchen is a place which contains at least one fridge and/or oven. 
+      \item Information that places like corridors are usually crowded during day time while empty during night \cite{4}.
+      \item Assigning information to objects indicating their expected locations. For example, items like towels should be uniquely located in a bathroom \cite{2} 
+      or sandwich is a perishable food item usually found in fridge.
+      \item Some places are accessible at some specific times in a day/week/month. For example, a library is open during day time and on weekdays.
+      \item Semantics which add to the constrains that are to be considered while grasping an object. For example, a cup filled with something should be held parallel to the horizontal surface. 
+    \end{itemize}  
+  \item
+ \end{itemize}
+
+\subsection{Benefits of adding Semantic information in maps:}
+\begin{itemize}[noitemsep,nolistsep]
+ \item Adding semantic information to the map lets different properties of the environment space and its entities to be represented allowing for richer environmental models.
+ \item It would improve several abilities in a robot \cite{3,5,10} some of which are listed below:
+ \begin{itemize}[noitemsep,nolistsep]
+  \item \textbf{Inferring new knowledge from its environment:}\\
+  For example, if a robot is in a kitchen and it knows that kitchens always have a refrigerator, it can infer that there should be a refrigerator in it, even if it has not been perceived yet. 
+  \item \textbf{Improving human-robot interaction:}\\
+  Humans would find interacting with robots easier if the language they need for communication with robots is not very different from the one humans use to interact with each other.
+  Semantic information, thus, would enhance human-robot communication by using concepts, terms and reasoning understandable by humans.  
+  \item \textbf{Handling errors:}\\
+  For example, if a robot certainly knows it is in a kitchen but its sensory system detects a bathtub, it could discard this information as the robot knows that kitchens do not contain that kind of objects. Also, semantics would help the robot to correct the error in the sensed information by modifying it and concluding that the perceived object could be a fridge and not a bathtub. 
+  \item \textbf{Improving  planning efficiency by reducing the search space:}\\
+  Autonomous mobile robots which are supposed to perform the tasks like fetch and delivery of objects first have to search for the required objects and then retrieve them to accomplish the task. 
+  Let us consider a scenario where a robot has to retrieve a can of milk. It could have information that implies that milk is usually kept in fridge and that fridge is in the kitchen. Then the robot can start its search from the kitchen first instead of other rooms.  This would reduce the search space from a complete environment to a single room.
+  \end{itemize}
+\end{itemize}

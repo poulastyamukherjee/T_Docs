@@ -1,0 +1,17 @@
+\subsection{Overview} 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=17cm]{images/Architecture3.pdf} 
+   \caption{Component view of the Architecture}
+   \label{fig:SysArc}
+\end{figure}
+
+Figure~\ref{fig:SysArc} shows the component view of our proposed system architecture. It is similar to the one proposed in \cite{1}.
+It is divided into two parts: An \textit{Environment Model} which stores the information about the environment and a \textit{Navigation Planning System} 
+which uses the environment information to generate navigation plans.
+They are both indicated by grey color blocks in the Figure~\ref{fig:SysArc}. The dotted boxes are assumed to be existing/working in the system. 
+The \textit{Navigation Planning System} is further divided into three components: Semantic Navigation Planner, Navigation Knowledge base and Navigation Failure Diagnosis.
+The sections below explain both parts of our architecture in detail starting with the \textit{Environment Model} and then the \textit{Semantic Navigation Planner}.\\
+
+We consider the home environment setup of scenario 2 mentioned in section~\ref{sec:har} for explaining the architecture. 
+It is assumed that the present location of the robot is \textit{livingroom-1} and it gets the goal of ``go to kitchen" from the symbolic(task) planner.  

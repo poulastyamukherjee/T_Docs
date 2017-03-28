@@ -1,0 +1,132 @@
+\section{Approach} 
+\label{sec:app}
+%\input{overview}
+%\input{EnvironmentModel}
+%\input{SemanticPosition}
+%\input{SemanticNavigation}
+%\input{TestCases}
+In this section we will briefly describe the approach taken to propose a solution model for the problem formulation. Then we go on to propose an experimental setup which will validate the proposed method.
+
+%of the approach is to implement the lawnmower algorithm
+\subsection{Overview}
+
+A scientific approach to any problem, requires an extensive research on the state of the art that exists for this particular problem, which has already been done in the previous section. 
+The first step is to determine on what factors does the performance of the back and forth or lawnmower method -suggested in  \cite{1,2,3,8,10}- depend on, and record those parameters:
+\begin{itemize}
+\item Time of coverage
+\item Trace of the UAV's path
+\item Velocity - both linear and angular
+\end{itemize}
+The next step is to determine algorithms which will minimize these parameters. From \cite{6} we learned that using simple trajectories like hemispherical - see figure ~\ref{fig:hchc} - and cylindrical - see figure ~\ref{fig:cchc} - we can do coverage of any area. After implementing the algorithms which will be formulated in ~\ref{subsec:fml343}, the next step will be to record the above mentioned parameters and compare with the lawnmower approach parameters. 
+
+\subsection{Formulating mathematical model of the algorithms}
+\label{subsec:fml343}
+In \cite{6} the authors propose hemispherical - see figure ~\ref{fig:hchc} - and cylindrical trajectories - see figure ~\ref{fig:cchc} - for 3D coverage, likewise for 2D coverage we can use smooth curves like spirals, splines and Lissajous Curves to generate trajectory path for the UAVs. In this section we will describe the mathematical models of the above mentioned curves.
+\subsubsection{Spiral}
+\textbf{Spiral} - According to the The American Heritage Dictionary of the English\footnote{The American Heritage Dictionary of the English Language, Houghton Mifflin Company, Fourth Edition, 2009.} a spiral is defined as a curve which winds around a fixed center point at continuously increasing or decreasing radius. 
+\footnotetext{http://www.mathematische-basteleien.de/spiral.htm}
+For generating way-points we need to use the parametric equation of a spiral, given by\footnotemark \\ 
+\begin{equation}
+\label{eq:sp1}
+x(t) = at cos(t)
+\end{equation}
+\begin{equation}
+\label{eq:sp2}
+y(t) = at sin(t)
+\end{equation}
+
+In ~\ref{eq:sp1}, ~\ref{eq:sp2} $x$ and $y$ are the coordinates of the waypoints, $a$ is a constant value and $t$ is the varying radius.
+The value of $a$ will depend on the dimensions of the maximum value of $x$ and $y$. The parameter $t$ can be adjusted to increase or decrease the width between two successive curves of the spiral. This value will be adjusted according to the field of view radius of the UAV sensor.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_12.png}
+   \caption[Archimedean Spiral ]
+   {Archimedean Spiral \footnotemark[\value{footnote}]}
+   
+\label{fig:sc111}
+\end{figure}
+
+\subsubsection{Lissajous Curves}
+\textbf{Lissajous Curves} - From the work in \cite{14} we get the parametric for of Lissajous curves. \\
+\begin{equation}
+\label{eq:ls1}
+x(t) = Acos(\omega_xt-\delta_x)
+\end{equation}
+\begin{equation}
+\label{eq:ls2}
+y(t) = Bcos(\omega_yt-\delta_y)
+\end{equation}
+\begin{equation}
+\label{eq:ls3}
+x(t) = Asin(\omega'*t+\delta)
+\end{equation}
+\begin{equation}
+\label{eq:ls4}
+y(t) = Bsin(\omega*t)
+\end{equation}
+In equations ~\ref{eq:ls1},~\ref{eq:ls2},~\ref{eq:ls3},~\ref{eq:ls4} $x$ and $y$ are the coordinates of the waypoints, $\omega_xt$ and $\omega_yt$ are the amplitude of the $cosine$ curve, $\omega'$ and $\omega$ are the amplitudes of the $sine$ curve and $\delta$, $\delta_x$ ,$\delta_y$ are the necessary phase difference to create a Lissajous pattern and $t$ is a variable. 
+If the ratio of $\frac{\omega'}{\omega} = 5/4$, the following Lissajous pattern can be generated - see figure: ~\ref{fig:ljc221} -  which can act as a space filling curve, thus in our case act as an algorithm for coverage.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_11.png}
+   \caption[Lissajous Curve \cite{14}]
+   {Lissajous Curve with $\frac{\omega'}{\omega} = 5:4$  \cite{14}}
+   
+\label{fig:ljc221}
+\end{figure}
+
+\subsubsection{Hybrid of Spiral and Lissajous Curves}
+To generate this Lissajous Curve ~\ref{fig:hsjc3333}, the ratio of $\frac{\omega'}{\omega}$ was set to $1:2$, while varying the value of $t$(in this case increasing) with each iteration we create the following coverage pattern. This pattern can be used in case of doing coverage while persistently tracking any target object. The center of the curve where the spirals intersect can be fixed on a target object and the UAV can cover an area while persistently tracking the target object.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_14.png}
+   \caption[Lissajous Curve \cite{14}]
+   {Hybrid approach based on Spiral and Lissajous Curves method  \cite{14}}
+   
+\label{fig:hsjc3333}
+\end{figure}
+
+\pagebreak
+\subsubsection{Rapidly Exploring Random Trees}
+Along with the above mentioned geometrical approaches we also implement a randomized approach in order to have a better comparison of our proposed method. Unlike probabilistic approaches which require point to point convergence to progress \cite{15}, we require an approach which can randomly expand and fill a coverage space. Rapidly Exploring Random Trees are thus ideal for our problem\cite{15}. The only change we make here is that we do not consider a shortest path between start and goal node, instead we try to generate a large number of nodes in the space to be covered and use these generated nodes as waypoints for the UAVs to follow. We try to order the waypoints generated in ascending order of Euclidean distance from the starting point.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   %\includegraphics[angle=90,width=10cm]{images/tbox.jpg}
+   \includegraphics[width=9cm]{images/coverage_13.png}
+   \caption[Rapidly Exploring Random Tree \cite{15}]
+   {Rapidly Exploring Random Tree \cite{15}}
+   
+\label{fig:rrt}
+\end{figure}
+
+\subsection{Performance Metric Function}
+
+An effective means of comparing methods, which are dependent on multiple parameters is to formulate a performance metric function with certain weights assigned to each parameter. The performance metric function will take into account percentage of area covered, percentage of overlap, percentage of area it exceeds from the commanded area, time of coverage and energy consumed during run (which depends on the rate of change of velocity during its motion). The highest weight-age will be assigned to percentage of area coverage, time required to completion, and energy cost. The parameters percentage of area overlap and percentage of area exceeded will be assigned lower weight-age value as these parameters have lower effect on the performance of the proposed algorithms.
+
+\subsection{Experimentation}
+
+For carrying out our experiment we will adopt the rolling landscape scenario from Gazebo simulation environment. We will consider a coverage space of certain size and vary the following parameters for each of the aforementioned algorithms - 
+\begin{itemize}
+\item Number of waypoints 
+\item Size and shape of the area to be covered
+\end{itemize}
+After implementing the above mentioned algorithms using ROS and Hector Quadrotor package, we will record the ground truth information of the UAVs. 
+
+\subsection{Evaluation}
+
+From the experiments that will be carried out in section: ~\ref{subsec:exp2211} we will record the following values
+\begin{itemize}
+\item Time
+\item X,Y,X poses
+\item Linear X velocity, Linear Y velocity, Linear Z velocity
+\item Angular X velocity, Angular Y velocity, Angular Z velocity
+\end{itemize}
+
+Next we will evaluate the implemented methods based on these parameters and determine which method is best suited for coverage in a certain space. The evaluation criteria will be explained in details in the next section. 

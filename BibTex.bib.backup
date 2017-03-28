@@ -1,0 +1,280 @@
+@inproceedings{1,
+  author = {Klaus Uhl and Arne Roennau and R\"{u}diger Dillmann},
+  title = {From {S}tructure to {A}ctions: {S}emantic {N}avigation {P}lanning in {O}ffice {E}nvironments},
+  booktitle = {IROS International workshop on Perception and Navigation for Autonomous Vehicles in Human Environment},
+  year = {2011},
+}
+
+@Article{2,
+  author = 	 {C. Galindo and J.A. Fernandez-Madrigal and J. Gonzalez and A. Saffiotti},
+  title = 	 {Robot Task Planning Using Semantic Maps},
+  journal = 	 {Robotics and Autonomous Systems},
+  volume =	 56,
+  number =	 11,
+  pages =	 {955--966},
+  year =	 {2008},
+}
+
+@INPROCEEDINGS{3,
+    author = {C. Galindo and J.A. Fernandez-Madrigal and J. Gonzalez and A. Saffiotti},
+    title = {Using Semantic Information for Improving Efficiency of Robot Task Planning},
+    booktitle = {Proceedings of the Workshop on Semantic Information in Robotics (ICRA)},
+    year = {2007},
+    address = {Rome, Italy},
+}
+
+@inproceedings{4,
+  author = {Galindo, C. and Saffiotti, A. and Coradeschi, S. and Buschka, P. and Fernandez-Madrigal, J.A. and Gonzalez, J.},
+  title = {Multi-hierarchical semantic maps for mobile robotics},
+  booktitle = {International Conference on Intelligent Robots and Systems (IROS)},
+  year = {2005},
+  pages = {2278-2283},
+}
+
+@article{5,
+ author = {N\"{u}chter, Andreas and Hertzberg, Joachim},
+ title = {Towards semantic maps for mobile robots},
+ journal = {Robotics and Autonomous Systems},
+ volume = {56},
+ number = {11},
+ year = {2008},
+ pages = {915--926},
+}
+
+@INPROCEEDINGS{40,
+    author = {Hendrik Zender and Patric Jensfelt and Óscar Martínez Mozos and Geert-jan M. Kruijff and Wolfram Burgard},
+    title = {An integrated robotic system for spatial understanding and situated interaction in indoor environments},
+    booktitle = {In Proc. AAAI ’07},
+    year = {2007},
+    pages = {1584--1589}
+}
+
+
+@InProceedings{7,
+  author =       {\'Oscar Mart\'{i}nez Mozos and Patric Jensfelt and Hendrik Zender and Geert-Jan Kruijff and Wolfram Burgard},
+  title =        {From Labels to Semantics: An Integrated System for Conceptual Spatial
+Representations of Indoor Environments for Mobile Robots},
+  booktitle =    {Proc.~of the Workshop on Semantic Information in Robotics (ICRA)},
+  year =         2007,
+  address =      {Rome,Italy},
+  month =        {April},
+}
+
+@INPROCEEDINGS{8,
+author={Oberlander, J. and Uhl, K. and Zollner, J.M. and Dillmann, R.},
+booktitle={Proceedings of International Conference on Robotics and Automation (ICRA)},
+title={A region-based {SLAM} algorithm capturing metric, topological, and semantic properties},
+address={CA, USA},
+pages={1886-1891},
+year={2008}
+
+}
+
+@inproceedings{10,
+  author = {Kunze, Lars and Beetz, Michael and Saito, Manabu and Azuma, Haseru and Okada, Kei and Inaba, Masayuki},
+  title = {Searching objects in large-scale indoor environments: A decision-theoretic approach.},
+  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  pages = {4385-4390},
+  year = {May 2012}
+}
+
+@inproceedings{11,
+  author = {D. F. Wolf and G. S. Sukhatme},
+  title = {Semantic {M}apping using {M}obile {R}obots},
+  publisher = {IEEE Transactions on Robotics},
+  pages={398--403},
+  year = {2006},
+}
+
+@INPROCEEDINGS{12,
+author={Collins, T. and Collins, J.J. and Ryan, C.},
+title={Occupancy grid mapping: An empirical evaluation},
+booktitle={Proceedings of the Mediterranean Conference on Control and Automation},
+pages={1-6},
+year={2007}
+
+}
+
+@INCOLLECTION{13, 
+  AUTHOR         = {Thrun, S.}, 
+  TITLE          = {Robotic Mapping: A Survey},
+  BOOKTITLE      = {Exploring Artificial Intelligence in the New Millenium},
+  PUBLISHER      = {Morgan Kaufmann},
+  YEAR           = {2002},
+  EDITOR         = {Lakemeyer, G. and Nebel, B.}
+}
+
+@INPROCEEDINGS{14,
+  AUTHOR         = {S. Thrun and A. B\"{u}cken},
+  TITLE          = {Integrating Grid-Based and Topological Maps for 
+                    Mobile Robot Navigation},
+  BOOKTITLE      = {Proceedings of the AAAI Thirteenth National 
+                    Conference on Artificial Intelligence},
+  YEAR           = {1996},
+}
+
+@phdthesis {15,
+  author = {Moritz Tenorth},
+  title = {Knowledge Processing for Autonomous Robots},
+  school  = {Technische Universit\"at M\"unchen},
+  year = {2011},
+}
+
+@INPROCEEDINGS{16,
+author={Pangercic, D. and Pitzer, B. and Tenorth, M. and Beetz, M.},
+title={Semantic {O}bject {M}aps for robotic housework - representation, acquisition and use},
+booktitle={International Conference on Intelligent Robots and Systems (IROS)},
+pages={4644-4651},
+year={2012}
+
+}
+
+@INPROCEEDINGS{17,
+author={Tenorth, M. and Kunze, L. and Jain, D. and Beetz, M.},
+title={{KNOWROB-MAP} - {K}nowledge-{L}inked {S}emantic {O}bject {M}aps},
+booktitle={Proceedings of International Conference on Humanoid Robots},
+address={Nashville, TN, USA},
+pages={430-435},
+year={2010}
+}
+
+@INPROCEEDINGS{18,
+author={Hao Dang and Allen, P.K.},
+title={Semantic grasping: Planning robotic grasps functionally suitable for an object manipulation task},
+booktitle={International Conference on Intelligent Robots and Systems (IROS)},
+pages={1311-1317},
+year={2012}
+}
+
+@ARTICLE{21,
+author={J.A. Fernandez and J. Gonzalez},
+title={Multihierarchical Graph search},
+journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+volume={24},
+number={1},
+pages={103-113},
+year={2002},
+}
+
+@inproceedings{22,
+author={Tingqi Wang and Qijun Chen},
+title={Object Semantic {M}ap {R}epresentation for {I}ndoor {M}obile {R}obots},
+booktitle={Proceedings of International Conference on System Science and Engineering (ICSSE), Macau, China, June 2011},
+address={Macau, China},
+pages={309-313},
+year={2011},
+}
+
+@ARTICLE{23,
+    author = {S. Coradeschi and A. Saffiotti},
+    title = {An introduction to the Anchoring problem},
+    journal = {Robotics and Autonomous Systems},
+    volume = {43},
+    number={2-3},
+    pages = {85-96},
+    year = {2003},
+}
+
+@techreport{24,
+  author={{MacGregor, Robert and Bates, Raymond}},
+  title={The {L}oom {K}nowledge {R}epresentation {L}anguage.},
+  booktitle={DTIC Document},
+  year={1987},
+}
+
+@article{25,
+  author={{Resnick, Lori Alperin and Patel-Schneider, Peter F and McGuinness, Deborah L and Weixelbaum, Elia and Herman, Merryll and Borgida, Alex and Brachman, Ronald J and Isbell, Charles L and Zalondek, Kevin C}},
+  title={NeoClassic User's Guide Version 0.7},
+}
+
+@techreport{26,
+  author={The OWL Working Group},
+  title={OWL web ontology language guide},
+  year={2009},
+  url={http://www.w3.org/TR/owl-guide/},
+}
+
+@techreport{27,
+  author={semafora systems GmbH},
+  title={Object{L}ogic Tutorial},
+  year={2012},
+}
+
+@INPROCEEDINGS{28,
+    author = {B. Kuipers and J. Modayil and P. Beeson and M. MacMahon and F. Savelli},
+    title = {Local Metrical and Global Topological Maps in the Hybrid Spatial Semantic Hierarchy},
+    booktitle = {IEEE Int. Conf. on Robotics and Automation (ICRA)},
+    pages = {4845--4851},
+    year = {2004},
+}
+
+@article{29,
+    author = {Nicola Tomatis and Illah Nourbakhsh and Roland Siegwart},
+    title = {Hybrid simultaneous localization and map building: a natural integration of topological and metric},
+    journal = {Robotics and Autonomous Systems},
+    volume = {44},
+    number = {1},
+    pages = {3-14},
+    year = {2003},
+}
+
+@Book{30,
+author = {Mckerrow, P.J.},
+title = {Introduction to {R}obotics},
+publisher = {Addison-Wesley},
+year = {1991},
+address = {New York},
+}
+
+@phdthesis{31,
+  author={C. Stachniss},
+  title={Exploration and mapping with mobile robots},
+  year={2006},
+  school={University of Freiburg, Department of Computer Science},
+  month={April},
+  year={2006},
+}
+
+@phdthesis{32,
+    author = {S.A.M. Coenen},
+    title = {Motion Planning for Mobile Robots-A Guide},
+    school = {Eindhoven University of Technology, Department of Mechanical Engineering, Control Systems Technology},
+    address = {Eindhoven},
+    year ={November, 2012}
+}
+
+@article{33,
+  author={Moritz Tenorth and Dominik Jain and Michael Beetz},
+  title={{Knowledge Representation for Cognitive Robots}},
+  journal   = {K{\"u}nstliche Intelligenz},
+  publisher = {Springer},
+  year      = {2010},
+  volume    = {24},
+  number    = {3},
+  pages     = {233--240},
+}
+
+@INPROCEEDINGS{34,
+author={Jinwoo Choi and Minyong Choi and Lee, Kyoungmin and Wan Kyun Chung},
+title={Topological modeling and classification in home environment using sonar gridmap},
+booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
+year={2009}, 
+}
+
+@ARTICLE{35,
+author={Marinakis, Dimitri and Dudek, G.},
+title={Pure Topological Mapping in Mobile Robotics},
+journal={IEEE Transactions on Robotics},
+year={2010},
+volume={26},
+number={6},
+pages={1051-1064},
+}
+
+@INPROCEEDINGS{36,
+  author = {},
+  title = {RoboCup@Home},
+  year = {},
+  url = {http://www.robocupathome.org/},
+  urldate = {[Online]. Accessed: Oct. 27, 2013}
+}

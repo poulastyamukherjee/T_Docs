@@ -1,0 +1,25 @@
+\section{Summery}
+In this work we proposed a conceptual architecture for using semantic information
+to improve path planning aspect of navigation for large and dynamic human made environments. 
+The architecture consists of two parts: an \textit{Environment model} and a \textit{Navigation Planning System}.
+Our \textit{Environment model} stores metric, topological and semantic information by using a multi-hierarchical representation.
+One hierarchy (S-Box) represents symbols of entities in the environment along with their spatial information
+The other hierarchy (T-Box) represents semantic information about the environment in the form of concepts and relations.
+In our S-Box we also used the concept of semantic positions which are abstract navigation points for a region.\\
+
+The information stored in the \textit{Environment Model} is exploited by the \textit{Navigation Planner System} to construct an abstract navigation plan at a semantic level to satisfy the given goal.
+This semantic plan is then used for generating a detailed geometric plan. 
+Using semantics along with spatial information helps to improve the navigation planning by making it robust and flexible. It also facilitates better human robot communication.
+
+We considered two different environmental setups for a service robot: 
+\begin{itemize}
+ \item A University building for a Library Assistant Robot
+ \item A home environment for a Home Assistant Robot
+\end{itemize}
+These setups pose different challenges for a service and we analyzed some of them with respect to navigation path planning.
+Base on this analysis we developed our architecture for navigation planning.
+To validate our work, we consider a case study of a service robot working in a home environment setup.
+
+This work is a stepping stone towards the goal of having an architecture which exploits semantic and other spatial information for a motion planner 
+
+ 

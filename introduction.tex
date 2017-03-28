@@ -1,0 +1,47 @@
+\section{Introduction}
+\subsection{Motivation}
+The late 20th century marked the beginning of a shift from electronics age to information age. Be it  health-care, entertainment, defense, industries, having thorough information about every aspect of operation is considered critical. Having requisite amount of information not only helps in devising detailed plans but also provides insights about how to deal with a situation in which a plan has failed.\\
+For situations like post disaster damage mitigation, formulating defense reconnaissance plans, or conducting geological survey of a terrain, gathering information is the most important aspect. A common solution for all these three situations is to cover a targeted area with a sensor's  footprint so as to gather information about them. The technical term for solution to these classes of problems is called area coverage \cite{1}. \\
+Area coverage is usually done by attaching a sensor(e.g. camera, laser scanner) to a robot and moving the robot in the target area in such a way, that information about the entire area is captured by the robot's sensor. Like most robotic solutions, ground robots have been traditionally used for area coverage as well because:
+\begin{itemize}
+\item they are easier to control
+\item they are robust
+\item they can carry higher loads compared to aerial vehicles which means they can carry better battery,greater array of sensors, better computers etc.
+\end{itemize}
+However certain disadvantages of using ground robots in area coverage scenario are:
+\begin{itemize}
+\item they are terrain dependent (although all terrain robots exists, they are slow and might fail if the terrain is extremely uneven)
+\item they might not be able to overcome/bypass all obstacles
+\end{itemize}
+Herein lies the key advantage of Unmanned Aerial Vehicles or UAVs. Due to the fact that UAVs have an extra degree of motion, they can avoid obstacles much easier compared to ground robots. For disaster mitigation scenarios and defense reconnaissance missions, only gathering information is not sufficient, gathering information in the shortest possible time is also a key requirement. Being airborne, enables the UAVs to take the shortest distance to a goal - which might not be always possible for a ground robot - thus saving a lot of time.\\
+
+Recent advancements in electronics have led to significant increase in performance of computers while both their size and weight have drastically fallen. This has led to the development of UAVs with better on-board computers and sensors, which have increased their scope of usage especially in area coverage problems. However despite the technological advancements, UAVs still
+\begin{itemize}
+\item have lower computational ability 
+\item and poor batteries 
+\end{itemize}
+compared to even basic ground robots. Poor batteries directly translate to the fact that UAVs cannot fly for a long time at a stretch. While limited computational abilities restricts it from running advanced algorithms (e.g. search algorithms) on its on-board computer. The combination of these two factors pose a serious challenge to UAVs being used for area coverage problems, which require a robot to move over a large area for long duration of time while performing tasks like recording data and avoiding obstacles. Thus developing efficient techniques for doing area coverage using UAVs are a need of the hour. \\ 
+A possible solution to the problem mentioned above as proposed in \cite{1} is, using multiple UAVs to do area coverage. It has the following advantages,
+\begin{itemize}
+\item reduction in the time required for each UAV to cover an area as now each UAV will have to cover a smaller area
+\item faster completion of task.
+\end{itemize}  
+In this work we propose alternate algorithms, which generate a smooth motion trajectory  like spirals, Lissajous Curves, hybrid approach.  We also use two UAVs for implementing our proposed methods, which will ensure reduced time requirement to achieve goal while not making the process of controlling the overall multi-UAV, system too complex.
+\subsection{Objective}
+The aim of this work is to propose alternate methods - spirals, Lissajous Curves, a hybrid approach- to the lawnmower approach \cite{1} and randomized approaches \cite{10} and experimentally determine whether the proposed methods are better or not. For implementing our proposed methods we will use Robot Operating System(ROS) \cite{19}. For simulating and visualizing our results we will use Gazebo \cite{20}
+\subsection{Structure}
+\begin{itemize}
+ \item Section 2 descibes the formulated problem and the task description.
+ \item Section 3 describes the state of the art work in the field of area coverage using single
+UAVs, multiple cooperative UAVs and their deployment using libraries and existing
+simulation platforms.
+ \item Section 4 describes the approach taken to solve the formulated problem.
+ \item Section 5 describes the experimental setup and the results of the experiment.
+ \item Section 6 describes a use case in which the algorithm was implemented and subsequent results visualized.
+ \end{itemize}
+
+
+
+
+
+

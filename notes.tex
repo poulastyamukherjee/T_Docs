@@ -1,0 +1,501 @@
+Notes:
+
+introduction:
+
+
+
+\section{Introduction} 
+\subsection{Overview of robot navigation system:}
+\begin{itemize}
+ \item ``{Navigation} is the science (or art) of directing the course of a mobile robot as it traverses the environment"  [].
+ \item In simple words, the problem of navigation is to find a path from the start position of a robot to a goal position whithout getting lost or colliding with other objects.
+ \item In order for a robot to navigate autonomously it should have capabilities to perform the following three tasks: Mapping, Localization
+and Motion(Path) planning [].
+  \begin{itemize}
+    \item \textit{Mapping} is the process of sensing and modelling information about the environment where the robot is expected to operate. 
+    \item It can be described by the question \textit{``What does the world look like?"} [].\\
+    \item \textit{Localization} is process of estimating the location of the robot relative to the map. 
+    \item That is, the robot has to answer the question \textit{``Where am I?"} [].\\
+    \item \textit{Path planning} or \textit{motion planning} task involves developing an efficient path which will guide a robot to a desired location or along a trajectory. 
+    \item As a simple question, this problem can be described as \textit{``How can I reach a given location?”} [].
+  \end{itemize}
+  \item A generalised and simplified version of a navigation system is depited in the figure below []:
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=8cm]{images/navigationarchitecture.png} 
+   \caption{Navigation Architecture}
+   \label{Figure: Robot navigation System. The three tasks the robot must accomplish (highlighted in cyan) are in between a high-level layer and a low-level layer.}
+\end{figure}
+
+
+ \item However, these three questions cannot be answered separately. 
+ \item In order to generate a map of the environment, the robot has to know its position to store the information perceived at right places in the map. In other words, the robot needs to generate a map of the unknown/ partially known 
+environment while simultaneously localizing its position in that partially build map. 
+ \item This problem of combining robot mapping and localization is referred to as Simultaneous Localization and Mapping (SLAM).\\
+\end{itemize} 
+
+\subsection{Backgound:}
+\begin{itemize}
+ \item Having an internal representation(map) of the environment is considered to be one of the most basic and improtant capability a robot should possess [].
+ \item This is relevent due to the fact that most of the tasks to be perforemd by a mobile robor need some type of knowledge about the environment [].
+ \item For example, for a robot to plan a path, it should have a proper information about its environment and about its current location.
+ \item As a result, there has been active research in this field since last two decades and several approahes have been proposed with respect to the problem of how to build, represent and maintain maps.
+ \item Majority of the work in this field has focussed on representing the spatial structure of the environment [].\\
+ \item most of these maps could be ategorised in two classes: Metric and Topological.\\
+ \item Metric maps represent geometric features of environment.\
+ \item Topological maps represent the environments as a set of significant places that are connected via arcs[]. These arcs are usually annonated with information whcih guides the robot to navigate from one place to another. 
+ \item These maps have been used successfully for a long time for the task of robot navigation (Localization, path planning).
+\end{itemize}
+
+\begin{itemize}
+ \item However, now-a-days, use of robots is moving from customised laboratories and factories to human made house and office environments.
+ \item These robots will be expected to assist humans. They will no longer be operated by trained personal but instead will b expected to interact with general public.
+ \item This will require robots to communicate with humans and perform a variety of tasks autonomously.
+ \item They need to understand the environment like a human does for which additional information along with metric and topological features of environment has to be added in the map For example it should share common concepts like kitchen, living room or corridor. Also it should know that the given area in the map is a kitchen or information like corridorsin public buildings are usually crowded during day time while empty during nights. For example,  
+ \item This additional information is referred to as semantic information in robot mapping community and the maps storing such information are called semantic maps, which integrate semantic information into traditional robot maps [2].
+ \item Semantic information will help to reason about functionalities of objects and environments and provide additionlai inputs to navigation system.
+ \end{itemize}
+
+
+
+
+\begin{itemize}
+ \item However, now-a-days, use of robots is moving from customised laboratories and factories to human made house and office environments.
+ \item These robots are expected to assist humans in their everyday tasks. 
+ \item They will no longer be operated by trainned personals but by a leman and hence they should be able to autonomously navigate and manipulate in such environents.
+ \item For this, they need to understand the environemnt like a human does and also share common knowledge with them.
+ 
+ \item Metric and topological maps are very limited in terms of describing the environment since they consider only the spatial properties of the environment, like the occupancy of the space or its connectivity.
+ \item They neglect a considerable amout of information available which could describe other aspects of the environment.
+ \item For example, a metric map can represent the shape of a room, but it does not indicate if the oom is an office, a living room or a kitchen. It does not even indicate that the given shape is a room [].
+ \item Hence, the robots should maintain not only metric and topological features but also additional information which would help then to understand the environment like a human does. 
+ \item This additional information is referred to as semantic information in robot mapping community and the maps storing such information are called semantic maps, which integrate semantic information into traditional robot maps [2].
+  \end{itemize}
+
+There are some situations where the robot needs to take some decisions at the run
+time for which it needs to have an ability to reason about the situation to find the
+missing answers. For reasoning it needs to have a knowledge base which will help
+to understand the problem well.
+
+
+
+
+
+\begin{itemize}
+ \item ``{Navigation} is the science (or art) of directing the course of a mobile robot as it traverses the environment"  [].
+ \item In simple words, the problem of navigation is to find a path from the start position of a robot to a goal position whithout getting lost or colliding with other objects.
+ \item In order for a robot to navigate autonomously it should have capabilities to perform the following three tasks: Mapping, Localization
+and Motion(Path) planning [].
+  \begin{itemize}
+    \item \textit{Mapping} is the process of sensing and modelling information about the environment where the robot is expected to operate. 
+    \item It can be described by the question \textit{``What does the world look like?"} [].\\
+    \item \textit{Localization} is process of estimating the location of the robot relative to the map. 
+    \item That is, the robot has to answer the question \textit{``Where am I?"} [].\\
+    \item \textit{Path planning} or \textit{motion planning} task involves developing an efficient path which will guide a robot to a desired location or along a trajectory. 
+    \item As a simple question, this problem can be described as \textit{``How can I reach a given location?”} [].
+  \end{itemize}
+  \item A generalised and simplified version of a navigation system is depited in the figure below []:
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=8cm]{images/navigationarchitecture.png} 
+   \caption{Navigation Architecture}
+   \label{Figure: Robot navigation System. The three tasks the robot must accomplish (highlighted in cyan) are in between a high-level layer and a low-level layer.}
+\end{figure}
+
+
+ \item However, these three questions cannot be answered separately. 
+ \item In order to generate a map of the environment, the robot has to know its position to store the information perceived at right places in the map. In other words, the robot needs to generate a map of the unknown/ partially known 
+environment while simultaneously localizing its position in that partially build map. 
+ \item This problem of combining robot mapping and localization is referred to as Simultaneous Localization and Mapping (SLAM).\\
+\end{itemize} 
+\begin{itemize} 
+ \item Having an internal representation(map) of the environment is considered to be one of the most basic and improtant capability a robot should possess [].
+ \item This is relevent due to the fact that most of the tasks to be perforemd by a mobile robor need some type of knowledge about the environment [].
+ \item For example, for a robot to plan a path, it should have a proper information about its environment and about its current location.
+ \item As a result, there has been active research in this field since last two decades and several approahes have been proposed with respect to the problem of how to build, represent and maintain maps.
+ \item Majority of the work in this field has focussed on representing the spatial structure of the environment [].\\
+ \item most of these maps could be ategorised in two classes: Metric and Topological.\\
+ \item Metric maps represent geometric features of environment.\
+ \item Topological maps represent the environments as a set of significant places that are connected via arcs[]. These arcs are usually annonated with information whcih guides the robot to navigate from one place to another. 
+ \item These maps have been used successfully for a long time for the task of robot navigation (Localization, path planning).
+ 
+ \item However, now-a-days, use of robots is moving from customised laboratories and factories to human made house and office environments.
+ \item These robots are expected to assist humans in their everyday tasks. 
+ \item They will no longer be operated by trainned personals but by a leman and hence they should be able to autonomously navigate and manipulate in such environents.
+ \item For this, they need to understand the environemnt like a human does and also share common knowledge with them.
+ 
+ \item Metric and topological maps are very limited in terms of describing the environment since they consider only the spatial properties of the environment, like the occupancy of the space or its connectivity.
+ \item They neglect a considerable amout of information available which could describe other aspects of the environment.
+ \item For example, a metric map can represent the shape of a room, but it does not indicate if the oom is an office, a living room or a kitchen. It does not even indicate that the given shape is a room [].
+ \item Hence, the robots should maintain not only metric and topological features but also additional information which would help then to understand the environment like a human does. 
+ \item This additional information is referred to as semantic information in robot mapping community and the maps storing such information are called semantic maps, which integrate semantic information into traditional robot maps [2].
+ 
+ 
+ 
+ In this work, we try to use this semantic infrmation to improve navigation capability of a robot.
+ For a long time metric an dtopological maps have been use dfor navigation.
+ But present navigation poposes some challanges like:
+ 
+ 
+ We believe adding semantic information about the eb=nvironment along with metric and topological information will help improving the navigation by dealing with these problems.
+ 
+ 
+ \item recently, there has been a lot of development in semantic mapping and many approaches have been proposed like in [].
+ \item Most of these approaches focus on adding semantics in the map so that it will be usefull for a task planner. 
+ \item It is being assumed that metric and topological maps are sufficient for navigation purpose.
+\item However present navigation system imposes some issues. 
+ |item We believe using semantic information for navigation(along with task planning)  
+ \item In this work, we try to use semantic maps along with metic and topological maps to impove robot navigation. 
+ \item We believe semantic information may help a robot navigation system in the following ways []:
+  \begin{itemize}
+    \item Autonomy: navigate with no human intervention
+    \item Robustness: It will help a robot to deal with unexpected/unwanted situations.
+    \item Efficiency: Navigate in large domains 
+  \end{itemize}
+  
+	
+
+
+
+
+ \item Out of these, mapping could be treated as a very important capability a robot should have.
+ \item The relevence for its importance is due to the fact that for a robot to plan a path, it should have a proper information about its environment and about its current location.
+ \item There has been huge research in the field of robot mapping  with respect to the building, representing and maintaining maps.  
+ \item However, majority of the approaches proposed have aimed at solving the problem of navigation.
+ \item Robot mapping has beeen categoried into two classes: Metric and topological maps. 
+\end{itemize}
+\newpage
+
+{Navigation} is the science (or art) of directing the course of a mobile robot as it traverses the environment  [].
+
+\begin{itemize}
+  \item Navigation:
+    \begin{itemize}
+      \item Mapping
+      \item Localization
+      \item Motion or Path planning
+    \end{itemize}
+
+  \item Robot mapping:
+    \begin{itemize}
+      \item metric
+      \item topological
+      \item Limitations
+    \end{itemize}
+ 
+  \item Semantic mapping:
+    \begin{itemize}
+      \item Need for adding additional information in robot maps.
+      \item What is semantics (w.r.t mapping)
+      \item Benefits of adding semantic information
+    \end{itemize}
+
+  \item Overview of this projcet work:
+    \begin{itemize}
+      \item Navigation planning system
+      \begin{itemize}
+	\item Combining task and motion planning
+	\item Improving navigation by adding meaning 
+      \end{itemize}
+      \item Semantic map useful for task, navigation and motion planning:
+      \begin{itemize}
+	\item Hierarchical representation with metric, topological and semantic features.
+      \end{itemize} 
+    \end{itemize}
+    
+\end{itemize}
+
+
+
+
+In this work, we propose an approach to represent semantic along with metric and topological information for the task of navigation.
+This information will be used by a navigation planning system 
+  
+
+
+  
+  
+  test scenarios
+  
+  
+
+
+
+This scenario will test the navigation system in the following aspects:
+lagre envvironments.
+Cluttered environment.
+Libraries are open usually for specific time periods
+Navigating 
+
+IN this secnario the robot will first have to navigate to the university library 
+
+In this scenario the robot is supposed to search for a specific book in the university
+and deliver it. The robot tries to retrieve the instance of the book in University
+library first. However, if it does not find the book instance in the library, it tries
+to search the book in other potential locations, for example, professors’ offices or
+university labs. For this work, we would be creating a semantic environment map
+of HBRS University Building at Sankt-Augustin campus.
+
+
+
+Both these scenairos pose diffeerent channenges for the navigation system like for example:
+For library environment the navigation system has to deal with large and clttered environment.
+Navigating through doorsways.
+These environments could have manual, semi-automatic or automatic doors.
+
+
+
+2.2
+Scenario 2: Home Assistant Robot
+Figure below shows an example home arrangement.
+We will use thies environment set up to explaing our approach in teh upcoming sections
+The robot is expected to search for a cup in the kitchen environment and bring it
+back to the starting position. Similar to the previous scenario, the robot tries to
+retrieve a set of known instances of cup. If the robot does not find any instance
+in the environment map it relies on common sense knowledge. For example, cups
+are usually kept in cupboards of a kitchen and occasionally in a dishwasher or on a
+dining table and so on. For this scenario we wish to use the Home environment set
+at .
+
+
+
+
+USE OF SEMANTICS:
+
+
+
+ 
+ The word semantics has a wide meaning in terms of robot maps, and people have
+used different kind of semantic information for different purposes in robotics do-
+main. As a result, there exists a wide range of literature for the same. This section
+mentions about the approaches relevent to the scope of this project.
+
+
+
+\begin{itemize}[noitemsep,nolistsep]
+ \item The dictionery meaning of the word semantics is the \textit{``study or science of meaning}" [].
+ \item With respect to robot mapping semantics is adding meaning to the data.
+ \item This data is nothing but the information gathered by robot sensory sysetm to represent the environment.
+ \item Again the word meaning can have sevel interpretations.
+ \item For mapping semantic information can be referred as adding meaning to the data collected by the sensory systme 
+ \item Adding such meaning to the data would help the robot to learn and understand the environment like a human does.
+ \item Semantic informtaion is used in various areas of robots now.
+ \item Examples of semantic information in maps which could be usefull for planning(task and navigation) are mentioned below:
+ 
+
+
+ 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+SATAT OF ART:
+
+Robot mapping has been an active area of research in robotics since last two decades with respect to follwoing aspects:
+Lot of work has been one relate to  building, representing and maining these maps.
+Several approaches have been eveloped for building, representing and maining these maps.
+Lot of work is done to each aspect  and a huge amount of lterature exists for the same.
+however, thsi work is concerne with the representation part of the map assuming that the robots are capababble of building an maintaing tehmaps.
+ 
+In this work we are concerned with the representation part of maps.
+
+
+
+One of the intent of this work is to cover the literature of representation  and use of environment.
+
+
+\begin{itemize}
+ \item The field of robot mapping has been an active research area with a focus on building, representing and maining these maps.
+ \item Lot of work has been done on each of these aspects and a huge amount of lterature exists proposing various approaches developed. 
+ \item However, the focus of this work is on representation of the various types information about the environment and exploiting the same for robot navigation.
+\end{itemize}
+
+\begin{itemize}
+ \item For a long time, mapping has focussed on representating the spatial properties of the environment considering the task of robot navigation \cite{2, }
+ \item The field is traditionally divide into two categories \cite{2, }:
+ \item Metric
+ \item Topological
+ \item Metric maps are concerned with the geometric properties of the environment.
+ \item Topological maps represent the relations and connectivity between places in the environment.
+ \item One of the implementation of the metric mapping approach is mentioned in \cite{12} which uses occupancy grid mapping algorithm.
+ \item Here, basically the region map is sectioned into fine-grained grids that model the occupied and free space of the environment..
+ \item Each grid is assigned a confidence value that indicates the presence or abscence of an obstacle at that grid. 
+ \item Further work on mapping has focussed on probabilistic techniques as well.
+ \item In [] a framework was presented to solve the mapping problem simultaneously with localization problem which is locating robot relative to the map being created.
+ \item This is often referred to as simultaneous mapping and localization(SLAM) or concurrent mapping and localization(CML) and robot mapping is now often referred to with these appreviations.  
+ 
+ 
+ \item Topological approaches provie graph like representation of the environment.
+ \item Nodes of tye graph represent significant places and egdes indicate the connections between these places.
+\end{itemize}
+
+As the field of robotics was evolving and the need for autonomous robots was felt, it was also realise that in the persuit of making 
+a robot autonomous one of the key factors is its ability to create a map of its environment by own.
+
+This led to development of the problem of SLAM.
+Formal definition:
+
+
+Hybrid approaches to combine their strengths and avoids their weaknesses have been proposed in [].
+These approaches build topological representation over the grid maps.
+
+
+\textbf{Semantic mapping for task planning:}
+\begin{itemize}
+ \item Robot Task Planning using Semantic Maps
+ \item Multi-Hierarchical semantic Maps for Mobile Robotics
+ \item Using Semantic Information for Improving Efficiency of Robot Task Planning
+ \item \textbf{Semantic Object map:}
+  \begin{itemize}
+    \item Object Semantic Map Representation for Indoor Mobile Robots
+    \item Semantic Object Maps for Robotic Housework - Representation, Acquisition and Use
+  \end{itemize}
+\end{itemize}
+
+\textbf{Semantic mapping for navigation:}
+\begin{itemize} 
+ \item From Labels to Semantics: An Integrated System for Conceptual Spatial Representations of Indoor Environments for Mobile Robots
+ \item An Integrated Robotic System for Spatial Understanding and Situated Interaction in Indoor Environments.
+\end{itemize} 
+\textbf{Semantic SLAM:} 
+\begin{itemize}
+ \item A Region-based SLAM Algorithm Capturing Metric, Topological, and Semantic Properties
+\end{itemize}
+\textbf{Knowledge Representation:} 
+\begin{itemize}
+ \item KNOWROB
+\end{itemize}
+\textbf{Navigation planning:} 
+\begin{itemize}
+ \item From Structure to Actions: Semantics Navigation Planning in Office Environments
+\end{itemize}
+
+
+
+\subsection{Classical approaches}
+\subsubsection{metric:}
+    Occupancy
+    Probablistic
+\subsubsection{Topological:}
+\subsubsection{Hybrid:}  
+\subsection{Need for semantics}
+
+
+
+
+SCENARIO:
+
+\begin{itemize}[noitemsep,nolistsep]
+ \item To check the utility and generality of the proposed approach we would consider following two scenarios which proposes different challenges to the navigation system of the robot.
+ \item Used cases:
+ \item Case 1: Library Assistant Robot:\\
+ \textbf{\textit{User story}} The library assistant robot is a robot which will fetch a book from the library as requested by the user and hands it over to the user.
+ The user can be in any part of the university building.
+ \item For this work, we would be considering an environment map of HBRS University Building at Sankt-Augustin campus.\\
+
+ \item Case 2: Home Assistant Robot\\
+ \textbf{\textit{User story}} A home assistant robot is expected to help humans in their every day tasks like for example:
+ \begin{itemize}[noitemsep,nolistsep]
+   \item Bringing a cup of coffee from kitchen
+   \item Baking a pan cake
+   \item Cleaning up the dinner table 
+   \item Helping elderly persons to navigate around and so on.
+ \end{itemize}   
+\end{itemize}
+
+
+APPROACH
+monitor unit
+
+To understand the functioning of this component in detail we explain it with our example. The Tolerance limits for ``doorway-1" and ``kitchen-1" are , say, \textit{soft}.  
+The \textit{Monitor unit} would first query the motion planner about its status (busy/free). If the motion planner is free, Monitor unit will request the Schedular for the first subgoal (with constraints) which is $g_{1}$(that is ``go to doorway-1").
+This subgoal it will feed to the motion planner which will start executing the same. For now we consider only three constraints {velocity, acceleration, tolerance}.
+To satisfy the velocity and acceleration constraints the Monitor unit will set the corresponding parameter values.
+For instance, if the velocity constraint is, say $2.0 m/s$, then the Monitor unit will set a value of $2.0 m/s$ for the \textit{velocity} parameter which is concerned with controlling the translactional robot velocity.  
+
+
+BACKGROUND:
+
+\subsection{Navigation for autonomous robots:}
+\begin{itemize}
+ \item ``{Navigation} is the science (or art) of directing the course of a mobile robot as it traverses the environment"  [].
+ \item In simple words, the problem of navigation is to find a path from the start position of a robot to a goal position whithout 
+ getting lost or colliding with other objects.
+ \item A robot should have the following three capabilities to navigate:
+ \begin{itemize}
+  \item Mapping
+  \item Localization
+  \item Motion planning
+ \end{itemize}
+\end{itemize}
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=8cm]{images/navigationarchitecture.png} 
+   \caption{Navigation Architecture}
+   \label{Figure: Robot navigation System. The three tasks the robot must accomplish (highlighted in cyan) are in between a high-level layer and a low-level layer.}
+\end{figure}
+
+\subsubsection{The problem of Mapping:}
+\begin{itemize}
+ \item \textit{Mapping} is the process of sensing and modelling information about the environment where the robot is expected to operate. 
+ \item It can be described by the question \textit{``What does the world look like?"} [].\\
+\end{itemize}
+
+\subsubsection{The problem of Localization:}
+\begin{itemize}
+ \item \textit{Localization} is process of estimating the location of the robot relative to the map. 
+ \item That is, the robot has to answer the question \textit{``Where am I?"} [].\\
+\end{itemize}
+
+\subsubsection{The problem of Motion Planning:}
+\begin{itemize}
+ \item The motion planning problem involves developing a motion(path/trajectory) from a starting position to a goal position and guide the robot safely avoiding any obstacles along this trajectory.
+ \item As a simple question, this problem can be described as \textit{``How can I reach a given location?”} 
+\end{itemize}
+
+\subsubsection{The problem of SLAM:}
+\begin{itemize}    
+ \item The above three questions cannot be answered separately. 
+ \item In order to generate a map of the environment, the robot has to know its position to store the information perceived at right places in the map. In other words, the robot needs to generate a map of the unknown/ partially known 
+environment while simultaneously localizing its position in that partially build map. 
+ \item This problem of combining robot mapping and localization is referred to as Simultaneous Localization and Mapping (SLAM).
+\end{itemize}
+
+\subsection{Task planning for autonomous robots:}
+\begin{itemize}
+ \item Task planning is concerned with planning a sequence of high-level actions that would allow the robot to accomplish the given task[].
+ \item For example, given a task of \textit{fetch a milk box}, a task planner would generate the following sequence of actions:
+ \textit{Go to kitchen, dock to the fridge, open the firdge door, perceive the milk box, grasp the milk box, close the fridge door.}
+\end{itemize}
+
+
+\section{Importance of mapping for mobile robots:}
+\begin{itemize}
+ \item Having an internal representation(map) of the environment is considered to be one of the most basic and important capability a mobile robot should possess [].
+ \item This is relevent due to the fact that most of the tasks to be perforemd by a mobile robor need some type of knowledge about the environment [].
+ \item For example, for a motion planner to \textit{plan a path} or for a task planner to plan  the task of \textit{fetching a milk box}, it should have a proper information about its environment and about its current location.
+ \item As a result, there has been active research in this field since last two decades and several approahes have been proposed with respect to the problem of how to build, represent and maintain maps.
+ \item Majority of the work in this field has focussed on representing the spatial structure of the environment [].
+ \item Most of these approaches could be categorised in two classes: Metric and Topological.
+ \item Metric maps represent geometric features of environment.\
+ \item Topological maps represent the environments as a set of significant places that are connected via arcs[]. These arcs are usually annonated with information whcih guides the robot to navigate from one place to another. 
+\end{itemize}
+  
+  
+  
+  
+REFERENCES:
+
+@INPROCEEDINGS{20,
+  author = {},
+  title = {ROS Navigation Stack},
+  year = {},
+  url = {http://wiki.ros.org/navigation/Tutorials/RobotSetup},
+  urldate = {2013-10-22}
+}

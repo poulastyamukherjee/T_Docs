@@ -1,0 +1,30 @@
+\begin{abstract}
+Motion planing for service robots faces several challenges while operating in human made environments which are large, dynamic and cluttered.
+One of the reasons for this is that planners usually rely only on spatial information.
+However, having deeper knowledge about these environments is necessary.
+In this work, we explore the advantage of using semantic information for motion planning with a focus on path planning for navigation.\\
+We propose the concept of an architecture which consists of a representation method combining semantic information with metric and topological features.
+This architecture utilizes semantic information for path planning. More specifically, our architecture first constructs a generalized version of a path plan at semantic level and then utilizes this to generate a more specific plan at geometric level.
+Planning at a semantic level would help to discard irrelevant information, improve planning efficiency in large domain, and deal with unexpected situations by adding flexibility and robustness in execution of plans. It would also facilitate better human-robot communication with respect to navigation.\\
+
+We present a case study to show the effectiveness of our architecture for a service robot navigating in a home environment. 
+\iffalse
+Most of the present navigation systems for mobile robots rely on spatial representations like metric and topological.
+along with naive semantic knowledge which includes assigning labels to places and objects for human-robot communication.
+However, these navigation systems where implemented on robots which where under research in laboratories or were navigating in factories.
+In bothe the situations the environments where modified according to the robot and where operated by skilled persons.
+This situation is now changing, and robotics community is now more interested in building robots which can navigate around in human made environments 
+like homes, offices and universities.
+Thes environments would be large, dynamic and cluttered.
+Also these robots will have to interact with people having no professional training or knowledge in operating robots.
+Hence, these robots would need high degree of intelligence and autonomy. For this they should have deeper knowledge about these environments and they cannot rely only on metric and/or topological and/or symbolic(labels) knowledge.
+
+Several work has been done in this direction and approaches have been proposed which include more qualitative knowledge about th environment along with metric and topological.
+However, the focus is more on the task planning aspect and navigation is performed on geometric level.Planning navigation at a geometric level poses various issuses. Robustness and flexibility are the open issues encountered in present navigation systems.\\
+
+In this work we propose an environment model consisting of metric, topological and semantic information. This model will be used by a Semantic Navigation planner which as the name suggest would perofrm navigation planning at a symbolic level.
+We use the concept of semantic positions here which we belive would add flexibility and robustness in navigation in complex and large environments.\\
+
+To check the utility of our proposed system we consider two different environment setups: a home environment and a university environment. 
+\fi
+\end{abstract}

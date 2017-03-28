@@ -1,0 +1,72 @@
+% document definition 
+\documentclass[a4paper,12pt]{article} 
+
+% create the following file in the input from the template
+\input{PaperInformation}
+\input{Preamble}
+\input{Macro}
+\usepackage{caption}
+\usepackage{footmisc}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{anysize}
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc}
+%\marginsize{2cm}{2cm}{0.5cm}{1cm}
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\usepackage[parfill]{parskip}
+
+\begin{document}
+\singlespacing
+% create title template 
+\input{Title}
+\onehalfspacing
+\newpage
+% crate abstract template 
+\input{abstract}
+%\newpage
+% document content begin here
+%\input{background}
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+%\input{contents}
+%\newpage
+\input{introduction}
+\newpage
+\input{background}
+\newpage
+\input{StateOfArt}
+\newpage
+
+\input{ProblemFormulation}
+\newpage
+\input{ScenarioAnalysis}
+%\newpage
+%\input{useofsemantics}
+\newpage
+\input{Approach}
+\newpage
+\input{Summery}
+\newpage
+\input{FutureWork}
+\newpage
+
+% create bibtex document
+\input{BibSetting}
+
+\end{document}
+
+
