@@ -144,6 +144,12 @@ while the constraint equation is given as follows \eqref{eq10}
 C(q) = \begin{bmatrix} (x_{A} - x_{B})^{2} + (y_{A} - y_{B})^{2} - {c_{AB}}^2\\ (x_{B} - x_{C})^{2} + (y_{B} - y_{C})^{2} - {c_{BC}}^2\\ (x_{C} - x_{A})^{2} + (y_{C} - y_{A})^{2} - {c_{CA}}^2 \end{bmatrix} = \begin{bmatrix} 0\\ 0\\ 0 \end{bmatrix}
 \end{equation}
 The authors then tested this model with independent parameterization and concluded that the projection based approach is robust but computationally expensive and which increases with each additional step. 
+In \cite{13}(Kinematic and dynamic analysis of 3 dof..) the authors describe a decentralized multi robot planning approach for general industrial tasks like welding, milling etc. with a 6 dof manipulator and a 3 dof rotary table. The dynamic equation is illustrated in \eqref{eq11}
+\begin{equation}
+\label{eq11}
+M_{OK} = P_{i}(H_{OK}),H_{OK} = J_{OK}\omega_{i - OK}
+\end{equation}
+\eqref{eq11} is applied to every point, where each point shown with k symbol has $M_{OK}$ is the external torque, $H_{OK}$ is the rotational momentum and $J_{OK}$ is the moment of inertia for point k and $\omega_{i - OK}$ is the rotational velocity. 
  
 \subsubsection{Master Slave Configuration}
 One of the major approaches for multi robot planning has been proposed in \cite{7}(kinematic cooperated welding trajectory planning) is master/slave cooperative planning. In this approach an initial kinematic relationship between the frames of the welding seam and the tool tip of the welding robots are established. One of the robots is considered as the master robot and its kinematic chain is defined from the base to its tool tip and for the slave robots the kinematic chain is defined from master robot base to slave robot base to slave robot tool and finally to master robot tool tip. The scheme is illustrated in illustration \ref{fig:img5}.
@@ -155,17 +161,17 @@ One of the major approaches for multi robot planning has been proposed in \cite{
 \label{fig:img5}
 \end{figure}
 Master slave configuration can be further divided into tightly coupled master/slave mode and loosely coupled master slave/mode. In tightly coupled master slave mode the master and slave robot assignments are fixed and in lightly coupled system the master slave assignments can be changed. 
-The equation for a general master slave configuration is described in \eqref{eq7}, \eqref{eq8} describes a tightly couple master slave configuration and \eqref{eq9} describes the loosely coupled, time based master/slave configuration.
+The equation for a general master slave configuration is described in \eqref{eq12}, \eqref{eq13} describes a tightly couple master slave configuration and \eqref{eq14} describes the loosely coupled, time based master/slave configuration.
 \begin{equation}
-\label{eq7}
+\label{eq12}
 ^{m}U_{m,tcp} = {^{m}U_{s}} \cdot ^{s}U_{s,tcp}\cdot^{s,tcp}U_{m,tcp}
 \end{equation}
 \begin{equation}
-\label{eq8}
+\label{eq13}
 ^{s}U_{s,tcp}(t) = {^{m}U_{s}}^{-1} \cdot ^{m}U_{m,tcp}(t)\cdot^{m,tcp}U_{s,tcp}
 \end{equation}
 \begin{equation}
-\label{eq9}
+\label{eq14}
 ^{s}U_{s,tcp}(t) = {^{m}U_{s}}^{-1} \cdot ^{m}U_{m,tcp}(t)\cdot^{m,tcp}U_{s,tcp}(t)
 \end{equation}
 The authors in \cite{7} then go onto describe three independent scenarios in which master/slave cooperative welding is applied. They are
@@ -185,14 +191,14 @@ The authors first establish a linked coordinate system for the two robots and th
    {Two Robot Coordinate System \footnotemark[\value{footnote}]}  
 \label{fig:img4}
 \end{figure}
-In non master/slave mode the pose of an object is set based on time. The mathematical description of the seams to be welded are specified based on which the transformations from robot 1 to work piece edge ${R1}^T_{E1} $ are calculated and similarly for robot 2 and work piece ${R2}^T_{E1}$. The seam to be welded is also described mathematically in this approach similar to \cite{7}. The kinematic scheme of the two robots and the work piece is illustrated with the following equation \eqref{eq9}.
+In non master/slave mode the pose of an object is set based on time. The mathematical description of the seams to be welded are specified based on which the transformations from robot 1 to work piece edge ${R1}^T_{E1} $ are calculated and similarly for robot 2 and work piece ${R2}^T_{E1}$. The seam to be welded is also described mathematically in this approach similar to \cite{7}. The kinematic scheme of the two robots and the work piece is illustrated with the following equation \eqref{eq15}.
 
 \begin{equation}
-\label{eq10}
+\label{eq15}
 {_{E_{1}}^{R_{1}}\textrm{T}} *{_{T_{1}}^{E_{1}}\textrm{T}} *{_{u}^{T_{1}}\textrm{T}} = {_{R_{2}}^{R_{1}}\textrm{T}} *{_{E_{2}}^{R_{2}}\textrm{T}}*{_{T_{2}}^{E_{2}}\textrm{T}} *{_{u}^{T_{2}}\textrm{T}} = _{u}T
 \end{equation}
 
-In \eqref{eq10} ${_{E_{i}}^{R_{i}}\textrm{T}} $ indicates the transformation matrix of end effector of robot i with respect to base of robot i. \\
+In \eqref{eq15} ${_{E_{i}}^{R_{i}}\textrm{T}} $ indicates the transformation matrix of end effector of robot i with respect to base of robot i. \\
 the term ${_{T_{i}}^{E_{i}}\textrm{T}} $ indicates the transformation matrix of tool tip of robot i with respect to end effector i. \\ 
 the term ${_{R_{2}}^{R_{1}}\textrm{T}} $ indicates the transformation matrix of robot 2 with respect to robot 1. \\ 
 the term ${_{u}^{T_{i}}\textrm{T}} $ indicates the transformation matrix of work piece edge u with respect to tool tip i.\\
@@ -200,7 +206,7 @@ The authors conclude in the results section that using this approach will give t
 
 
 \subsection{Welding as an Optimization Problem}
-Current industrial are mostly pre-programmed and used to perform repetitive tasks. Hence they are unsuitable to be used in small and medium enterprises, where the welding tasks are flexible as the work piece itself may vary from task to task. It goes without saying that the welding process not only needs to be flexible but also needs to adapt based on the shape of the work piece to be welded. Furthermore it needs to finish the welding task in minimum time while consuming minimum resources (power, weld material) as well as ensuring optimal weld quality. Two major approaches usually taken in this regard are 
+Current industrial are mostly pre-programmed and used to perform repetitive tasks. Hence they are unsuitable to be used in small and medium enterprises, where the welding tasks are flexible as the work piece itself may vary from task to task. It goes without saying that the welding process not only needs to be flexible but also needs to adapt based on the shape of the work piece to be welded. Furthermore it needs to finish the welding task in minimum time while consuming minimum resources (power, weld material) as well as ensuring optimal weld quality. This suggests that welding can be treated as an optimization problem with time to weld and motion cost as the cost functions; which are to be minimized. Two major approaches usually taken in this regard are 
 \begin{enumerate}
 \item Specify the optimization criteria as extra constraints and generate path plans subject to these additional constraints
 \item Adding certain heuristics to existing planning algorithms to generate more optimized plans.
@@ -233,12 +239,12 @@ The product and resource position describe the positioning of the robots, work p
 \subsubsection{Parameter Optimization of Motion Planning Algorithms}
 In this section we will delve into work that focuses on optimizing the actual planner in order to generate optimal paths. In \cite{11}(HGRRT*) the authors propose an optimization based on user given input. The state cost definition is based on potential field framework. The planning algorithm minimizes motion cost by taking path segments with minimum cost while also optimizing the time required to generate the plan. In this approach the authors use a potential field function to guide the sampler of the RRT* algorithm to sample in used desired spaces. The state cost function is calculated using the following equation \eqref{11}
 \begin{equation}
-\label{11}
+\label{16}
 c(s) = \sum_{i} max(-\lambda_{i},0 ) + \lambda_{i}e^{\alpha_{i}d_{i}(s)^2} \epsilon (0,\sum_{i}|\lambda_{i}|]
 \end{equation}
-with $\lambda_{i} \epsilon \Re$ and $d_{i}(s)$ is the distance between work space and robot's reference point. The motion cost for the entire planned path is calculated based on the sequence of states with state costs with the following equation \eqref{12}
+with $\lambda_{i} \epsilon \Re$ and $d_{i}(s)$ is the distance between work space and robot's reference point. The motion cost for the entire planned path is calculated based on the sequence of states with state costs with the following equation \eqref{16}
 \begin{equation}
-\label{12}
+\label{17}
 c(P) = \sum_{i=1}^{n-1}c(s_{i},s_{i+1})
 \end{equation}
 The proposed algorithm is illustrated as follows
