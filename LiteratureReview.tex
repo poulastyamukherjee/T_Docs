@@ -66,11 +66,14 @@ After finding the optimal joint velocities, the joint angles are checked whether
 \subsubsection{Motion Planning for manipulator and rotary table systems}
 A key requirement for producing highest quality weld is the \textbf{downhand} welding position, in which the tangent line to the weld is horizontal and the normal vector to the weld is vertical \cite{5}(Manufacturing Process Planning for Robotic Arc-Welding Station). Due to this fixed criteria, planned paths for welding often end up having singular points in them, or they encounter collision objects which are difficult to avoid without violating the \textbf{downhand} welding position. One of the approaches taken in this regard is to include a till-roll workpiece manipulator or rotary table. In this paper \cite{5} the authors propose a cluster level operation planning with the optimization objective being - minimization of manufacturing time. \\
 The authors divide the welding task into several clusters using a technique called weld seam clustering which arranges the welds into groups that do not require altering positioner configuration. The idea is to find the most optimum path through these clusters. The authors use a generalized TSP (GTSP) algorithm with GI3 heuristics which incorporates the following 3 phases (i) Generalized Initialization, (ii) Generalized Insertion , and (iii) Generalized Improvement. The above mentioned method was able to generate valid optimized solutions for 70-80$\%$ cases with a maximum optimization of 2.6$\%$. A possible reason for this method not generating valid solutions 100$\%$ of the time is due to the fact that, generated solutions are not subjected to kinematic constraints and only to the abstract space constraints like collision avoidance and seam selection checking.
+In \cite{13}(Kinematic and dynamic analysis of 3 dof..) the authors describe a decentralized multi robot planning approach for general industrial tasks like welding, milling etc. with a 6 dof manipulator and a 3 dof rotary table. The dynamic equation is illustrated in \eqref{eq11}
+\begin{equation}
+\label{eq11}
+M_{OK} = P_{i}(H_{OK}),H_{OK} = J_{OK}\omega_{i - OK}
+\end{equation}
+\eqref{eq11} is applied to every point, where each point shown with k symbol has $M_{OK}$ is the external torque, $H_{OK}$ is the rotational momentum and $J_{OK}$ is the moment of inertia for point k and $\omega_{i - OK}$ is the rotational velocity. 
 
-
-
-
-
+\newpage
 \subsection{Robotic Welding Processes}
 In a recent study conducted by the American Welding Association revealed that the current demand for manufacturing welded goods are from small or medium batch manufacturing. In these settings robotic welding provides the most cost effective solution compared to human welders or hard automated setups. In this section we will discuss the various welding methodologies that are compatible with robotic welding and describe them briefly.\\
 In \cite{6}(Welding Robots: Technology, System Issues and Application, Pires, J.N. and Loureiro,
@@ -117,6 +120,7 @@ Electrode Vertex angle & \begin{tabular}[c]{@{}c@{}}Usually kept at 45$\deg$ to 
 \end{tabular}
 \end{table}
 
+\newpage
 \subsection{Multi Robot Approaches for Welding}
 
 One of the major drawbacks of robotic welding is the inability of the welding robot to manipulate the object. While for simple tasks, this does not pose a challenge, however for welding complex work pieces or for avoiding collision in the welding path, it becomes necessary to manipulate the object as well. In this section we will illustrate some of the well known and used approaches for multi robot welding. 
@@ -144,12 +148,7 @@ while the constraint equation is given as follows \eqref{eq10}
 C(q) = \begin{bmatrix} (x_{A} - x_{B})^{2} + (y_{A} - y_{B})^{2} - {c_{AB}}^2\\ (x_{B} - x_{C})^{2} + (y_{B} - y_{C})^{2} - {c_{BC}}^2\\ (x_{C} - x_{A})^{2} + (y_{C} - y_{A})^{2} - {c_{CA}}^2 \end{bmatrix} = \begin{bmatrix} 0\\ 0\\ 0 \end{bmatrix}
 \end{equation}
 The authors then tested this model with independent parameterization and concluded that the projection based approach is robust but computationally expensive and which increases with each additional step. 
-In \cite{13}(Kinematic and dynamic analysis of 3 dof..) the authors describe a decentralized multi robot planning approach for general industrial tasks like welding, milling etc. with a 6 dof manipulator and a 3 dof rotary table. The dynamic equation is illustrated in \eqref{eq11}
-\begin{equation}
-\label{eq11}
-M_{OK} = P_{i}(H_{OK}),H_{OK} = J_{OK}\omega_{i - OK}
-\end{equation}
-\eqref{eq11} is applied to every point, where each point shown with k symbol has $M_{OK}$ is the external torque, $H_{OK}$ is the rotational momentum and $J_{OK}$ is the moment of inertia for point k and $\omega_{i - OK}$ is the rotational velocity. 
+
  
 \subsubsection{Master Slave Configuration}
 One of the major approaches for multi robot planning has been proposed in \cite{7}(kinematic cooperated welding trajectory planning) is master/slave cooperative planning. In this approach an initial kinematic relationship between the frames of the welding seam and the tool tip of the welding robots are established. One of the robots is considered as the master robot and its kinematic chain is defined from the base to its tool tip and for the slave robots the kinematic chain is defined from master robot base to slave robot base to slave robot tool and finally to master robot tool tip. The scheme is illustrated in illustration \ref{fig:img5}.
@@ -204,7 +203,7 @@ the term ${_{R_{2}}^{R_{1}}\textrm{T}} $ indicates the transformation matrix of 
 the term ${_{u}^{T_{i}}\textrm{T}} $ indicates the transformation matrix of work piece edge u with respect to tool tip i.\\
 The authors conclude in the results section that using this approach will give the user greater capabilities to weld complex edges as the two 6 dof manipulators are more than enough to address collision avoidance and reachability issues. However a drawback of this method to be kept in mind is that for each edge to be welded, (no matter how complex it is geometrically) accurate mathematical description needs to be formulated. This greatly reduces flexibility for welding new edges. 
 
-
+\newpage
 \subsection{Welding as an Optimization Problem}
 Current industrial are mostly pre-programmed and used to perform repetitive tasks. Hence they are unsuitable to be used in small and medium enterprises, where the welding tasks are flexible as the work piece itself may vary from task to task. It goes without saying that the welding process not only needs to be flexible but also needs to adapt based on the shape of the work piece to be welded. Furthermore it needs to finish the welding task in minimum time while consuming minimum resources (power, weld material) as well as ensuring optimal weld quality. This suggests that welding can be treated as an optimization problem with time to weld and motion cost as the cost functions; which are to be minimized. Two major approaches usually taken in this regard are 
 \begin{enumerate}
@@ -258,7 +257,53 @@ The proposed algorithm is illustrated as follows
 \item EdgeCost(q1, q2): Returns the cost between state q1 and q2
 \end{itemize}
 The authors conducted experiments and compared the results with TRRT algorithm. From the results it was concluded that the TRRT takes lesser time to find the solution path, however HGRRT* found shorter and more cost efficient paths. 
+\newpage
 \subsection{Robotic Welding Architecture and Planning in Abstract Space}
+One of the major hindrance of using welding robots in industries is in the high cost associated with generation of new programs for welding robots\cite{14}(automatic program generation for welding robots..). A human user not only needs to have considerable knowledge of programming to be able to do this, it also requires a considerable time to reprogram a robot. A probable solution is to generate the robot programs offline and simulate the outcome before running the program on the robot. This ensures two things: (i) rectify any anomaly in the generated program contradictory to the desired outcome and (ii) optimize the program to ensure better performance of the robot, be it completing the welding task in lesser time or generating a more robust weld surface. In this section we  will discuss the various methodologies and platforms that exists for programming and simulating welding robots offline. 
+\subsubsection{Program generation for Welding Robots and Simulation of Generated Plans}
+In \cite{14} the authors divide the welding robot offline planning problem in two parts
+\begin{enumerate}
+\item Generating optimized plans for the tool tip within welding constraints. The authors define this as Task space or T-space motion planning.
+\item Generating plans between robot home position and start and goal positions of the welding task. This is termed as configuration space planning problem.
+\end{enumerate}
+The general scheme of operation of the offline program generation is illustrated in the following diagram.
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=9cm]{images/cadgen_model.png}
+   \caption[Offline Weld Program Generation]
+   {Offline Weld Program Generation \footnotemark[\value{footnote}]}  
+\label{fig:img7}
+\end{figure}
+\newpage
+The actual offline program is generated by the following steps
+\begin{enumerate}
+\item forward and inverse kinematic calculations
+\item representing robots, work pieces and weld cell geometrically
+\item manipulation and program generation
+\item collision detection
+\end{enumerate}
+Tool Path Planning: The tool path planning space is defined with the following parameter
+\begin{itemize}
+\item t: the position along weld $t \epsilon [0,1]$
+\item $\Re_{x,y,z} $ rotation around the X,Y,Z axes of tool tip
+\item cfg: the robot kinematics is represented by $cfg \epsilon {1,2,...8}$
+\item rail: position of the robot with respect to linear axis 
+\end{itemize}
+Motion Planning: The authors use Probabilistic Road Map(PRM) motion planner to generate plans to move the robot from home position and goal positions of the welds. Since the welds are simple paths the authors modified the sampling algorithm of the PRM planner to sample along a guided path without fully populating the tree so that the planner becomes faster. The sampling strategy is described in the following steps.
+\begin{enumerate}
+\item A Gaussian sampling strategy is used where two samples are generated close to the obstacle. If one sample is a collision free sample then it is added to the road-map. This results in sampling is performed close to the obstacles.
+\item A number of points were generated close to the start and goal states to ensure they get connected to the roadmap.
+\item Some additional points were generated in Cartesian space near weld spots to ensure that a solution is found.
+\end{enumerate}
+After the two planning stages the authors use a smoothing function to reduce jerky motions generated due to the PRM planner. This optimization resulted not only in smoother paths as well as reduced time for planning. From the results presented by the authors, it is seen that in some cases the planner fails however in most cases the planner is successful but the planning time for each plan varies greatly. \\
+A similar model based approach is found in \cite{15}. The authors generate the CAD models of the work piece, robots and welding cell, which are then used in the simulation platform. The inverse and forward kinematic of each robot are calculated in a cyclical manner, and separately for each robot. The welding task is represented by a series of way points where each way point contains information about its own geometric position, the torch orientation and the robot's orientation. A search algorithm is then run through the way points to find a connecting path from the start to the goal point. The search algorithm works in the following four steps:
+\begin{enumerate}
+\item a line search is used to find an initial solution
+\item if line search fails to find a solution an exhaustive search is launched
+\item after a solutions is found the generated path is checked for discontinuities
+\item a smoothing algorithm is applied to the generated path to reduce sharp movements of the manipulator
+\end{enumerate}
+The authors use RRT algorithm to plan path between weld points. The plan is directly generated in the Cartesian Space. A fast distance function from C-Space Toolkit computes the distance based on a distance function in order to generate collision free paths. The authors claimed that this approach has been used to successfully generate plans, however no experimentation results has been provided in the paper to back their claims or establish any performance evaluation. 
 \subsubsection{Product, Process and Resource Model}
 \subsubsection{Implementation Platform Architecture}
 jjdjdjd
