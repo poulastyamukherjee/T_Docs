@@ -257,7 +257,17 @@ The proposed algorithm is illustrated as follows
 \item EdgeCost(q1, q2): Returns the cost between state q1 and q2
 \end{itemize}
 The authors conducted experiments and compared the results with TRRT algorithm. From the results it was concluded that the TRRT takes lesser time to find the solution path, however HGRRT* found shorter and more cost efficient paths. \\
-Experimental optimization of welding parameters is an inefficient and ineffective method of doing so \cite{16}. The authors propose a Gaussian Process Regression Bayesian Optimization Algorithm(GPRBOA), in which the Gaussian Process Regression(GPR) is used to model non parametric complex welding process. Bayesian Optimization Algorithm(BOA) part is applied to balance the modeling and optimization processes.
+Experimental optimization of welding parameters is an inefficient and ineffective method of doing so \cite{16}. The authors propose a Gaussian Process Regression Bayesian Optimization Algorithm(GPRBOA), in which the Gaussian Process Regression(GPR) is used to model non parametric complex welding process. Bayesian Optimization Algorithm(BOA) part is applied to balance the modeling and optimization processes. The welding parameters are described as a likelihood function as illustrated in \eqref{eq18}
+\begin{equation}
+\label{eq18}
+\theta^{*} = argmax \log p(y|X,H,\theta)
+\end{equation}
+The final model, based on the welding parameters; generated after the GPR process is expressed in \eqref{19}
+\begin{equation}
+\label{eq19}
+x^{*} = \arg max f(x), x* \epsilon X
+\end{equation}
+In this model, as soon as f(x) is generated, the problem is transformed into an optimization function, with the goal being to find the maximum value of $x^{*}$. Due to the reason the exploration and exploitation steps switch between each iteration, this algorithm is able to model the welding process online and optimize it online as well. Compared to other welding parameter optimization methods, this method was able to solve the correct parameter values in 7 iterations. A key point to be noted about this method is that being an online method, it has considerable risks of damaging either the robot or the work piece by drawing in more current, than the recommended amount. It is also difficult to judge from only one experiment whether the algorithm will be able to find out the optimal parameters in few iterations.
 \newpage
 \subsection{Robotic Welding Architecture and Planning in Abstract Space}
 One of the major hindrance of using welding robots in industries is in the high cost associated with generation of new programs for welding robots\cite{14}(automatic program generation for welding robots..). A human user not only needs to have considerable knowledge of programming to be able to do this, it also requires a considerable time to reprogram a robot. A probable solution is to generate the robot programs offline and simulate the outcome before running the program on the robot. This ensures two things: (i) rectify any anomaly in the generated program contradictory to the desired outcome and (ii) optimize the program to ensure better performance of the robot, be it completing the welding task in lesser time or generating a more robust weld surface. In this section we  will discuss the various methodologies and platforms that exists for programming and simulating welding robots offline. 
@@ -306,5 +316,48 @@ A similar model based approach is found in \cite{15}. The authors generate the C
 \end{enumerate}
 The authors use RRT algorithm to plan path between weld points. The plan is directly generated in the Cartesian Space. A fast distance function from C-Space Toolkit computes the distance based on a distance function in order to generate collision free paths. The authors claimed that this approach has been used to successfully generate plans, however no experimentation results has been provided in the paper to back their claims or establish any performance evaluation. 
 \subsubsection{Product, Process and Resource Model}
+The solution architecture proposed in \cite{17} is presented as follows:
+\begin{enumerate}
+\item Product model - The product model, consists of the mathematical description of single or multiple-continuous joint seams of a welding work piece, which are selected by the user with a click. The user is able to select the desired edge to be welded from the CAD model.
+\item Process model - The process model is a transformation from product
+to process using Euler transformation. The description is performed in the workpiece
+frame.
+\item Resource model - The resource model contains kinematic and inverse kinematic
+description of a 6 Dof industrial manipulator.
+\end{enumerate}
+After the selection of the welding task, the next step is calculation of motion cost, which is performed by the following algorithm \ref{algo1}:
+
+\begin{algorithm}
+		\caption{Optimal motion cost for collision avoidance for
+robotic welding}
+		\label{algo1}
+        \textbf{Require:} $S_{1}=[k_{S1},\alpha_{S1}]$, $S_{2}=[k_{S2},\alpha_{S2}]$, 			$T_{W}^{proc_opt}(k)$ \\
+        {Cost calculation for optimal welding angle}
+		\begin{algorithmic}[1]
+			\If{[$(Q2AA(T_{W}^{proc_opt}(k_{S1})) > \alpha_{S1}) \vee (Q2AA(T_{W}^{proc_opt}(k_{S2})) > \alpha_{S2})] \wedge [(Q2AA(T_{W}^{proc_opt}(k_{S1})) < \alpha_{S1}) \vee (Q2AA(T_{W}^{proc_opt}(k_{S2})) < \alpha_{S2})$]}
+            	\State $RMP_{Opt} = \int_{k_{S1}}^{k_{S2}}Line(k).T_{W}^{proc_{opt}}(k)dk$
+			\Else
+            \State $[k_{c},\theta_{c}] \gets FindIntersection(Line(k),T_{W}^{proc_{opt}}(k))$
+            \State $RMP_{Opt} = |\int_{k_{S1}}^{k_{c}}Line(k).T_{W}^{proc_{opt}}(k)dk| + |\int_{k_{c}}^{k_{S2}}Line(k).T_{W}^{proc_{opt}}(k)dk|$
+            \EndIf \\
+            {Cost calculation for for backward motion}
+            \If{$(k_{S2}< k_{S1})$}
+			\State $RMP_{Backward} = \infty$
+            \Else
+            \State $RMP_{Backward} = \emptyset$
+            \EndIf
+			\State $RMP_{Cost} = RMP_{Opt} + RMP_{Backward}$
+		\end{algorithmic}
+	\end{algorithm}
+The current state of the art calculates the motion cost based on the angle of rotation from one weld state to another. A state validity checker is also implemented for collision checking and avoidance. Finally RRT* planner is used to solve the defined motion planning problem.
 \subsubsection{Implementation Platform Architecture}
-jjdjdjd
+In this section we will briefly highlight the Product Process Resource model's implementation architecture.
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+ \centering
+   \includegraphics[width=9cm]{images/ppr_2.png}
+   \caption[Product Process Resource(PPR) Architecture]
+   { Product Process Resource(PPR) Architecture \footnotemark[\value{footnote}]}  
+\label{fig:img8}
+\end{figure}
+
+The geometrical model of the work piece, the manufacturing process model and the robot model together create the automatic motion planning configuration space. A state validation model runs continuously to check for collisions, while the manufacturing motion cost model calculates the cost. Both of these data are fed to the motion planner, which then generates an optimized motion plan. 
