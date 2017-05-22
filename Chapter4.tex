@@ -123,7 +123,7 @@ Since the main objective of moving the rotary table is to move the work piece, a
 
 \begin{algorithm}
 	\caption{Transformation of Selected Edge wrt Work Piece Position}
-	\label{algo2}
+	\label{algo3}
 	\textbf{Given:} $ \text{Original pose and orientation information of start(\textit{$_{SP}^{W}P$}, \textit{$_{SP}^{W}O$}) and goal} \\ \text{points(\textit{$_{GP}^{W}P$}, \textit{$_{GP}^{W}O$}) }  \bigwedge \text{ new}(\textit{$_{WP}^{W}P_{new}$}, \textit{$_{WP}^{W}O_{new}$}) \text{pose and orientation information} \\ \text{ of work piece wrt. to world frame } \text{ and old position and orientation }\\ (\textit{$_{WP}^{W}P$}, \textit{$_{WP}^{W}O$}) \text{information of work piece wrt. world frame} $ \\ 
 	\textbf{Output:} $\text{New pose and orientation information of start(\textit{$_{SP}^{W}P_{new}$}, \textit{$_{SP}^{W}O_{new}$}) and } \\ \text{goal points(\textit{$_{GP}^{W}P_{new}$}, \textit{$_{GP}^{W}O_{new}$}) }$\\
 	
@@ -157,44 +157,138 @@ Since the main objective of moving the rotary table is to move the work piece, a
 \end{algorithm}
 \newpage
 \subsection{Cost Function Formulation}
-Two different cost functions were formulated and finally a weighted combination of the two was created, to form the final cost function. The plots of the cost functions were created by running the planner for every different orientations of the table
-\subsubsection{Cost Function based on Tooltip orientation relative to Workpiece edge}
-In (cite PPR paper) the authors define the optimal TCP orientation; 45$\deg$ with respect to the work piece edge for generating a weld path. For our initial cost estimate we consider the difference between the actual TCP orientation and the defined optimal TCP orientation. The greater the difference, higher the cost and vice-versa. The difference in orientation is calculated based on the difference of the quaternion values of the two orientations.\\
-Based on the definition of optimal cost, we plot the cost function for 2 different work pieces and two different welding edges. Based on the orientation of the welding edge, the joint angles of the table for which the cost is minimal is also varied. The cost values are fixed between a of range of 0 to 100, so that we can carry out a comparative evaluation, among the different use cases.
-\paragraph{1st Work Piece}
-\subparagraph{1st Edge}
+Two different cost functions were formulated and finally a weighted combination of the two was created, to form the final cost function. The plots of the cost functions were created by running the planner for every different orientations of the table for the following two work pieces. For each workpiece 2 edges were randomly selected to demonstrate the behaviors based on the cost function definition. The edges also contain the convention definition, which specifies the alignment of the TCP with respect to the selected edge. For example in \ref{fig:imgoridef1} and \ref{fig:imgoridef2}, the TCP moves along the planned path in accordance with the convention; the X axis (marked by red) points from start to goal point along the edge to be welded, and the Y (marked by green) and Z (marked by blue) maintain an angle of 45$^{\circ}$ with respect to the selected edge. \\
+\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/tcp_ori.png}}
+		\caption{}
+		\label{fig:imgoridef1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/tcp_ori_al.png}}
+		\caption{} 
+		\label{fig:imgoridef2}
+	\end{subfigure}	
+	\caption{Convention Definition of TCP with Respect  to Weld Edge}  
+	\label{fig:tcor}
+\end{figure}
+
+\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page	
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}	
+		 \frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_left.png}}
+		 \caption{Left Vertical Edge of T-Joint Workpiece}
+		%\label{fig:imguc1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}		
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\caption{Horizontal Edge of T-Joint Work  piece} 
+		%\label{fig:imguc2}
+	\end{subfigure}		
+	\caption{Simple T-Joint Workpiece}  
+	\label{fig:uc1}
+\end{figure}
+\textbf{1st Use Case:}This \ref{fig:uc1} is a T-Jointed work piece for which we select two edges, to demonstrate the two different cost functions. The edges for which weld paths are to be generated are marked by yellow lines and pointed at by the arrows
+
+\textbf{2nd Use Case:}The welding robot was demonstrated in Automatic Messe 2016(Munich) in which this(\ref{fig:uc2}) work piece was used to demonstrate the autonomous program generation for welding. For this workpiece, two edges were considered, which are marked yellow lines and pointed at by the arrows.
+\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_flat.png}}
+		\caption{Horizontal Edge of Automatica 2016 Workpiece}  
+		%\label{fig:imguc3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_left.png}}
+		\caption{Inner Left Edge of Automatica 2016 Workpiece}  
+		%\label{fig:imguc4}
+	\end{subfigure}	
+\caption{Workpiece used in Automatica 2016 demonstration}
+\label{fig:uc2}
+\end{figure}
+
+\subsubsection{Difference of TCP orientation and Workpiece edge}
+In (\ref{fig:tcor}) we saw the relationship between TCP orientation and the workpiece convention. In order to generate high quality weld paths, it is necessary to orient the TCP in accordance with the optimal TCP orientation definition. Therefore for our first cost function definition; we consider the difference between the actual TCP orientation and the optimal welding process defined TCP orientation (cite ppr). The greater the difference, higher the cost and vice-versa. The difference of the quaternions is calculated using the following steps as defined in (cite ppr).
+\begin{itemize}
+	%content...
+	\item Both the sets of quaternions are defined using the standard convention og 4 quaternion components namely: $q1,q2,q3,q4$
+	\item Calculate the normal of optimal and actual quaternion values.
+	\item Calculate the inverse of the normalized optimal quaternion and multiply with the normalized actual quaternion to obtain the difference of the quaternions.
+	\item Convert the difference of the quaternions into an angle value.
+	\item Ensure difference angle lies within -180$^{\circ}$ and 180$^{\circ}$
+\end{itemize}
+In order to analyze the cost function, it was necessary to plot the cost values generated for each welding path for various orientation of the table. We considered a range of -80$^{\circ}$ to +80$^{\circ}$ for 1st joint angle and -140$^{\circ}$ to 140$^{\circ}$ for 2nd joint angle of the table. Plots for both use cases; as illustrated in figures \ref{fig:uc1} and \ref{fig:uc2}
+were generated.
+\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\caption{Edge to be welded}  
+		\label{fig:cp1b}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orihori_tcpcst.png}}
+		\caption{Cost Function Plot}  
+	\label{fig:cp1a}
+	\end{subfigure}	
+	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\label{fig:cp1}
+\end{figure}
+\\
+The edge to be welded is marked in yellow \ref{fig:cp1b}. In this cost plot \ref{fig:cp1a}, the minimum cost is obtained when both the joint angles of the table are at 0$^{\circ}$. In the plot, red represents a higher cost region while blue represents lower cost.
 
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
- \centering
-   \frame{\includegraphics[width=\textwidth]{images/cost_plot1.png}}
-   \caption{Cost Plot of Table Angle vs TCP Orientation}  
-\label{fig:img13}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_left.png}}
+		\caption{Edge to be welded}  
+		\label{fig:cp2b}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orileft_tcpcst.png}}
+		\caption{Cost Function Plot}  
+		\label{fig:cp2a}
+	\end{subfigure}	
+	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\label{fig:cp2}
 \end{figure}
-The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$\deg$. In the plot, red represents a higher cost region while blue represents lower cost.
-\subparagraph{2nd Edge}
-\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
- \centering
-   \frame{\includegraphics[width=\textwidth]{images/cost_plot3.png}}
-   \caption{Cost Plot of Table Angle vs TCP Orientation}
-\label{fig:img14}
-\end{figure}
-\paragraph{2nd Work Piece}
-\subparagraph{1st Edge}
+The edge to be welded is marked in yellow\ref{fig:cp2b}. In the cost plot \ref{fig:cp2a}, the minimum cost is obtained when the joint angle - which moves the table along x axis - is at +80$^{\circ}$ and joint angle 2 - rotation along Z axis - is at 0$^{\circ}$.
+\clearpage
+The cost functions for the Automatica 2016 workpiece are presented below. Similar to the previous cases, the edge to be welded is marked in yellow. Red represents a higher cost gradient while blue represents a lower one.
 
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
- \centering
-   \frame{\includegraphics[width=\textwidth]{images/cost_plot5.png}}
-   \caption{Cost Plot of Table Angle vs TCP Orientation}  
-\label{fig:img15}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\caption{Edge to be welded}  
+		\label{fig:cp3b}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orihori_tcpcst.png}}
+		\caption{Cost Function Plot}  
+		\label{fig:cp3a}
+	\end{subfigure}	
+	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\label{fig:cp3}
 \end{figure}
-The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$\deg$. In the plot, red represents a higher cost region while blue represents lower cost.
-\subparagraph{2nd Edge}
+
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
- \centering
-   \frame{\includegraphics[width=\textwidth]{images/cost_plot7.png}}
-   \caption{Cost Plot of Table Angle vs TCP Orientation}
-\label{fig:img16}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\caption{Edge to be welded}  
+		\label{fig:cp4b}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orihori_tcpcst.png}}
+		\caption{Cost Function Plot}  
+		\label{fig:cp4a}
+	\end{subfigure}	
+	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\label{fig:cp4}
 \end{figure}
+
 
 \subsubsection{Cost Function based on Joint Movement}
 An important criteria of optimizing industrial processes is minimizing the joint movements of a manipulator(cite relevant paper). According to the paper, the more the movement of the bigger joints, the less accurate the process becomes as a small error in the first three joints can propagate to the TCP all the while amplifying its effect, resulting in a gross error.(chng) The following cost function, is defined as follows (write equation.)
@@ -207,7 +301,7 @@ An important criteria of optimizing industrial processes is minimizing the joint
    \caption{Cost Plot of Table Angle vs Joint Movement}
 \label{fig:img17}
 \end{figure}
-The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$\deg$. In the plot, red represents a higher cost region while blue represents lower cost.
+The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$$^{\circ}$$. In the plot, red represents a higher cost region while blue represents lower cost.
 \subparagraph{2nd Edge}
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
  \centering
@@ -224,7 +318,7 @@ The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img),
    \caption{Cost Plot of Table Angle vs Joint Movement}
 \label{fig:img19}
 \end{figure}
-The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$\deg$. In the plot, red represents a higher cost region while blue represents lower cost.
+The edge to be welded is marked in yellow(cite fig). In this cost plot(ref img), the minimum cost is obtained when the joints of the table are both at 0$$^{\circ}$$. In the plot, red represents a higher cost region while blue represents lower cost.
 \subparagraph{2nd Edge}
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
  \centering
