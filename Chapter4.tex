@@ -260,38 +260,54 @@ The cost functions for the Automatica 2016 workpiece are presented below. Simila
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
 	\centering
 	\begin{subfigure}[b]{0.4\textwidth}
-		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_flat.png}}
 		\caption{Edge to be welded}  
 		\label{fig:cp3b}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\textwidth}
-		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orihori_tcpcst.png}}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/autohori_tcpcst.png}}
 		\caption{Cost Function Plot}  
 		\label{fig:cp3a}
 	\end{subfigure}	
-	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\caption{Cost Function Plot of Automatica workpiece: TCP orientation}
 	\label{fig:cp3}
 \end{figure}
-
+For this particular weld task, there is a collision at both the start and end points of the weld path between the TCP and workpiece. For this reason the TCP is rotated by certain degrees at both the start and end point, which results in the minimum cost to be high compared to \ref{fig:cp1a}, even though the weld paths are quite similar. The collision scenario is illustrated in \ref{fig:coll}
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
 	\centering
 	\begin{subfigure}[b]{0.4\textwidth}
-		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/normwp_flat.png}}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_strtc.png}}
+		\caption{Collision at Start Point}  
+		\label{fig:colls}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_endc.png}}
+		\caption{Collision at End Point}  
+		\label{fig:collg}
+	\end{subfigure}	
+	\caption{Collision of TCP with workpiece}
+	\label{fig:coll}
+\end{figure}\\
+For the use case in figure:\ref{fig:cp4}, the minimum cost can be observed from \ref{fig:cp4a}, to be when joint angle 1 is at 0$^{\circ}$ and joint angle 2 is at 90$^{\circ}$. Similar to the situation described in (\ref{fig:coll}), a collision at the end point of the selected edge, results in the minimum cost to become significantly high.
+\begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/auto_left.png}}
 		\caption{Edge to be welded}  
 		\label{fig:cp4b}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\textwidth}
-		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/orihori_tcpcst.png}}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/autolft_tcpcst.png}}
 		\caption{Cost Function Plot}  
 		\label{fig:cp4a}
 	\end{subfigure}	
-	\caption{Cost Function Plot of T-Jointed workpiece: TCP orientation}
+	\caption{Cost Function Plot of Automatica workpiece: TCP orientation}
 	\label{fig:cp4}
 \end{figure}
 
 
 \subsubsection{Cost Function based on Joint Movement}
-An important criteria of optimizing industrial processes is minimizing the joint movements of a manipulator(cite relevant paper). According to the paper, the more the movement of the bigger joints, the less accurate the process becomes as a small error in the first three joints can propagate to the TCP all the while amplifying its effect, resulting in a gross error.(chng) The following cost function, is defined as follows (write equation.)
+
 \paragraph{1st Work Piece}
 \subparagraph{1st Edge}
 
