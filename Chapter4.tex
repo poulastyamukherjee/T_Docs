@@ -523,16 +523,17 @@ In \ref{sssechd}, we observed that the Hill Descent Approach fails to find the m
 		\State $\text{Apply Workpiece Transformation Algorithm(\ref{algo2})}$
 		\State $\text{Apply Selected Edge Transformation Algorithm(\ref{algo2})}$
 		\State $\text{Perform Motion Planning on the transformed plan path and get \textit{Solution}}$
-		\State $\text{\textit{CurrentCost} $\gets$ $C_{agg}$(\textit{Solution}) using equation(\ref{eq25})}$
+		\State $\text{\textit{MinimumCost} $\gets$ $C_{agg}$(\textit{Solution}) using equation(\ref{eq25})}$
 		\State $\text{(\textit{$A1_{curr}$},\textit{$A2_{curr}$}) $\gets$ (\textit{$A1$}, \textit{$A2$})}$
 		\While {[${temperature > \epsilon}$]}
 		\State $\text{(\textit{$A1_{new}$},\textit{$A2_{new}$})}$ $\gets$ $\text{\textit{SelectNeighbor}(\textit{$A1_{curr}$},\textit{$A2_{curr}$})}$
 		\State $\text{Apply steps \textit{1-4} with (\textit{$A1_{new}$},\textit{$A2_{new}$})}$
 		\State $\text{\textit{Stepcost} $\gets$ $C_{agg}$(\textit{Solution}) \ref{eq25}}$
-		\State $\text{\textit{diff} $\gets$ \textit{Stepcost} - \textit{CurrentCost}}$
+		\State $\text{VisitedStateArray}$ $\gets$ $\textit{$A1_{curr}$},\textit{$A2_{curr}$}$ $\textit{,Stepcost}$ 
+		\State $\text{\textit{diff} $\gets$ \textit{Stepcost} - \textit{MinimumCost}}$
 		\If {[${diff < 0 } \textit{ or }$ $e^{-1*diff/temperature} >$  $Rand(0,1) $]}
 		\State $\text{(\textit{$A1_{curr}$},\textit{$A2_{curr}$}) $\gets$ (\textit{$A1_{new}$}, \textit{$A2_{new}$})}$
-		\State $\text{\textit{CurrentCost} $\gets$ \textit{Stepcost}}$
+		\State $\text{\textit{MinimumCost} $\gets$ \textit{Stepcost}}$
 		\EndIf
 		\State $\textit{temperature}$ $\gets$ $\textit{temperature*coolingrate}$
 		\EndWhile %doWhile{$\textit{PossibleMinimaCounter} < 8$}
@@ -553,13 +554,144 @@ The algorithm terminates when the temperature becomes less than an $\epsilon$ va
 	\caption{Simulated Annealing Optimization for Automatica Workpiece Horizontal Edge(\ref{fig:imguc3})}
 	\label{fig:SA2}
 \end{figure}\\
-In figure \ref{fig:SA1} and \ref{fig:SA2}, the start and the goal states are  marked by '*' and '+' respectively. We can also observe that unlike the hill descent approach, it was able to find the optimal solution in all cases. However, unlike hill descent approach, in plot (\ref{fig:SA2}) it takes a lot more steps to reach the global minima state even when there are no local minima. 
-\clearpage
+In plot \ref{fig:SA1} and \ref{fig:SA2}, the start and the goal states are  marked by '*' and '+' respectively. We can also observe that unlike the hill descent approach, it was able to find the optimal solution in all cases. However, unlike hill descent approach, in plot (\ref{fig:SA2}) it takes a lot more steps to reach the global minima state even when there are no local minima. 
+
+\paragraph{Random Restart and Termination Condition}
+In plot \ref{fig:SA2}, we observed that the simulated annealing algorithm explored a lot of states initially, which delayed the process of finding the global minima. To address this issue we implement a random restart strategy based on the concept mentioned in (cite shonk ppr) to force the algorithm to explore large parts of the cost surface in little time as possible. Also, due to the fact that the global minima is unknown, we implement a termination condition to limit the running of the algorithm. The strategy for the termination condition is based on Optimal Stopping problem method described in (cite  Steffen Rebennack book) . Since randomly starting at different points of the space can cause discrepancy in finding the global minima, we introduce an additional variable - \textit{globalbestcost} - to keep track of the best solution that has been found. 
+\subparagraph{Random Restart}
+The implementation of random restart is shown in plot \ref{fig:20}. The random restart points are marked by the arrows. The threshold of random restart was set to 15, i.e. if 15 states with higher cost compared to the current state were found, then it restarted. In the later part, when it came closer to the optimal solution, the newer solutions that were generated were closer to the global minima, hence the solutions converged without performing additional random restarts.
+\begin{figure}[!ht] %  figure placement: here, top, bottom, or page
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+	\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/NoRandomRestartSA1.png}}
+	\caption{Solution Points Without Random Restart}  
+	\label{fig:20a}
+	\end{subfigure}	
+	\begin{subfigure}[b]{0.4\textwidth}
+		\frame{\includegraphics[width=1\textwidth,height=0.2\textheight]{images/RandomRestartSA1.png}}
+		\caption{Solution Points With Random Restart}  
+		\label{fig:20b}
+	\end{subfigure}	
+\caption{Plots Showing Effect of Random Restart on number of iterations}
+\label{fig:20}
+\end{figure}
+
+%\begin{figure}[!ht] %  figure placement: here, top, bottom, or page
+%	\centering
+%	\frame{\includegraphics[width=0.7\textwidth,scale=0.6]{images/RandomRestartSA.png}}
+%	\caption{Random Restart Approach for Simulated Annealing Optimization(Restart point marked with arrows)}
+%	\label{fig:RR1}
+%\end{figure}
+\algnewcommand{\LeftComment}[1]{\Statex \(\triangleright\) #1}
+\def\HiLi{\leavevmode\rlap{\hbox to \hsize{\color{yellow!50}\leaders\hrule height .8\baselineskip depth .5ex\hfill}}}
+\begin{algorithm}
+	\caption{Simulated Annealing Approach for Optimal Weld Path Generation}
+	\label{algo6}
+	\textbf{Given:} $ \text{Initial table joint angle values \textit{$A1$} \& \textit{$A2$}}$ \\ 
+	\textbf{Output:} $ \text{Table joint values for plan path generation with minimum cost}$ 
+	
+	\begin{algorithmic}[1]
+		\State $\text{Apply kinematic equation \ref{eq22} and set table position using \textit{$A1$} \& \textit{$A2$}}$
+		\State $\text{Apply Workpiece Transformation Algorithm(\ref{algo2})}$
+		\State $\text{Apply Selected Edge Transformation Algorithm(\ref{algo2})}$
+		\State $\text{Perform Motion Planning on the transformed plan path and get \textit{Solution}}$
+		\State $\text{\textit{MinimumCost} $\gets$ $C_{agg}$(\textit{Solution}) \ref{eq25}}$
+		\State \HiLi $\text{\textit{globalbestcost} $\gets$ $C_{agg}$(\textit{Solution}) \ref{eq25}}$
+		\State $\text{(\textit{$A1_{curr}$},\textit{$A2_{curr}$}) $\gets$ (\textit{$A1$}, \textit{$A2$})}$
+		\While {[${temperature > \epsilon}$]}
+		\If {\HiLi[${counter > threshold}$]}                	
+		\State \HiLi $\textit{counter}$ $\gets$ $0$ \Comment{do random restart to escape local minima} 
+		\State \HiLi $\text{(\textit{$A1_{new}$},\textit{$A2_{new}$})}$ $\gets$ $\text{\textit{RandomNeighbor}}$
+		\Else
+		\State $\text{(\textit{$A1_{new}$},\textit{$A2_{new}$})}$ $\gets$ $\text{\textit{SelectNeighbor}(\textit{$A1_{curr}$},\textit{$A2_{curr}$})}$
+		\EndIf
+		\State $\text{Apply steps \textit{1-4} with (\textit{$A1_{new}$},\textit{$A2_{new}$})}$
+		\State $\text{\textit{Stepcost} $\gets$ $C_{agg}$(\textit{Solution}) \ref{eq25}}$
+		\State $\text{VisitedStateArray}$ $\gets$ $\textit{$A1_{curr}$},\textit{$A2_{curr}$}$ $\textit{,Stepcost}$ 
+		\State $\text{\textit{diff} $\gets$ \textit{Stepcost} - \textit{MinimumCost}}$
+		\If {\HiLi[${\textit{Stepcost} < \textit{globalbestcost}}$]}
+		\State \HiLi $\textit{globalbestcost}$ $\gets$ $\textit{Stepcost}$
+		\EndIf
+		\If {[${diff < 0 } \textit{ or }$ $e^{-1*diff/temperature} >$  $Rand(0,1) $]}
+		\State $\text{(\textit{$A1_{curr}$},\textit{$A2_{curr}$}) $\gets$ (\textit{$A1_{new}$}, \textit{$A2_{new}$})}$
+		\State $\text{\textit{MinimumCost} $\gets$ \textit{Stepcost}}$
+		\EndIf
+		\If {\HiLi[${diff > 0 }$]}
+		\State \HiLi $\text{increase }$ $\textit{ counter }$ $\text{ by 1}$
+		\EndIf
+		\State $\textit{temperature}$ $\gets$ $\textit{temperature*coolingrate}$
+		\EndWhile 
+		\State $\textit{return} (\textit{$A1_{curr}$},\textit{$A2_{curr}$})$      
+	\end{algorithmic}
+\end{algorithm}
+Algorithm (\ref{algo6}) details the steps for the random restart procedure implemented based on the approach mentioned in ((cite shonk ppr)). The additional steps which were inducted to the Simulated Annealing Algorithm (\ref{algo5}) are highlighted with yellow. 
+\subparagraph{Termination Condition}
+Theoretically, if simulated annealing algorithm is allowed to run for infinite time it is always guaranteed to find the most optimal solution, in other words it can be termed as asymptotically optimal. However ,such method is not only impractical, but also computationally expensive. In each iteration the algorithm has to search through the list of existing neighbors, whose size increases at each step - as new neighbors are added -, thus making the search take up longer time. Simulated Annealing usually finds the global minima in finite steps, thus having a termination condition will not affect the quality of solution rather it will improve the algorithm run time. Based on (cite paper optimal stopping), we formulate the following termination criteria:
+\begin{itemize}
+	\item As normally with simulated algorithm, at each step, compare the current cost with previous state cost.
+	\item If the cost of current state is lesser than the previous state cost, calculate the \textit{improvementpercentage} i.e (cost of previous state - cost of current step)$/$cost of previous state.
+	\item The complexity of checking for already existing state is given by \textit{O($n^{2}$)}, this can be explained by the fact that we need two nested for loops to perform this check. 
+	\item Calculate the \textit{incrementpercentage} i.e: (cost for searching through n+1 states of \textit{VisitedStateArray} - cost for searching through n states of \textit{VisitedStateArray})/cost for searching through n states of \textit{VisitedStateArray}.
+	\item At each step we calculate the ratio of \textit{improvementpercentage} and \textit{incrementpercentage} and it its lower than an $\epsilon$ value then terminate algorithm
+	\item The idea behind this termination definition is, if for every additional step the algorithm takes, if the reward of getting an improved solution is very low compared to the cost of searching through \textit{VisitedStateArray}, then the algorithm has reached the optimal value.
+	\item The exit criteria will not be triggered in the initial stages of simulated annealing, as the size of \textit{VisitedStateArray} is quite low, however when the size of \textit{VisitedStateArray} becomes quite large, due to the $n1^{2}$ factor, the ratio will be low and the algorithm will terminate
+\end{itemize}
+
 \subsection{Comparative Evaluation and Analysis}
+The most important aspects of Simulated Annealing algorithm, which determine its performance are the 'Cooling Schedule' and 'Cooling Rate'. In (cite nourani paper), the authors discusses the various cooling schedules applicable for simulated annealing. In table \ref{table1}, we present the data recorded during our run of Simulated Annealing for use case (\ref{fig:imguc2}) with starting angle at (50,-130). We recorded the time of completion, number of iterations and memory consumed by the storage data structure storing all the visited neighbors. All the tests were carried out on a PC with core i7 processor and 8 Giga Bytes of memory. 
 
+\begin{table}[!ht]
+	\centering
+	
+	\label{table1}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{@{}ccccll@{}}
+		\toprule
+		& \textbf{Time(secs)} & \textbf{\begin{tabular}[c]{@{}c@{}}Number of \\ Iterations\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Memory Consumed\\ (Bytes)\end{tabular}} & \textbf{Status} & \textbf{Solution} \\ \midrule
+		\textbf{\begin{tabular}[c]{@{}c@{}}Exponential \\ Multiplicative\\ Cooling\end{tabular}}    & 450.22              & 168                                                                      & 4032                                                                       & Complete        & Optimal           \\
+		\textbf{\begin{tabular}[c]{@{}c@{}}Logarithmic \\ Multiplicative\\  Cooling\end{tabular}} & 389.6              & 119                                                                      & 2856                                                                       & Complete        & Sub-Optimal           \\
+		\textbf{\begin{tabular}[c]{@{}c@{}}Linear\\ Multiplicative\\ Cooling\end{tabular}}          & 3746.11             & 293                                                                      & 7032                                                                       & Complete        & Optimal           \\
+		\textbf{\begin{tabular}[c]{@{}c@{}}Quadratic\\ Multiplicative\\ Cooling\end{tabular}}       & 373.01              & 34                                                                       & 816                                                                        & Complete        & Sub-optimal       \\ \bottomrule
+	\end{tabular}
+	
+}
+\caption{Simulated Annealing Cooling Schedules}
+\end{table}
+\begin{figure}[!ht] %  figure placement: here, top, bottom, or page
+	\centering
+	\frame{\includegraphics[width=0.8\textwidth,scale=0.6]{images/cooling_schedules.png}}
+	\caption{Simulated Annealing Cooling Schedules}
+	\label{fig:CS}
+\end{figure}
 
+From the data above we can observe for Exponential Multiplicative Cooling, we reach the optimal solution in a reasonable time, while consuming a descent amount of memory. Next we will present the data for different cooling rates for Exponential Multiplicative Cooling on the same solution set, starting from (-50,130).
 
+\begin{table}[!ht]
+	\centering
+	
+	\label{table2}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{@{}ccccll@{}}
+		\toprule
+		Cooling Rate  & \textbf{Time(secs)} & \textbf{\begin{tabular}[c]{@{}c@{}}Number of \\ Iterations\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Memory Consumed\\ (Bytes)\end{tabular}} & \textbf{Status} & \textbf{Solution} \\ \midrule
+		\textbf{0.95} & 598.37              & 171                                                                      & 4104                                                                       & Complete        & Optimal           \\
+		\textbf{0.9}  & 328.88              & 65                                                                       & 1560                                                                       & Complete        & Optimal           \\
+		\textbf{0.85} & 185.45              & 43                                                                       & 1032                                                                       & Incomplete      & Sub-optimal       \\
+		\textbf{0.8}  & 132.50              & 29                                                                       & 696                                                                        & Incomplete      & Sub-optimal       \\ \bottomrule
+	\end{tabular}
+	
+}
+\caption{Simulated Annealing Cooling Rates for Exponential Multiplicative Cooling}
+\end{table}
 
+From table \ref{table2} we can observe that 0.9 is the most optimal cooling rate that can be chosen, which converges to an optimal solution, while consuming a descent amount of memory. 
+
+\begin{figure}[!ht] %  figure placement: here, top, bottom, or page
+	\centering
+	\frame{\includegraphics[width=0.8\textwidth,scale=0.6]{images/cooling_rates.png}}
+	\caption{Simulated Annealing Cooling Rates}
+	\label{fig:CR}
+\end{figure}
 
 
 
