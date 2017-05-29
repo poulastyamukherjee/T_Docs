@@ -1,6 +1,6 @@
 \section{Multi-Robot Approach for Weld Cost Minimization}
 
-In the approach section(cite section) we discussed how introduction of another robot can increase the number of degrees of freedom and hence allow the robot to perform more complex manipulations. Increasing the degree of complexity of motion can allow us to implement better optimization as well as solve the problems of unreachability and singularity. In this chapter we will discuss the integration of a 2 degrees of freedom rotary table into the existing architecture and how that is utilized to optimize the welding task. 
+In the problem formulation section(\ref{sec:pf}) we discussed how introduction of another robot can increase the number of degrees of freedom and hence allow the robot to perform more complex manipulations. Increasing the degree of complexity of motion can allow us to implement better optimization as well as solve the problems of unreachability and singularity. In this chapter we will discuss the integration of a 2 degrees of freedom rotary table into the existing architecture and how that is utilized to optimize the welding task. 
 
 \subsection{Modeling the Rotary Table}
 The existing implementation only contained kinematic description of the 6 axis manipulator with the weld tool tip. In the following subsections, we present a model of the 2 degree of freedom rotary table, along with the kinematic description and present the improved architectural model.
@@ -11,8 +11,8 @@ In the existing architecture the Kernel block creates instances of the kinematic
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
  \centering
    \includegraphics[width=9cm]{images/Original_arch.png}
-   \caption[Exisitng Architecture of RobotKit(cite rk)]
-   {Exisitng Architecture of RobotKit}  
+   \caption[Exisitng Architecture of RobotKit[\citet{DiazP2016}]]
+   {Exisitng Architecture of RobotKit[\citet{DiazP2016}]}  
 \label{fig:img9}
 \end{figure}
 
@@ -20,14 +20,14 @@ In the following architecture diagram (\ref{fig:img10}) the exact blocks which h
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
  \centering
    \includegraphics[width=9cm]{images/new_arch.png}
-   \caption[Updated Architecture of RobotKit(cite rk)]
-   {Updated Architecture of RobotKit}  
+   \caption[Updated Architecture of RobotKit]
+   {Updated Architecture of RobotKit[\citet{DiazP2016}]}  
 \label{fig:img10}
 \end{figure}
  
 
 \subsubsection{Generating 3D Models for Simulation}
-In order to update the simulation environment, 3D CAD models of the rotary table were created using Solidworks software(cite solidworks), based on the data-sheet specifications. In order to make the simulation mimic the real functioning of the rotary table, the table was divided into 3 separate CAD objects; base, middle joint and top plate. The images for the same are presented herewith. 
+In order to update the simulation environment, 3D CAD models of the rotary table were created using \hyperref[Solidworks]{http://www.solidworks.com/} software, based on the data-sheet specifications. In order to make the simulation mimic the real functioning of the rotary table, the table was divided into 3 separate CAD objects; base, middle joint and top plate. The images for the same are presented herewith. 
 
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
 \begin{subfigure}{\linewidth}
@@ -47,7 +47,7 @@ In order to update the simulation environment, 3D CAD models of the rotary table
 
 \subsubsection{Kinematic Description of the Rotary Table}
 
-The kinematic description of the 2 Dof Rotary table was created using the standard DH parameter approach. The DH parameters as specified in the Reis welding cell data-sheet(cite datasheet) are presented in the following table \ref{tab2}
+The kinematic description of the 2 Dof Rotary table was created using the standard DH parameter approach. The DH parameters as specified in the Reis welding cell data-sheet are presented in the following table (\ref{tab2})
 \begin{table}[!htbp]
 \centering
 \scalebox{1.2}{%
@@ -62,7 +62,7 @@ i & $\alpha_{i-1}$ & a\_\{i-1\} & d\_\{i\} & $\theta_{i}$ \\ \midrule
 \label{tab2}
 \end{table}
 \\
-The next step is to construct the link frames of the joints of the table in accordance with the approach mentioned in (cite Introduction to robotics, jacob book). The frames were plotted in Cartesian space with actual values from the real robot system. The values are the actual coordinates of the joint with respect to the global coordinate frame. Since the rotary table present in the welding cell has 2 Dof, we take Joint 0 as a reference frame, which coincides with the frame of Joint 1. According to the Reis welding cell data-sheet(use cite doc), the axis of rotation of Joint 1 of the rotary table is same as the X axis of the robot frame of the 6 dof manipulator and the axis of rotation of Joint 2 is same as the Z axis of the robot frame of the 6 dof manipulator. \\
+The next step is to construct the link frames of the joints of the table in accordance with the approach mentioned in [\citet{craig2005introduction}]. The frames were plotted in Cartesian space with actual values from the real robot system. The values are the actual coordinates of the joint with respect to the global coordinate frame. Since the rotary table present in the welding cell has 2 Dof, we take Joint 0 as a reference frame, which coincides with the frame of Joint 1. According to the Reis welding cell data-sheet(use cite doc), the axis of rotation of Joint 1 of the rotary table is same as the X axis of the robot frame of the 6 dof manipulator and the axis of rotation of Joint 2 is same as the Z axis of the robot frame of the 6 dof manipulator. \\
 In the following figure \ref{fig:img12} the world and robot frames along with the joint frames of the rotary table in the Cartesian coordinate frame are plotted. 
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
  \centering
@@ -211,7 +211,7 @@ Two different cost functions were formulated and finally a weighted combination 
 
 \subsubsection{Difference of TCP orientation and Workpiece edge}
 \label{sssec:tcpcst}
-In (\ref{fig:tcor}) we saw the relationship between TCP orientation and the workpiece convention. In order to generate high quality weld paths, it is necessary to orient the TCP in accordance with the optimal TCP orientation definition. Therefore for our first cost function definition; we consider the difference between the actual TCP orientation and the optimal welding process defined TCP orientation (cite ppr). The greater the difference, higher the cost and vice-versa. The difference of the quaternions is calculated using the following steps as defined in (cite ppr).
+In (\ref{fig:tcor}) we saw the relationship between TCP orientation and the workpiece convention. In order to generate high quality weld paths, it is necessary to orient the TCP in accordance with the optimal TCP orientation definition. Therefore for our first cost function definition; we consider the difference between the actual TCP orientation and the optimal welding process defined TCP orientation [\citet{DiazP2016}]. The greater the difference, higher the cost and vice-versa. The difference of the quaternions is calculated using the following steps as defined in [\citet{DiazP2016}].
 \begin{itemize}
 	%content...
 	\label{algo4ppr}
@@ -399,7 +399,7 @@ From the plots (\ref{fig:18b}) \& (\ref{fig:18d}) of both the use cases, we can 
 
 \subsubsection{Cumulative Cost Function}
 \label{sssec:aggcst}
-Based on the cost functions defined in sections (\ref{sssec:tcpcst}) and (\ref{sssec:jntcst}), the cumulative cost function is formulated. The concept behind this cost function is that, based on the welding task and the environment in which it is to be performed we can decide which aspect of welding is more important. For e.g in cases where generating perfect welds are critical to the structural integrity of the end product, we can assign a greater weightage to the TCP orientation cost, as it is directly linked with the quality of weld based on process description as stated in (cite ppr). However a situation might also arise where consuming lesser power - while generating a weld path - is more relevant for e.g while prototyping an user will weld on a workpiece multiple times in which case his/her main priority would be minimize the power consumption instead of generating a perfect weld. The mathematical formulation of the cumulative cost function is presented in \ref{eq25}, where $C_{agg}$ is the cumulative sum, $w_{tcp}$ and $w_{joint}$ are the weights assigned to TCP and joint costs respectively and $C_{tcp}$ and $C_{joint}$ are the TCP and joint costs respectively. 
+Based on the cost functions defined in sections (\ref{sssec:tcpcst}) and (\ref{sssec:jntcst}), the cumulative cost function is formulated. The concept behind this cost function is that, based on the welding task and the environment in which it is to be performed we can decide which aspect of welding is more important. For e.g in cases where generating perfect welds are critical to the structural integrity of the end product, we can assign a greater weightage to the TCP orientation cost, as it is directly linked with the quality of weld based on process description as stated in [\citet{DiazP2016}]. However a situation might also arise where consuming lesser power - while generating a weld path - is more relevant for e.g while prototyping an user will weld on a workpiece multiple times in which case his/her main priority would be minimize the power consumption instead of generating a perfect weld. The mathematical formulation of the cumulative cost function is presented in \ref{eq25}, where $C_{agg}$ is the cumulative sum, $w_{tcp}$ and $w_{joint}$ are the weights assigned to TCP and joint costs respectively and $C_{tcp}$ and $C_{joint}$ are the TCP and joint costs respectively. 
 \begin{equation}
 \label{eq25}
 C_{agg}(\textit{Solution}) = w_{tcp}* C_{tcp} +  w_{joint}*C_{joint}
@@ -457,9 +457,9 @@ In section \ref{ssec:cst} we plotted the cost functions for two use cases \ref{f
 From the remarks, we can conclude that the problem at hand is a NP-hard problem, therefore the only possible way to find or approximate the optimal position would be to apply search based techniques. We consider two well known search algorithms - (i) Hill Climbing and (ii) Simulated Annealing - to find the optimum solution. While there are a plethora of other search based technique in use, for e.g Genetic/Evolutionary Algorithm - Hill Climbing or Simulated Annealing offer a perfect balance between finding the optimum and convergence time.
 \subsubsection{Hill Descent Algorithm Approach}
 \label{sssechd}
-Hill Climbing or in our problem case, Hill Descent is a simple optimization technique which attempts to find new state from its current state by evaluating a cost function(cite russell norvig). Hill descent is based on a greedy approach, i.e. it only considers the subsequent state if it is locally optimal or in other words, if the cost value of the subsequent state is lower compared to the current state. Since it does not store the previous state values, it is extremely memory efficient and fast, which make it an ideal choice for our use case. A key consideration for the algorithm to function properly - in the use case at hand - is to determine the exit criteria. The simple reason being, because the global optimum value cannot be pre-determined, we can neither specify the exit criteria as a difference of current and next solution state nor can we fix the number of iterations, as in both the cases it might lead to a suboptimal solution. Since hill descent algorithm does not use any data structure to store already explored states, the following simple solution has been devised. 
+Hill Climbing or in our problem case, Hill Descent is a simple optimization technique which attempts to find new state from its  current state by evaluating a cost function[\citet{russell2009artificial}]. Hill descent is based on a greedy approach, i.e. it only considers the subsequent state if it is locally optimal or in other words, if the cost value of the subsequent state is lower compared to the current state. Since it does not store the previous state values, it is extremely memory efficient and fast, which make it an ideal choice for our use case. A key consideration for the algorithm to function properly - in the use case at hand - is to determine the exit criteria. The simple reason being, because the global optimum value cannot be pre-determined, we can neither specify the exit criteria as a difference of current and next solution state nor can we fix the number of iterations, as in both the cases it might lead to a suboptimal solution. Since hill descent algorithm does not use any data structure to store already explored states, the following simple solution has been devised. 
 \begin{itemize}
-	\item Selection of new neighbors using Manhattan/Taxicab Distance (cite paper).
+	\item Selection of new neighbors using Manhattan/Taxicab Distance (\citet{Frnkranz2011}).
 	\item This limits the number of possible neighbors to 8 for each state, since the we have a 2D space. 
 	\item Following the above two conditions, we can assume that if for a certain state, all of its neighbors have higher cost values, that state can be considered as an optimum and the algorithm is terminated.
 \end{itemize}
@@ -467,7 +467,7 @@ Hill Climbing or in our problem case, Hill Descent is a simple optimization tech
 \algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 	
 \begin{algorithm}
-	\caption{Hill Descent Approach for Optimal Weld Path Generation}
+	\caption{Hill Descent Approach Based Optimal Weld Path Generation}
 	\label{algo4}
 	\textbf{Given:} $ \text{Initial table joint angle values \textit{$A1$} \& \textit{$A2$}}$ \\ 
 	\textbf{Output:} $ \text{Table joint values for plan path generation with minimum cost}$ \\
@@ -513,9 +513,9 @@ In figure \ref{fig:HD1}, the start state is marked by red star and the goal by b
 However, in figure \ref{fig:HD2} we can see that, because the cost surface has multiple local minima, the Hill Descent based approach gets stuck in a local minima for solutions 1, 2 and 3. This is a well known disadvantage of Hill Descent Algorithm, which nullifies its advantages of low memory consumption and speed\footnote{\label{fn1}To be noted: In figure (\ref{fig:HD1}) and (\ref{fig:HD2}) the cost plots are only shown for illustrative purposes, in the actual program, only the final optimized solution is returned.}. 
 \subsubsection{Simulated Annealing Algorithm Approach}
 \label{sssec:sa}
-In \ref{sssechd}, we observed that the Hill Descent Approach fails to find the most optimal solution, if it encounters a local minima. Simulated Annealing is typically used for cases where the search space might contain one or more local minima points along with a global minima. Simulated annealing can escape local minima by accepting moves with higher cost, based on the outcome of a probability function (cite sa paper). 
+In \ref{sssechd}, we observed that the Hill Descent Approach fails to find the most optimal solution, if it encounters a local minima. Simulated Annealing is typically used for cases where the search space might contain one or more local minima points along with a global minima. Simulated annealing can escape local minima by accepting moves with higher cost, based on the outcome of a probability function [\citet{vanLaarhoven1987},\citet{russell2009artificial} ]. 
 \begin{algorithm}[!ht]
-	\caption{Simulated Annealing Approach for Optimal Weld Path Generation}
+	\caption{Simulated Annealing Based Optimal Weld Path Generation}
 	\label{algo5}
 	\textbf{Given:} $ \text{Initial table joint angle values \textit{$A1$} \& \textit{$A2$}}$ \\ 
 	\textbf{Output:} $ \text{Table joint values for plan path generation with minimum cost}$
@@ -559,9 +559,9 @@ The algorithm terminates when the temperature becomes less than an $\epsilon$ va
 In plot \ref{fig:SA1} and \ref{fig:SA2}, the start and the goal states are  marked by '*' and '+' respectively. We can also observe that unlike the hill descent approach, it was able to find the optimal solution in all cases. However, unlike hill descent approach, in plot (\ref{fig:SA2}) it takes a lot more steps to reach the global minima state even when there are no local minima. 
 
 \paragraph{Random Restart and Termination Condition}
-In plot \ref{fig:SA2}, we observed that the simulated annealing algorithm explored a lot of states initially, which delayed the process of finding the global minima. To address this issue we implement a random restart strategy based on the concept mentioned in (cite shonk ppr) to force the algorithm to explore large parts of the cost surface in little time as possible. Also, due to the fact that the global minima is unknown, we implement a termination condition to limit the running of the algorithm. The strategy for the termination condition is based on Optimal Stopping problem method described in (cite  Steffen Rebennack book) . Since randomly starting at different points of the space can cause discrepancy in finding the global minima, we introduce an additional variable - \textit{globalbestcost} - to keep track of the best solution that has been found. 
+In plot \ref{fig:SA2}, we observed that the simulated annealing algorithm explored a lot of states initially, which delayed the process of finding the global minima. To address this issue we implement a random restart strategy based on the concept mentioned in (\citet{mendivil2001restarting}) to force the algorithm to explore large parts of the cost surface in little time as possible. Also, due to the fact that the global minima is unknown, we implement a termination condition to limit the running of the algorithm. The strategy for the termination condition is based on Optimal Stopping problem method described in (\citet{alizamir2008improving}) . Since randomly starting at different points of the space can cause discrepancy in finding the global minima, we introduce an additional variable - \textit{globalbestcost} - to keep track of the best solution that has been found. 
 \subparagraph{Random Restart}
-The implementation of random restart is shown in plot \ref{fig:20}. The random restart points are marked by the arrows. The threshold of random restart was set to 15, i.e. if 15 states with higher cost compared to the current state were found, then it restarted. In the later part, when it came closer to the optimal solution, the newer solutions that were generated were closer to the global minima, hence the solutions converged without performing additional random restarts.
+The implementation of random restart based on \citet{mendivil2001restarting} is shown in plot \ref{fig:20}. The random restart points are marked by the arrows. The threshold of random restart was set to 15, i.e. if 15 states with higher cost compared to the current state were found, then it restarted. In the later part, when it came closer to the optimal solution, the newer solutions that were generated were closer to the global minima, hence the solutions converged without performing additional random restarts.
 \begin{figure}[!ht] %  figure placement: here, top, bottom, or page
 	\centering
 	\begin{subfigure}[b]{0.4\textwidth}
@@ -626,9 +626,9 @@ The implementation of random restart is shown in plot \ref{fig:20}. The random r
 		\State $\textit{return} (\textit{$A1_{curr}$},\textit{$A2_{curr}$})$      
 	\end{algorithmic}
 \end{algorithm}
-Algorithm (\ref{algo6}) details the steps for the random restart procedure implemented based on the approach mentioned in ((cite shonk ppr)). The additional steps which were inducted to the Simulated Annealing Algorithm (\ref{algo5}) are highlighted with yellow. 
+Algorithm (\ref{algo6}) details the steps for the random restart procedure implemented based on the approach mentioned in (\citet{mendivil2001restarting}). The additional steps which were inducted to the Simulated Annealing Algorithm (\ref{algo5}) are highlighted with yellow. 
 \subparagraph{Termination Condition}
-Theoretically, if simulated annealing algorithm is allowed to run for infinite time it is always guaranteed to find the most optimal solution, in other words it can be termed as asymptotically optimal. However ,such method is not only impractical, but also computationally expensive. In each iteration the algorithm has to search through the list of existing neighbors, whose size increases at each step - as new neighbors are added -, thus making the search take up longer time. Simulated Annealing usually finds the global minima in finite steps, thus having a termination condition will not affect the quality of solution rather it will improve the algorithm run time. Based on (cite paper optimal stopping), we formulate the following termination criteria:
+Theoretically, if simulated annealing algorithm is allowed to run for infinite time it is always guaranteed to find the most optimal solution, in other words it can be termed as asymptotically optimal. However ,such method is not only impractical, but also computationally expensive. In each iteration the algorithm has to search through the list of existing neighbors, whose size increases at each step - as new neighbors are added -, thus making the search take up longer time. Simulated Annealing usually finds the global minima in finite steps, thus having a termination condition will not affect the quality of solution rather it will improve the algorithm run time. Based on (\citet{alizamir2008improving}), we formulate the following termination criteria:
 \begin{itemize}
 	\item As normally with simulated algorithm, at each step, compare the current cost with previous state cost.
 	\item If the cost of current state is lesser than the previous state cost, calculate the \textit{improvementpercentage} i.e (cost of previous state - cost of current step)$/$cost of previous state.
@@ -640,12 +640,10 @@ Theoretically, if simulated annealing algorithm is allowed to run for infinite t
 \end{itemize}
 
 \subsection{Comparative Evaluation and Analysis}
-The most important aspects of Simulated Annealing algorithm, which determine its performance are the 'Cooling Schedule' and 'Cooling Rate'. In (cite nourani paper), the authors discusses the various cooling schedules applicable for simulated annealing. In table \ref{table1}, we present the data recorded during our run of Simulated Annealing for use case (\ref{fig:imguc2}) with starting angle at (50,-130). We recorded the time of completion, number of iterations and memory consumed by the storage data structure storing all the visited neighbors. All the tests were carried out on a PC with core i7 processor and 8 Giga Bytes of memory. 
+The most important aspects of Simulated Annealing algorithm, which determine its performance are the 'Cooling Schedule' and 'Cooling Rate'. In (\cite{nourani1998comparison}), the authors discusses the various cooling schedules applicable for simulated annealing. In table \ref{tab:table1}, we present the data recorded during our run of Simulated Annealing for use case (\ref{fig:imguc2}) with starting angle at (50,-130). We recorded the time of completion, number of iterations and memory consumed by the storage data structure storing all the visited neighbors. All the tests were carried out on a PC with core i7 processor and 8 Giga Bytes of memory. 
 
 \begin{table}[!ht]
 	\centering
-	
-	\label{table1}
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{@{}ccccll@{}}
 		\toprule
@@ -658,7 +656,9 @@ The most important aspects of Simulated Annealing algorithm, which determine its
 	
 }
 \caption{Simulated Annealing Cooling Schedules}
+\label{tab:table1}
 \end{table}
+
 \begin{figure}[!ht] %  figure placement: here, top, bottom, or page
 	\centering
 	\frame{\includegraphics[width=0.8\textwidth,scale=0.6]{images/cooling_schedules.png}}
@@ -670,8 +670,6 @@ From the data above we can observe for Exponential Multiplicative Cooling, we re
 
 \begin{table}[!ht]
 	\centering
-	
-	\label{table2}
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{@{}ccccll@{}}
 		\toprule
@@ -684,6 +682,7 @@ From the data above we can observe for Exponential Multiplicative Cooling, we re
 	
 }
 \caption{Simulated Annealing Cooling Rates for Exponential Multiplicative Cooling}
+\label{table2}
 \end{table}
 
 From table \ref{table2} we can observe that 0.9 is the most optimal cooling rate that can be chosen, which converges to an optimal solution, while consuming a descent amount of memory. 
