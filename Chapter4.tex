@@ -398,6 +398,7 @@ From the plots (\ref{fig:17b}) \& (\ref{fig:17d}) of both the use cases, we can 
 From the plots (\ref{fig:18b}) \& (\ref{fig:18d}) of both the use cases, we can interpret that for the Automatica workpiece, when both the joint angles of the table are at 0$^{\circ}$, the cost is the lowest, which means for the weld paths at these positions of the table, the bigger joints move the least, which is completely different from what we observed in (\ref{fig:17}). 
 
 \subsubsection{Cumulative Cost Function}
+\label{sssec:aggcst}
 Based on the cost functions defined in sections (\ref{sssec:tcpcst}) and (\ref{sssec:jntcst}), the cumulative cost function is formulated. The concept behind this cost function is that, based on the welding task and the environment in which it is to be performed we can decide which aspect of welding is more important. For e.g in cases where generating perfect welds are critical to the structural integrity of the end product, we can assign a greater weightage to the TCP orientation cost, as it is directly linked with the quality of weld based on process description as stated in (cite ppr). However a situation might also arise where consuming lesser power - while generating a weld path - is more relevant for e.g while prototyping an user will weld on a workpiece multiple times in which case his/her main priority would be minimize the power consumption instead of generating a perfect weld. The mathematical formulation of the cumulative cost function is presented in \ref{eq25}, where $C_{agg}$ is the cumulative sum, $w_{tcp}$ and $w_{joint}$ are the weights assigned to TCP and joint costs respectively and $C_{tcp}$ and $C_{joint}$ are the TCP and joint costs respectively. 
 \begin{equation}
 \label{eq25}
@@ -511,6 +512,7 @@ In figure \ref{fig:HD1}, the start state is marked by red star and the goal by b
 \end{figure}\\
 However, in figure \ref{fig:HD2} we can see that, because the cost surface has multiple local minima, the Hill Descent based approach gets stuck in a local minima for solutions 1, 2 and 3. This is a well known disadvantage of Hill Descent Algorithm, which nullifies its advantages of low memory consumption and speed\footnote{\label{fn1}To be noted: In figure (\ref{fig:HD1}) and (\ref{fig:HD2}) the cost plots are only shown for illustrative purposes, in the actual program, only the final optimized solution is returned.}. 
 \subsubsection{Simulated Annealing Algorithm Approach}
+\label{sssec:sa}
 In \ref{sssechd}, we observed that the Hill Descent Approach fails to find the most optimal solution, if it encounters a local minima. Simulated Annealing is typically used for cases where the search space might contain one or more local minima points along with a global minima. Simulated annealing can escape local minima by accepting moves with higher cost, based on the outcome of a probability function (cite sa paper). 
 \begin{algorithm}[!ht]
 	\caption{Simulated Annealing Approach for Optimal Weld Path Generation}

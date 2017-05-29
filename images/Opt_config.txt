@@ -1,0 +1,60 @@
+geometric_KPIECE1 	 border_fraction = 0.90000000000000002
+;failed_expansion_score_factor = 0.5
+;goal_bias = 0.050000000000000003
+;longest_valid_segment_fraction = 0.01
+;min_valid_path_fraction = 0.20000000000000001
+;projection.cellsize.0 = 5
+;projection.cellsize.1 = 4.5
+;projection.cellsize_factor = 
+;range = 26.907248094147423
+;valid_segment_count_factor = 1
+; 
+ geometric_RRTstar 	 delay_collision_checking = 1
+;focus_search = 0
+;goal_bias = 0.050000000000000003
+;informed_sampling = 0
+;longest_valid_segment_fraction = 0.01
+;new_state_rejection = 0
+;number_sampling_attempts = 1
+;projection.cellsize.0 = 5
+;projection.cellsize.1 = 4.5
+;projection.cellsize_factor = 
+;prune_threshold = 0.050000000000000003
+;pruned_measure = 0
+;range = 26.907248094147423
+;rewire_factor = 1.1000000000000001
+;sample_rejection = 0
+;tree_pruning = 0
+;use_admissible_heuristic = 1
+;use_k_nearest = 1
+;valid_segment_count_factor = 1
+; 
+ geometric_TRRT 	 cost_threshold = inf
+;frontierNodeRatio = 0.10000000000000001
+;frontier_threshold = 1.3453624047073711
+;goal_bias = 0.050000000000000003
+;init_temperature = 100
+;longest_valid_segment_fraction = 0.01
+;projection.cellsize.0 = 5
+;projection.cellsize.1 = 4.5
+;projection.cellsize_factor = 
+;range = 4.7087684164757988
+;temp_change_factor = 0.10000000000000007
+;valid_segment_count_factor = 1
+; 
+ geometric_SBL 	 longest_valid_segment_fraction = 0.01
+;projection.cellsize.0 = 5
+;projection.cellsize.1 = 4.5
+;projection.cellsize_factor = 
+;range = 26.907248094147423
+;valid_segment_count_factor = 1
+; 
+ geometric_LBKPIECE1 	 border_fraction = 0.90000000000000002
+;longest_valid_segment_fraction = 0.01
+;min_valid_path_fraction = 0.5
+;projection.cellsize.0 = 5
+;projection.cellsize.1 = 4.5
+;projection.cellsize_factor = 
+;range = 26.907248094147423
+;valid_segment_count_factor = 1
+; 
