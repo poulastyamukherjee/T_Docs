@@ -232,7 +232,7 @@ For weld gun selection the authors measure the suitability of the weld gun based
 The product and resource position describe the positioning of the robots, work piece object, tool center point(TCP) and the weld gun. In welding spots grouping, the definition for the seam to be welded are defined. The tool to be assigned based on the work space is determined in welding tool assignment section. After the selection of the weld tool head and the work piece seam, the robot task is assigned. The task section contains definition of the work space in which the plan for the robot is to be generated usually in Cartesian coordinate system. It contains description of the weld seam and any collision objects, if present. After the plan is generated, it is executed on the robot inside the area definition. Finally the results of the planned path is displayed. \\ In the optimization section, the authors break down the final trajectory of the robot in basic motions -  such as joint, linear, circle and slew - which can be followed by the robot easily. After this step, the planned path is crash tested and modified accordingly. This paper lays the ground work for a hierarchical welding process model. However a lack of concrete implementation and subsequent testing leaves an open question about the feasibility of the described model. Few more papers on this topic have been evaluated in the later sections.
 
 \subsubsection{Parameter Optimization of Motion Planning Algorithms}
-In this section we will delve into work that focuses on optimizing the actual planner in order to generate optimal paths. In \citet{Garcia2015} the authors propose an optimization based on user given input. The state cost definition is based on potential field framework. The planning algorithm minimizes motion cost by taking path segments with minimum cost while also optimizing the time required to generate the plan. In this approach the authors use a potential field function to guide the sampler of the RRT* algorithm to sample in used desired spaces. The state cost function is calculated using the following equation \eqref{11}[\citet{Garcia2015}]
+In this section we will delve into work that focuses on optimizing the actual planner in order to generate optimal paths. In \citet{Garcia2015} the authors propose an optimization based on user given input. The state cost definition is based on potential field framework. The planning algorithm minimizes motion cost by taking path segments with minimum cost while also optimizing the time required to generate the plan. In this approach the authors use a potential field function to guide the sampler of the RRT* algorithm to sample in used desired spaces. The state cost function is calculated using the following equation \eqref{eq11}[\citet{Garcia2015}]
 \begin{equation}
 \label{16}
 c(s) = \sum_{i} max(-\lambda_{i},0 ) + \lambda_{i}e^{\alpha_{i}d_{i}(s)^2} \epsilon (0,\sum_{i}|\lambda_{i}|]
@@ -258,7 +258,7 @@ Experimental optimization of welding parameters is an inefficient and ineffectiv
 \label{eq18}
 \theta^{*} = argmax \log p(y|X,H,\theta)
 \end{equation}
-The final model, based on the welding parameters; generated after the GPR process is expressed in \eqref{19}[\citet{Sterling2016}]
+The final model, based on the welding parameters; generated after the GPR process is expressed in \eqref{eq19}[\citet{Sterling2016}]
 \begin{equation}
 \label{eq19}
 x^{*} = \arg max f(x), x* \epsilon X
