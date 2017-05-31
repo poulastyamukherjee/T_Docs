@@ -1,5 +1,5 @@
-\newpage
 \section{Problem formulation and Task description}
+\localtableofcontents
 \label{sec:pf}
 In this chapter, a list of problems or areas of improvements for (\citet{DiazP2016}) is identified and a model approach based on the literature survey of the previous section is presented. A detailed take on the problems and their respective implementations will be explained in the subsequent chapters.
 \subsection{Problem formulation}
@@ -23,4 +23,5 @@ In this section the proposed approach for the problems described above (\ref{sec
 \item \textbf{Incorporating a Rotary Table:} A rotary table can be considered as a 2 Dof which can provide extra degrees of freedom to tackle the problems of reachability and singularity. 
 \item \textbf{Extending State Validity Checker:} In order to address the problems of reachability and singularity, we have to incorporate functions to detect reachability and link them to the state validity checker of the motion planner.
 \item \textbf{Modeling of the Planning Space:} The introduction of the rotary table will create a more complex planning space. Generating a model for the same will help the user to visualize it as well as help to identify the gradient surface, which can be exploited to force the sampler to generate new samples in the areas with lower cost gradient thus ensuring an optimal solution.
+\item \textbf{Optimized Weld Plan Generation}: Once the planned space is generated, optimization techniques will be used to find the optimal weld path plan.
 \end{itemize}

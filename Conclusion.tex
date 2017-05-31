@@ -1,5 +1,26 @@
 \section{Conclusion}
+\localtableofcontents
+The main purpose of this thesis work was to improve upon the existing autonomous welding process mainly used in SMEs(Small and Medium Scale Industries). Some of the assumptions made in the state of the art systems are:
+\begin{itemize}
+	\item The work piece edge to be welded always lies in the reachable workspace of the robot. 
+	\item The work piece edge will always align with the optimal weld angle definition.
+\end{itemize}
+Since the robot position is fixed inside the welding cell, the 2Dof rotary table was used to manipulate the work piece, which subsequently increased the degrees of freedom of the whole system (manipulator + rotary table). The major contributions and possible improvements are highlighted below 
 \subsection{Contributions}
-
-
-\subsection{Possible Improvements and Future Directions}
+\begin{itemize}
+	\item \textbf{Creation of CAD models for the table}: Simulating the generated welding path plans is essential, as it allows the user to not only verify its quality, but also ensure that any anomalies or fault that may have occurred in the program doesn't get executed on the robot and cause accidents. Having accurate CAD models help to alleviate these problems by providing accurate simulations. 
+	\item \textbf{Kinematic Modeling of the Table}: In order to accurately simulate the behavior of the table, modeling the kinematics was essential. 
+	\item \textbf{Cost Function Definitions}: Two cost functions were formulated. (i) Difference of the optimal weld TCP orientation and the actual TCP orientation, modeled the weld quality as a cost function, which allowed us to generate plan paths for better quality welds. (ii) Minimization of the bigger joints movement, allowed us to optimize the power consumption during a welding process.
+	\item \textbf{Cost Function Optimization}: Hill Descent and Simulated Annealing based approaches were proposed for finding the optimal states of the defined cost functions. Further analysis revealed, the superiority of the Simulated Annealing based approach.
+	\item \textbf{Parameters for Simulated Annealing Based Approach}: Since the process parameters for simulated annealing algorithm - cooling rate, cooling schedules - are specific for the problem being solved, a detailed analysis was carried out to determine the cooling schedule and cooling rate most suited to our problem definition.
+	\item  \textbf{Unreachability}: Complete and partial unreachability are one of the major causes why a weld path generation can fail. In this work, we modeled the reachability problem and incorporated it with our cost function definition. Then we used the same Simulated Annealing based approach to solve it.
+	\item \textbf{Finding a suitable Planner}: Finally a benchmarking among various planners and subsequent analysis were carried out to determine the most suitable planner for our problem.
+\end{itemize}
+\subsection{Future Work}
+The following key research areas for future work were identified:
+\begin{itemize}
+	\item Further welding parameters can be studied to model new cost functions. 
+	\item \textbf{Unreachability avoidance}: We consider a brute approach to solving the problem of unreachability, by moving the workpiece to a completely different position. Further research can be focused on classifying, whether a plan path is completely or partially unreachable and transforming the workpiece accordingly.
+	\item Currently, visual inspection for weld quality evaluation is non existent. Combining, both visual inspection of weld quality and process parameter based weld quality evaluation can be combined to create a robust evaluation architecture.
+	\item A database of weld seams, along with their respective definition of optimality can be created (similar to grasp library), which will enable us to generate weld plans even faster. 
+\end{itemize}

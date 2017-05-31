@@ -18,6 +18,7 @@
 \usepackage{geometry}
 \usepackage{subcaption}
 \usepackage{graphicx}
+\usepackage[final]{pdfpages}
 %\usepackage{showframe} 
 %\usepackage{algorithm2e}
 \usepackage{algpseudocode}
@@ -26,7 +27,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{float}
-
+\usepackage{etoc}
 \usepackage{xcolor}
 %\usepackage{tabu}
 %\usepackage{colortbl}
@@ -73,8 +74,10 @@
 \newpage
 %\input{contents}
 %\newpage
+
 \input{introduction}
 \newpage
+
 \input{LiteratureReview}
 \newpage
 \input{ProblemFormulation}
@@ -85,16 +88,19 @@
 \newpage
 \input{Chapter6}
 \newpage
-\input{Chapter7}
-\newpage
-\input{Chapter8}
+%\input{Chapter7}
+%\newpage
+%\input{Chapter8}
 %\newpage
 \input{Conclusion}
 \newpage
 \appendix
 %\chapter{Class Diagram and Project Configuration}
 \label{appch1}
+\input{chprealrob}
+\newpage
 \input{chapterapp1}
+\newpage
 \input{chapterapp2}
 %\chapter{Benchmarking Configurations}
 \chapter{title}

@@ -1,4 +1,5 @@
-\section{Reachability Avoidance}
+\section{Unreachability Avoidance}
+\localtableofcontents
 According to (\citet{craig2005introduction}) a necessary condition for a solution to exist, is to verify whether it exists in the workspace of the manipulator. Workspace is defined as the end effector's reachable volume(\citet{craig2005introduction}). Therefore it goes without saying that to ensure that the generated weld paths are valid, we have to ensure that they are free from unreachable points. In the existing system[\citet{DiazP2016}] the robot could only check whether a point lay in the reachable workspace or not, but there was no method to avoid it or generate an alternate path. The only solution was to manually move the work piece to a position, where unreachable points were not present. Manually moving the workpiece created the following problems:
 \begin{itemize}
 	\item After moving the workpiece, it was necessary to remeasure its position coordinates and enter the new values to the software. Often re measurement was required to ensure that the workpiece has been placed in the proper position.
@@ -12,7 +13,7 @@ Using the 2Dof rotary table to solve the problem of reachability provided the fo
 	\item Since we also calculate the new position of the weld path, when the table is rotated,(using algorithm (\ref{algo3}) ), hence we can generate weld paths for different edges, without manually altering the workpiece position.
 	\item Constraint on placing the workpiece at a fixed position is removed, thus providing greater flexibility to the welding process.
 \end{itemize}
-\subsection{Reachability and Motion Planning}
+\subsection{Unreachability Detection and Motion Planning}
 In (ppr paper), an inverse kinematic based approach for detecting whether a point is unreachable or not is implemented. It takes the Cartesian coordinates of a point and computes the Inverse Kinematics to get the joint values. If the solution generated is valid, then the point is flagged as reachable, otherwise it is marked as unreachable. In order to generate valid plan paths with the motion planner, it was necessary to link the reachability checker with the planning algorithm. 
 The steps for detecting unreachable points with the motion planner are described below:
 \begin{itemize}
@@ -43,9 +44,9 @@ When an
 	\label{fig:rc2}
 \end{figure}
 
-In figure \ref{fig:rc2}, the part marked with the deepest red color has the highest cost, i.e. weld paths generated for those joint angles of the table are unreachable. When joint angle 2 value either reaches $-180^{circle}$ or $+180^{circle}$ the cost value reaches its minimum. This can be explained by the fact that when joint angle 2 of the table rotates to either values, the selected workpiece edge faces the robot, thereby decreasing joint angle movement required by the manipulator for tracing the planned path. Facing the workpiece edge towards the manipulator also allows the tool tip orientation to follow the optimal orientation definition. 
+In figure \ref{fig:rc2}, the part marked with the deepest red color has the highest cost, i.e. weld paths generated for those joint angles of the table are unreachable. When joint angle 2 value either reaches $-180^{\circ}$ or $+180^{\circ}$ the cost value reaches its minimum. This can be explained by the fact that when joint angle 2 of the table rotates to either values, the selected workpiece edge faces the robot, thereby decreasing joint angle movement required by the manipulator for tracing the planned path. Facing the workpiece edge towards the manipulator also allows the tool tip orientation to follow the optimal orientation definition. 
 
-A map for the reachable workspace of the manipulator, based on the table movement is presented in figure . Here we plot all the reachable weld plan path points. The points marked in magenta are unreachable, while the blue ones are reachable. 
+The movement of the table determined, whether the edge to be welded lay in the reachable workspace of the manipulator or not. We recorded the points of the edge for various positions of the table and plotted them to create the reachability space map shown in figure \ref{fig:rc3}. The points marked in magenta are unreachable, while the blue ones are reachable. 
 \begin{figure}[!ht] %  figure placement: here, top, bottom, or page
 	\centering
 	\frame{\includegraphics[width=0.8\textwidth,scale=0.6]{images/Rchbl_spc5.png}}
@@ -65,7 +66,7 @@ The solution in RobotKit is shown in figure \ref{fig:rc5}.
 \begin{figure}[!ht] %  figure placement: here, top, bottom, or page
 	\centering
 	\frame{\includegraphics[width=0.8\textwidth,scale=0.6]{images/Urchbl_uscs_slv.png}}
-	\caption{Cost Plot of Reachability and Solution }
+	\caption{Program running on RobotKit after solving unreachability}
 	\label{fig:rc5}
 \end{figure}
 \clearpage

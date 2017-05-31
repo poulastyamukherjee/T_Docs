@@ -1,5 +1,5 @@
 \section{Multi-Robot Approach for Weld Cost Minimization}
-
+\localtableofcontents
 In the problem formulation section(\ref{sec:pf}) we discussed how introduction of another robot can increase the number of degrees of freedom and hence allow the robot to perform more complex manipulations. Increasing the degree of complexity of motion can allow us to implement better optimization as well as solve the problems of unreachability and singularity. In this chapter we will discuss the integration of a 2 degrees of freedom rotary table into the existing architecture and how that is utilized to optimize the welding task. 
 
 \subsection{Modeling the Rotary Table}
@@ -89,7 +89,15 @@ _{2}^{1}\textrm{T} = \begin{bmatrix} \cos\theta_{i} & -\sin \theta_{i} & 0 & 0\\
 
 \subsubsection{Workpiece Transformation}
 
-Since the main objective of moving the rotary table is to move the work piece, a transformation function is also necessary to simulate the changed position of the work piece in accordance with the motion of the table. 
+Since the main objective of moving the rotary table is to move the work piece, a transformation function is also necessary to simulate the changed position of the work piece in accordance with the motion of the table. It is to be noted that we can only read the position and orientation information of the workpiece, so it was necessary to convert it into a transformation matrix and recalculate the position and orientation values from the matrix when returning the values to the software.
+The terms of the algorithm are defined as follows:
+\begin{itemize}
+	\item $_{T}^{W}T$ $\rightarrow$ Transformation of Table frame with respect to World frame
+	\item $_{WP}^{W}P$ $\rightarrow$ Transformation of Workpiece frame with respect to World frame
+	\item $_{T}^{W}T_{new}$ $\rightarrow$ Transformation of rotated Table frame with respect to World frame
+	\item $_{WP}^{T}T_{ref}$ $\rightarrow$ Transformation of initial/reference Workpiece frame with respect to Table frame
+	\item $_{WP}^{W}T_{new}$ $\rightarrow$ Transformation of workpiece from new position with respect to world frame.
+\end{itemize} 
 
 \begin{algorithm}[!htbp]
 	\caption{Transformation of Work Piece position wrt Table Position}
@@ -120,9 +128,18 @@ Since the main objective of moving the rotary table is to move the work piece, a
 \end{algorithm}
 \newpage
 \subsubsection{Selected Edge Transformation}
-
+The selected edge is defined with start and goal points. It is to be noted that we can only read the position and orientation information of the selected edge points, so it was necessary to convert it into a transformation matrix and recalculate the position and orientation values from the matrix when returning the values to the software.
+\begin{itemize}
+	\item $_{T}^{W}T$ $\rightarrow$ Transformation of Table frame with respect to World frame
+	\item $_{WP}^{W}P$ $\rightarrow$ Transformation of Workpiece frame with respect to World frame
+	\item $_{T}^{W}T_{new}$ $\rightarrow$ Transformation of rotated Table frame with respect to World frame
+	\item $_{SP}^{WP}T$ $\rightarrow$ Transformation of start point of selected edge with respect to workpiece frame 
+	\item $_{GP}^{WP}T$ $\rightarrow$ Transformation of goal point of selected edge with respect to workpiece frame
+	\item $_{SP}^{WP}T_{ref}$ $\rightarrow$ Transformation of initial/reference start point frame with respect to workpiece frame
+	\item $_{GP}^{WP}T_{ref}$ $\rightarrow$ Transformation of initial/reference goal point frame with respect to workpiece frame
+\end{itemize} 
 \begin{algorithm}
-	\caption{Transformation of Selected Edge wrt Work Piece Position}
+	\caption{Transformation of Selected Edge with respect to Work Piece Position}
 	\label{algo3}
 	\textbf{Given:} $ \text{Original pose and orientation information of start(\textit{$_{SP}^{W}P$}, \textit{$_{SP}^{W}O$}) and goal} \\ \text{points(\textit{$_{GP}^{W}P$}, \textit{$_{GP}^{W}O$}) }  \bigwedge \text{ new}(\textit{$_{WP}^{W}P_{new}$}, \textit{$_{WP}^{W}O_{new}$}) \text{pose and orientation information} \\ \text{ of work piece wrt. to world frame } \text{ and old position and orientation }\\ (\textit{$_{WP}^{W}P$}, \textit{$_{WP}^{W}O$}) \text{information of work piece wrt. world frame} $ \\ 
 	\textbf{Output:} $\text{New pose and orientation information of start(\textit{$_{SP}^{W}P_{new}$}, \textit{$_{SP}^{W}O_{new}$}) and } \\ \text{goal points(\textit{$_{GP}^{W}P_{new}$}, \textit{$_{GP}^{W}O_{new}$}) }$\\
@@ -158,7 +175,7 @@ Since the main objective of moving the rotary table is to move the work piece, a
 \newpage
 \subsection{Cost Function Formulation}
 \label{ssec:cst}
-Two different cost functions were formulated and finally a weighted combination of the two was created, to form the final cost function. The plots of the cost functions were created by running the planner for every different orientations of the table for the following two work pieces. For each workpiece 2 edges were randomly selected to demonstrate the behaviors based on the cost function definition. The edges also contain the convention definition, which specifies the alignment of the TCP with respect to the selected edge. For example in \ref{fig:imgoridef1} and \ref{fig:imgoridef2}, the TCP moves along the planned path in accordance with the convention; the X axis (marked by red) points from start to goal point along the edge to be welded, and the Y (marked by green) and Z (marked by blue) maintain an angle of 45$^{\circ}$ with respect to the selected edge. \\
+Two different cost functions (sections\ref{sssec:tcpcst} and \ref{sssec:jntcst}) were formulated and finally a weighted combination of the two (section \ref{sssec:aggcst})was created, to form the final cost function. The plots of the cost functions were created by running the planner for every different orientations of the table for the following two work pieces. For each workpiece 2 edges were randomly selected to demonstrate the behaviors based on the cost function definition. The edges also contain the convention definition, which specifies the alignment of the TCP with respect to the selected edge. For example in \ref{fig:imgoridef1} and \ref{fig:imgoridef2}, the TCP moves along the planned path in accordance with the convention; the X axis (marked by red) points from start to goal point along the edge to be welded, and the Y (marked by green) and Z (marked by blue) maintain an angle of 45$^{\circ}$ with respect to the selected edge. \\
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
 	\centering
 	\begin{subfigure}[b]{0.4\textwidth}
@@ -258,7 +275,6 @@ The edge to be welded is marked in yellow \ref{fig:cp1b}. In this cost plot \ref
 	\label{fig:cp2}
 \end{figure}
 The edge to be welded is marked in yellow\ref{fig:cp2b}. In the cost plot \ref{fig:cp2a}, the minimum cost is obtained when the joint angle - which moves the table along x axis - is at +80$^{\circ}$ and joint angle 2 - rotation along Z axis - is at 0$^{\circ}$.
-\clearpage
 The cost functions for the Automatica 2016 workpiece are presented below. Similar to the previous cases, the edge to be welded is marked in yellow. Red represents a higher cost gradient while blue represents a lower one. The cost value was scaled in a range of 0 to 100 to make it easier to compare the results.
 
 \begin{figure}[!htbp] %  figure placement: here, top, bottom, or page
